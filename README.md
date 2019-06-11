@@ -21,6 +21,20 @@
   * for Android
     * Run Genymotion
     * run `react-native run-android`
+    
+### Useful CLI COMMANDS    
+`$ yarn global add ignite-cli`
+`$ ignite new PizzaApp
+  ( Choose Andross when prompted )`
+`$ cd PizzaApp
+$ ignite add maps
+$ ignite add vector-icons
+$ ignite generate screen PizzaLocationList
+$ ignite generate component PizzaLocation
+$ ignite generate map StoreLocator
+$ ignite add i18n
+$ ignite remove i18n
+$ ignite --help`
 
 ## :no_entry_sign: Standard Compliant
 
