@@ -72,6 +72,13 @@ class OnboardingScreen extends Component {
           <Text style={styles.explanation}>
             A new way to find business near you convenience and save time with
           </Text>
+          <TouchableOpacity 
+           onPress = {()=>{
+             this.props.navigation.navigate("HomeScreen");
+           }}
+          >
+            <Icon size = {21} color = '#000' name = 'arrow-right'/>
+          </TouchableOpacity>
         </View>
       </Swiper>
     );
