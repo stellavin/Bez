@@ -41,6 +41,7 @@ class HomeScreen extends Component {
           name="Champion Garage"
           rating={4.2}
           source={require("../Images/sample1.png")}
+          navigate={this.props.navigation}
         />
 
         <BusinessCard
@@ -48,6 +49,7 @@ class HomeScreen extends Component {
           name="Happy Eateries"
           rating={4.2}
           source={require("../Images/sample2.png")}
+          navigate={this.props.navigation}
         />
       </ScrollView>
     );
