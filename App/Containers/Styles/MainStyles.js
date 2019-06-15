@@ -136,6 +136,27 @@ export default StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "#2eb62c",
     marginTop: 20
+  },
+  rateText:{
+    fontFamily: "Roboto",
+    fontSize: 13,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 18,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#707070",
+    marginLeft: 72,
+    marginRight: 72,
+    marginTop: 30,
+    marginBottom: 30
+  },
+  dialogueButton:{
+    width: 108,
+    height: 33,
+    borderRadius: 3,
+    backgroundColor: "#2eb62c",
+    marginTop: 20,
   }
 
 
