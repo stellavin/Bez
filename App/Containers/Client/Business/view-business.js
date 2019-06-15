@@ -106,6 +106,21 @@ componentWillMount() {
 
                 </View>
 
+                {/* menu 2 */}
+
+                <View style={{flexDirection: "row",marginTop: 15}}>
+                    <Icon name = 'stop-circle' size = {25} color = '#000' />
+
+                    <View style={{marginLeft: 20}}>
+                        <Text style={style.menuTitle}>Ugali & Fish</Text>
+                        <Text style={style.menuDesscription}>Served with greens</Text>
+                    </View>
+                    <View style={{ flex: 1,alignItems:'flex-end'}}>
+                      <Icon name = 'check-double' size = {17.5} color = '#000' />
+                    </View>
+
+                </View>
+
                
 
             </View>
