@@ -8,6 +8,7 @@ import viewBusiness from '../Containers/Client/Business/view-business'
 import RateScreen from '../Containers/Client/Business/rate'
 import FavoriteScreen from '../Containers/Client/Business/favorite'
 import myBusiness from '../Containers/Customer/Business/myBusiness';
+import ViewBusiness from '../Containers/Customer/Business/ViewBusiness';
 
 
 // Manifest of possible screens
@@ -18,7 +19,8 @@ const PrimaryNav = StackNavigator({
   ViewBusiness: { screen: viewBusiness},
   RateScreen: {screen: RateScreen},
   FavoriteScreen: {screen: FavoriteScreen},
-  MyBusinessScreen: {screen: myBusiness}
+  MyBusinessScreen: {screen: myBusiness},
+  ViewCustomerBusinessScreen:  {screen: ViewBusiness}
 }, {
   // Default config for all screens
   headerMode: 'none',
