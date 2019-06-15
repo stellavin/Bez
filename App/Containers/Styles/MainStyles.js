@@ -104,7 +104,40 @@ export default StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: "#707070"
+  },
+  reviewText: {
+    fontFamily: "Roboto",
+    fontSize: 13,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 18,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#707070",
+    flexWrap: 'wrap'
+  },
+  textArea:{
+    width: 315,
+    height: 40,
+    borderRadius: 3,
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    shadowColor: "#000",
+    elevation: 5,
+    marginTop: 20
+
+
+  },
+  button:{
+    width: 108,
+    height: 33,
+    borderRadius: 3,
+    backgroundColor: "#2eb62c",
+    marginTop: 20
   }
+
 
  
 })
