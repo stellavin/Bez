@@ -18,7 +18,7 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'RateScreen',
+  initialRouteName: 'OnboardingScreen',
   navigationOptions: {
     headerStyle: styles.header
   }
