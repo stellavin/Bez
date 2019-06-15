@@ -25,6 +25,7 @@ class HomeScreen extends Component {
       <ScrollView style={styles.container}>
         <Header
           show_search={true}
+          type_of_nav={'bars'}
           placeholder="Search for a business/service..."
         />
         <Categories categories={dummy_category_data} />
