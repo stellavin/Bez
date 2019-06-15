@@ -5,16 +5,7 @@ import styles from './Styles/BusinessCardStyle'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default class BusinessCard extends Component {
-  // // Prop type warnings
-  // static propTypes = {
-  //   someProperty: PropTypes.object,
-  //   someSetting: PropTypes.bool.isRequired,
-  // }
-  //
-  // // Defaults for props
-  // static defaultProps = {
-  //   someSetting: false
-  // }
+ 
 
   render () {
     const navigate = this.props.navigate;
@@ -30,7 +21,11 @@ export default class BusinessCard extends Component {
                     source={this.props.source}
                   />
                   <View style = {styles.column1}>
-                  <Text style = {styles.title}>{this.props.name}</Text>
+                  <View style = {styles.row}> 
+                     <Icon name = 'bookmark' color = '#ffc765' />
+                    <Text style = {styles.title}>  {this.props.name}</Text>
+                  </View>
+
                   <Text style = {styles.rating_text}>{this.props.rating}</Text>
 
                   <View style = {styles.row}> 

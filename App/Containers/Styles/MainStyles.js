@@ -157,6 +157,14 @@ export default StyleSheet.create({
     borderRadius: 3,
     backgroundColor: "#2eb62c",
     marginTop: 20,
+  },
+  line:{
+    height: 0,
+    opacity: 0.29,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#2eb62c",
+    marginTop: 15
   }
 
 

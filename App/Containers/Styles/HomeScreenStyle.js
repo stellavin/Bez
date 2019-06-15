@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
+import favorite from '../Client/Business/favorite';
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -41,5 +42,22 @@ export default StyleSheet.create({
   letterSpacing: 0,
   textAlign: "left",
   color: "#fafafa"  
+  },
+
+  // stl 
+
+  favoriteText:{
+    fontFamily: "Helvetica",
+    fontSize: 16,
+    fontWeight: "bold",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#000000",
+    marginTop: 30,
+    marginLeft: 22,
+    marginBottom: 10
   }
 })
+
