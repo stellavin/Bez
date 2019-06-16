@@ -6,6 +6,7 @@ import Slideshow from 'react-native-image-slider-show';
 import style from '../../Styles/MainStyles';
 import StarRating from 'react-native-star-rating';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import HeaderWithoutLogo from "../../../Components/HeaderWitoutLogo";
 
 
 
@@ -29,12 +30,12 @@ componentWillMount() {
   render() {
     return (
       <View style={style.container}>
-        <Header
-          show_search={false}
-          type_of_nav = {'arrow-left'}
+        <HeaderWithoutLogo
+          type_of_nav={'arrow-left'}
+          headerTitle = {'Preview'}
         />
         
-        <View style={{marginTop: 20}}>
+        <View style={{marginTop: 10}}>
         <Slideshow 
             dataSource={[
                 { url:'http://placeimg.com/640/480/any' },
