@@ -11,6 +11,7 @@ import myBusiness from '../Containers/Customer/Business/myBusiness';
 import ViewBusiness from '../Containers/Customer/Business/ViewBusiness';
 import EditPhoto from '../Containers/Customer/Business/Edit-Photo';
 import BusinessUpdates from '../Containers/Customer/Business/Business-Updates';
+import preview from '../Containers/Customer/Business/preview';
 
 
 // Manifest of possible screens
@@ -24,11 +25,12 @@ const PrimaryNav = StackNavigator({
   MyBusinessScreen: {screen: myBusiness},
   ViewCustomerBusinessScreen:  {screen: ViewBusiness},
   EditPhotoScreen: {screen: EditPhoto},
-  UpdateBusinessScreen: {screen: BusinessUpdates}
+  UpdateBusinessScreen: {screen: BusinessUpdates},
+  PreviewScreen: {screen: preview}
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'UpdateBusinessScreen',
+  initialRouteName: 'PreviewScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

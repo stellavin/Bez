@@ -56,7 +56,7 @@ class UpdateBusinessScreen extends Component {
                             <Text style={{marginTop: 5}}> Menu</Text>
                         </View>
 
-                        <View style={{flexDirection:'row', width: screenWidth/3}}>
+                        <View style={{flexDirection:'row', width: screenWidth/32}}>
                             <CheckBox
                                 value={false}
                                 onValueChange={() => console.log('checked')}

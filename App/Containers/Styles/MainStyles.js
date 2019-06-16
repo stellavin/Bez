@@ -182,6 +182,23 @@ export default StyleSheet.create({
     flexDirection:"row"
 
   },
+  actionSection2:{
+    width: screenWidth,
+    height: 49,
+    backgroundColor: "#2F2E41",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    shadowColor: "#000",
+    elevation: 5,
+    marginTop: 20,
+    flexDirection:"row",
+    position: 'absolute',
+      left: 0, 
+      top: screenHeight - 75, 
+      width: screenWidth,
+
+  },
   actionBox:{
     width: screenWidth/3,
     flex: 1,
@@ -320,6 +337,18 @@ ItemInput:{
 
 
 },
+action2: {
+  fontFamily: "Roboto",
+  fontSize: 14,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 16,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#fff",
+ 
+},
+
 
 
 
