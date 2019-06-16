@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 // Styles
 import styles from "./Styles/AddBusinessScreenStyle";
+import Mainstyles from "./Styles/MainStyles";
 import HeaderTabs from "../Components/HeaderTabs";
 import InputComponent from "../Components/InputComponent";
 import Thumbnail from "../Components/Thumbnail";
@@ -159,7 +160,8 @@ class ServicesInfo extends React.Component<Props, State> {
   <Thumbnail style={{ marginTop: 8 }} />
   
 </View>
-<BottomButtonFull
+          <BottomButtonFull
+           navigation={this.props.navigation.navigate('PreviewScreen')}
             name="Finish"
            
           />

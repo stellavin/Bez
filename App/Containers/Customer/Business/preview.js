@@ -45,6 +45,7 @@ submitSuccess(){
       <View style={style.container}>
         <HeaderWithoutLogo
           type_of_nav={'arrow-left'}
+          navigation={this.props.navigation}
           headerTitle = {'Preview'}
         />
         

@@ -22,7 +22,7 @@ class MyBusinessScreen extends Component {
         />
         <View style={{marginLeft: 22, marginRight: 22, marginTop: 20}}>
         <Button
-            onPress={() => console.log('test')}
+            onPress={() => this.props.navigation.navigate('AddBusinessScreen')}
             title="Add your Business"
             color="#2eb62c"
             />
