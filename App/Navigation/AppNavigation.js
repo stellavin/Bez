@@ -9,6 +9,7 @@ import RateScreen from '../Containers/Client/Business/rate'
 import FavoriteScreen from '../Containers/Client/Business/favorite'
 import myBusiness from '../Containers/Customer/Business/myBusiness';
 import ViewBusiness from '../Containers/Customer/Business/ViewBusiness';
+import EditPhoto from '../Containers/Customer/Business/Edit-Photo';
 
 
 // Manifest of possible screens
@@ -20,11 +21,12 @@ const PrimaryNav = StackNavigator({
   RateScreen: {screen: RateScreen},
   FavoriteScreen: {screen: FavoriteScreen},
   MyBusinessScreen: {screen: myBusiness},
-  ViewCustomerBusinessScreen:  {screen: ViewBusiness}
+  ViewCustomerBusinessScreen:  {screen: ViewBusiness},
+  EditPhotoScreen: {screen: EditPhoto}
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'HomeScreen',
+  initialRouteName: 'EditPhotoScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

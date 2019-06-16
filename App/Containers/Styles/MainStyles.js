@@ -1,5 +1,8 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { ApplicationStyles } from '../../Themes'
+
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -165,7 +168,65 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "#2eb62c",
     marginTop: 15
-  }
+  },
+  actionSection:{
+    width: screenWidth,
+    height: 49,
+    backgroundColor: "#ffffff",
+    shadowColor: "#000",
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    shadowColor: "#000",
+    elevation: 5,
+    marginTop: 20,
+    flexDirection:"row"
+
+  },
+  actionBox:{
+    width: screenWidth/3,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+
+  },
+  action: {
+    fontFamily: "Roboto",
+    fontSize: 12,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 16,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#707070",
+    
+   
+  },
+  verticalLine: {
+    width: 0,
+    height: 48.5,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#e6e6e6"
+  },
+  photosText: {
+    fontFamily: "Roboto",
+    fontSize: 14,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#707070",
+    marginLeft: 20,
+    marginTop: 20
+  },
+  footer: {
+    position: 'absolute',
+    height: 51,
+    left: 0, 
+    top: screenHeight - 40, 
+    width: screenWidth,
+ }
 
 
  

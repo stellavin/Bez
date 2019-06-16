@@ -9,7 +9,8 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 
 
 
-const screenHeight = Dimensions.get('window').height
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 class ViewCustomerBusinessScreen extends Component {
 
 constructor(props) {
@@ -46,9 +47,7 @@ componentWillMount() {
                 <View style={{flexDirection: "row", marginTop: 18}}>
                     <Text style={style.header1}>Buffet Spot </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
-                    <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('RateScreen')}
-                    >
+                    
                     <StarRating
                         disabled={true}
                         emptyStar={'ios-star-outline'}
@@ -61,7 +60,6 @@ componentWillMount() {
                         selectedStar={(rating) => console.log(rating)}
                         fullStarColor={'#83d475'}
                     />
-                    </TouchableOpacity>
                     </View>
                     
                 </View>
@@ -125,12 +123,38 @@ componentWillMount() {
 
                 </View>
 
+             
+
                
 
             </View>
 
+               {/* Actions section */}
+               <View style={style.actionSection}>
+                 <TouchableOpacity
+                 style={style.actionBox}
+                 >
+                    <Text style={style.action}>EDIT</Text>
+                 </TouchableOpacity>
+                 <View style={style.verticalLine}></View>
+
+                 <TouchableOpacity
+                 style={style.actionBox}
+                 >
+                   <Text style={style.action}>ADD PHOTOS</Text>
+                 </TouchableOpacity>
+                 <View style={style.verticalLine}></View>
+
+                 <TouchableOpacity
+                 style={style.actionBox}
+                 >
+                   <Text style={style.action}>PUSH UPDATE</Text>
+                 </TouchableOpacity>
+
+              </View>
+
              {/* Image section */}
-             <View style={{marginTop: 30, flexDirection: 'row',flexWrap:'wrap'}}>
+             <View style={{marginTop: 5, flexDirection: 'row',flexWrap:'wrap'}}>
                  <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
                  <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
                  <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
