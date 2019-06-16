@@ -17,6 +17,7 @@ class MyBusinessScreen extends Component {
         <Header
           show_search={false}
           type_of_nav={'bars'}
+          navigation = {this.props.navigation}
           placeholder="Search for a business/service..."
         />
         <View style={{marginLeft: 22, marginRight: 22, marginTop: 20}}>

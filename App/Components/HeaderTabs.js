@@ -21,10 +21,14 @@ export default class HeaderTabs extends Component {
   // }
 
   render () {
+    const navigation = this.props.navigation;
     return (
       <View style={styles.container}>
         <View style = {styles.row}>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("DrawerOpen");
+        }}>
         <Icon name = 'bars' size = {17.5} color = '#000' />
         </TouchableOpacity>
 

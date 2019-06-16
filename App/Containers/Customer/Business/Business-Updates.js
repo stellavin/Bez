@@ -16,6 +16,7 @@ class UpdateBusinessScreen extends Component {
       <View style={style.container}>
         <HeaderWithoutLogo
           type_of_nav={'arrow-left'}
+          navigation={this.props.navigation}
           headerTitle = {'Business Updates'}
         />
 
@@ -56,7 +57,7 @@ class UpdateBusinessScreen extends Component {
                             <Text style={{marginTop: 5}}> Menu</Text>
                         </View>
 
-                        <View style={{flexDirection:'row', width: screenWidth/32}}>
+                        <View style={{flexDirection:'row', width: screenWidth/3}}>
                             <CheckBox
                                 value={false}
                                 onValueChange={() => console.log('checked')}
@@ -104,8 +105,8 @@ class UpdateBusinessScreen extends Component {
 
             <View style={style.footer}>
                 <Button
-                    onPress={() => console.log('test')}
-                    title="Finish"
+                  onPress={() => this.props.navigation.navigate('MyBusinessScreen')}
+                  title="Finish"
                     color="#2eb62c"
                 />
 

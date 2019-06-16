@@ -13,25 +13,33 @@ import ViewBusiness from '../Containers/Customer/Business/ViewBusiness';
 import EditPhoto from '../Containers/Customer/Business/Edit-Photo';
 import BusinessUpdates from '../Containers/Customer/Business/Business-Updates';
 import preview from '../Containers/Customer/Business/preview';
+import SideMenu from '../Containers/SideMenu';
 
 
 
-const MyDrawerNavigator = DrawerNavigator ({
-  Home: {
-    screen: HomeScreen,
-  },
-});
+const Drawer = DrawerNavigator ({
+  HomeScreen: {screen: HomeScreen},
+  AddBusinessScreen: { screen: AddBusinessScreen },
+  FavoriteScreen: {screen: FavoriteScreen},
+  MyBusinessScreen: {screen: myBusiness},
+
+},
+{
+  contentComponent: SideMenu,
+  drawerWidth: 300
+}
+);
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
-  AddBusinessScreen: { screen: AddBusinessScreen },
-  HomeScreen: { screen: HomeScreen },
+  HomeScreen: {screen: Drawer},
+  AddBusinessScreen: { screen: Drawer },
   OnboardingScreen: { screen: OnboardingScreen },
   LaunchScreen: { screen: LaunchScreen },
   ViewBusiness: { screen: viewBusiness},
   RateScreen: {screen: RateScreen},
-  FavoriteScreen: {screen: FavoriteScreen},
-  MyBusinessScreen: {screen: myBusiness},
+  FavoriteScreen: {screen: Drawer},
+  MyBusinessScreen: {screen: Drawer},
   ViewCustomerBusinessScreen:  {screen: ViewBusiness},
   EditPhotoScreen: {screen: EditPhoto},
   UpdateBusinessScreen: {screen: BusinessUpdates},
@@ -39,7 +47,7 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'AddBusinessScreen',
+  initialRouteName: 'HomeScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

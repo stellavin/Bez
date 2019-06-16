@@ -41,6 +41,7 @@ submitReview(){
       <View style={style.container}>
         <Header
           show_search={false}
+          navigation={this.props.navigation}
           type_of_nav = {'arrow-left'}
         />
         

@@ -371,6 +371,48 @@ successText: {
   letterSpacing: 0,
   textAlign: "left",
   color: "#303030"
+},
+
+// side bar
+
+container2: {
+  paddingTop: 20,
+  flex: 1
+},
+navItemStyle: {
+  padding: 10
+},
+navSectionStyle: {
+  backgroundColor: 'lightgrey'
+},
+sectionHeadingStyle: {
+  paddingVertical: 10,
+  paddingHorizontal: 5
+},
+footerContainer: {
+  padding: 20,
+  backgroundColor: 'lightgrey'
+},
+sidebarText:{
+  fontFamily: "Roboto",
+  fontSize: 16,
+  fontWeight: "500",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#303030",
+  marginLeft: 20
+},
+sidebarText2:{
+  fontFamily: "Roboto",
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#b5b5b5"
 }
 
 

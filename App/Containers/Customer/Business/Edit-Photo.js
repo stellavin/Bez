@@ -14,6 +14,7 @@ class EditPhotoScreen extends Component {
         <HeaderWithoutLogo
           type_of_nav={'arrow-left'}
           headerTitle = {'Photos'}
+          navigation = {this.props.navigation}
         />
 
             <View style={{backgroundColor:"#f5f5f5", flex:1}}>

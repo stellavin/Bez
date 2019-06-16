@@ -9,11 +9,22 @@ export default class HeaderWithoutLogo extends Component {
   
 
   render () {
+    const navigation = this.props.navigation;
     return (
       <View style={styles.headerColor}>
 
       <View style = {styles.row}>
-        <TouchableOpacity>
+        <TouchableOpacity
+        onPress={() => {
+          if(this.props.type_of_nav == 'bars'){
+            navigation.navigate("DrawerOpen");
+
+          }else {
+            navigation.goBack();
+          }
+          
+        }}
+        >
         <Icon name = {this.props.type_of_nav} size = {17.5} color = '#000' />
         </TouchableOpacity>
         <Text style={styles.text}>{this.props.headerTitle}</Text>

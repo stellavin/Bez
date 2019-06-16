@@ -20,6 +20,7 @@ class AddBusinessScreen extends Component {
           title="Add Business"
           sub_title1="Business Info"
           sub_title2="Services"
+          navigation = {this.props.navigation}
           tab1={<BusinessInfo navigation={this.props.navigation} />}
           tab2={<ServicesInfo navigation={this.props.navigation} />}
         />

@@ -39,8 +39,13 @@ class HomeScreen extends Component {
         <Header
           show_search={true}
           type_of_nav={'bars'}
+          navigation = {this.props.navigation}
           placeholder="Search for a business/service..."
         />
+
+        <View style={{marginTop: 15}}></View>
+
+        <View style={styles.line}></View>
         <Categories categories={dummy_category_data}
           onCategoryChange = {(selected)=>{
             console.warn("The selected category is "+ selected)

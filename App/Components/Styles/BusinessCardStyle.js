@@ -81,5 +81,15 @@ export default StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: "#c1c1c1"
+  },
+  edit2: {
+    fontFamily: "Roboto",
+    fontSize: 9,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 11,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#83d475"
   }
 })

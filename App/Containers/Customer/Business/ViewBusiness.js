@@ -31,6 +31,7 @@ componentWillMount() {
       <View style={style.container}>
         <Header
           show_search={false}
+          navigation = {this.props.navigation}
           type_of_nav = {'arrow-left'}
         />
         
@@ -132,6 +133,7 @@ componentWillMount() {
                {/* Actions section */}
                <View style={style.actionSection}>
                  <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('EditPhotoScreen')}
                  style={style.actionBox}
                  >
                     <Text style={style.action}>EDIT</Text>
@@ -139,6 +141,7 @@ componentWillMount() {
                  <View style={style.verticalLine}></View>
 
                  <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('EditPhotoScreen')}
                  style={style.actionBox}
                  >
                    <Text style={style.action}>ADD PHOTOS</Text>
@@ -146,6 +149,8 @@ componentWillMount() {
                  <View style={style.verticalLine}></View>
 
                  <TouchableOpacity
+                 onPress={() => this.props.navigation.navigate('UpdateBusinessScreen')}
+
                  style={style.actionBox}
                  >
                    <Text style={style.action}>PUSH UPDATE</Text>
