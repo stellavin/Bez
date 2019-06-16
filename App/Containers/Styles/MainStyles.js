@@ -257,7 +257,70 @@ export default StyleSheet.create({
     fontStyle: "normal",
     textAlign: "left",
     color: "#b5b5b5"
- }
+ },
+ addPhoto2:{
+  borderRadius: 3,
+  backgroundColor: "#ffffff",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#b5b5b5",
+  width: 315,
+  height: 102,
+  alignItems: 'center',
+
+},
+textArea2:{
+  width: 315,
+  height: 71,
+  borderRadius: 3,
+  backgroundColor: "#ffffff",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#b5b5b5",
+  marginTop: 23
+},
+updateLine:{
+  width: 316,
+  height: 0,
+  opacity: 0.03,
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#000000",
+  marginTop: 23
+},
+catText:{
+  fontFamily: "Roboto",
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#b5b5b5"
+},
+txt:{
+  fontFamily: "Roboto",
+  fontSize: 14,
+  fontWeight: "normal",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#707070"
+},
+ItemInput:{
+  width: 315,
+  height: 40,
+  borderRadius: 3,
+  backgroundColor: "#ffffff",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#b5b5b5",
+  marginTop: 23
+
+
+},
+
 
 
  
