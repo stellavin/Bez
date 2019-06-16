@@ -1,4 +1,5 @@
-import { StackNavigator } from 'react-navigation'
+import { StackNavigator ,DrawerNavigator } from 'react-navigation'
+import AddBusinessScreen from '../Containers/AddBusinessScreen'
 import HomeScreen from '../Containers/HomeScreen'
 import OnboardingScreen from '../Containers/OnboardingScreen'
 import LaunchScreen from '../Containers/LaunchScreen'
@@ -14,8 +15,16 @@ import BusinessUpdates from '../Containers/Customer/Business/Business-Updates';
 import preview from '../Containers/Customer/Business/preview';
 
 
+
+const MyDrawerNavigator = DrawerNavigator ({
+  Home: {
+    screen: HomeScreen,
+  },
+});
+
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
+  AddBusinessScreen: { screen: AddBusinessScreen },
   HomeScreen: { screen: HomeScreen },
   OnboardingScreen: { screen: OnboardingScreen },
   LaunchScreen: { screen: LaunchScreen },
@@ -35,5 +44,7 @@ const PrimaryNav = StackNavigator({
     headerStyle: styles.header
   }
 })
+
+
 
 export default PrimaryNav
