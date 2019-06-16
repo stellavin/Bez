@@ -78,7 +78,7 @@ class SideMenu extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity 
-            onPress={() => console.log('')}
+            onPress={() => this.props.navigation.navigate('AdvertScreen')}
             style={{flexDirection: 'row',  marginTop: 26}}>
                 <Icon name = 'circle' size = {20.5} color = '#000' />
                <Text style={styles.sidebarText}>Advertise</Text>

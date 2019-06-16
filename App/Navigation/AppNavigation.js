@@ -1,4 +1,5 @@
 import { StackNavigator ,DrawerNavigator } from 'react-navigation'
+import AdvertScreen from '../Containers/AdvertScreen'
 import AddBusinessScreen from '../Containers/AddBusinessScreen'
 import HomeScreen from '../Containers/HomeScreen'
 import OnboardingScreen from '../Containers/OnboardingScreen'
@@ -22,6 +23,7 @@ const Drawer = DrawerNavigator ({
   AddBusinessScreen: { screen: AddBusinessScreen },
   FavoriteScreen: {screen: FavoriteScreen},
   MyBusinessScreen: {screen: myBusiness},
+  AdvertScreen: { screen: AdvertScreen },
 
 },
 {
@@ -34,6 +36,8 @@ const Drawer = DrawerNavigator ({
 const PrimaryNav = StackNavigator({
   HomeScreen: {screen: Drawer},
   AddBusinessScreen: { screen: Drawer },
+  AdvertScreen: { screen: Drawer },
+  AddBusinessScreen: { screen: AddBusinessScreen },
   OnboardingScreen: { screen: OnboardingScreen },
   LaunchScreen: { screen: LaunchScreen },
   ViewBusiness: { screen: viewBusiness},
