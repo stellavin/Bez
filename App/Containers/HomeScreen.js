@@ -38,6 +38,7 @@ class HomeScreen extends Component {
       <ScrollView style={styles.container}>
         <Header
           show_search={true}
+          type_of_nav={'bars'}
           placeholder="Search for a business/service..."
         />
         <Categories categories={dummy_category_data}
@@ -57,6 +58,7 @@ class HomeScreen extends Component {
           name="Champion Garage"
           rating={4.2}
           source={require("../Images/sample1.png")}
+          navigate={this.props.navigation}
         />
 
         <BusinessCard
@@ -64,6 +66,7 @@ class HomeScreen extends Component {
           name="Happy Eateries"
           rating={4.2}
           source={require("../Images/sample2.png")}
+          navigate={this.props.navigation}
         />
         <BusinessCard
           style = {{marginTop:21}}

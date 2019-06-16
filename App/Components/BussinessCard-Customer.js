@@ -4,7 +4,7 @@ import { View, Text ,Image, TouchableOpacity} from 'react-native'
 import styles from './Styles/BusinessCardStyle'
 import Icon from "react-native-vector-icons/FontAwesome5";
 
-export default class BusinessCard extends Component {
+export default class BusinessCardCustomer extends Component {
  
 
   render () {
@@ -12,7 +12,7 @@ export default class BusinessCard extends Component {
     return (
       <TouchableOpacity 
            onPress = {()=>{
-             navigate.navigate("ViewBusiness")
+             navigate.navigate("ViewCustomerBusinessScreen")
            }}
           >
              <View style={[styles.container,this.props.style]}>
