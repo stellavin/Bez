@@ -161,11 +161,13 @@ class ServicesInfo extends React.Component<Props, State> {
   
 </View>
           <BottomButtonFull
-           navigation={this.props.navigation.navigate('PreviewScreen')}
+          //  navigation={this.props.navigation.navigate('PreviewScreen')}
             name="Finish"
            
           />
           </ScrollView>
+
+          
       </View>
     );
   }
