@@ -226,6 +226,37 @@ export default StyleSheet.create({
     left: 0, 
     top: screenHeight - 40, 
     width: screenWidth,
+ },
+ deleteIcon: {
+    position: 'absolute',
+    bottom:10,
+    right:10
+    
+ },
+ footerAlign:{
+  flex: 1,
+  justifyContent: 'flex-end',
+  alignItems: 'flex-end'
+
+ },
+ addPhoto:{
+    borderRadius: 3,
+    backgroundColor: "#ffffff",
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#b5b5b5",
+    width: 120,
+    height: 120,
+    alignItems: 'center',
+    
+ },
+ addImageText:{
+    fontFamily: "Roboto",
+    fontSize: 14,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    textAlign: "left",
+    color: "#b5b5b5"
  }
 
 

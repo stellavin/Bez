@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import { ScrollView, Text, Button, View, Image } from "react-native";
+import { TouchableOpacity, Text, Button, View, ImageBackground } from "react-native";
 import { connect } from "react-redux";
 import styles from "../../Styles/HomeScreenStyle";
 import style from '../../Styles/MainStyles';
-import BusinessCardCustomer from "../../../Components/BussinessCard-Customer";
 import HeaderWithoutLogo from "../../../Components/HeaderWitoutLogo";
-
-
-
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 class EditPhotoScreen extends Component {
   render() {
@@ -19,7 +16,7 @@ class EditPhotoScreen extends Component {
           headerTitle = {'Photos'}
         />
 
-            <View style={{backgroundColor:"#f5f5f5"}}>
+            <View style={{backgroundColor:"#f5f5f5", flex:1}}>
                 <View style={{marginLeft: 20, marginTop: 20}}>
                   <Text style={styles.photosText}>Add Service Photos (Max 20)</Text>
                 </View>
@@ -28,22 +25,70 @@ class EditPhotoScreen extends Component {
 
                {/* Image section */}
              <View style={{marginTop: 10, flexDirection: 'row',flexWrap:'wrap'}}>
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 {/* Image 1 */}
+                 <View style={{width: 120, height: 120}} >
+                    <ImageBackground source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} >
+                        <View style={style.footerAlign}>
+                        <TouchableOpacity
+                        style={style.deleteIcon}
+                        >
+                            <Icon name = 'trash-alt' size = {20} color = '#fff' />
+                        </TouchableOpacity>
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                        </View>
+                    
+                    </ImageBackground>
+                        
+                 </View>
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 {/* End */}
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                  {/* Image 1 */}
+                  <View style={{width: 120, height: 120}} >
+                    <ImageBackground source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} >
+                        <View style={style.footerAlign}>
+                        <TouchableOpacity
+                        style={style.deleteIcon}
+                        >
+                            <Icon name = 'trash-alt' size = {20} color = '#fff' />
+                        </TouchableOpacity>
+
+                        </View>
+                    
+                    </ImageBackground>
+                        
+                 </View>
+
+                 {/* End */}
+
+                  {/* Image 1 */}
+                  <View style={{width: 120, height: 120}} >
+                    <ImageBackground source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} >
+                        <View style={style.footerAlign}>
+                        <TouchableOpacity
+                        style={style.deleteIcon}
+                        >
+                            <Icon name = 'trash-alt' size = {20} color = '#fff' />
+                        </TouchableOpacity>
+
+                        </View>
+                    
+                    </ImageBackground>
+                        
+                 </View>
+
+                 {/* End */}
+
+                 <TouchableOpacity style={style.addPhoto} >
+                     <View style={{marginTop: 20}}></View>
+                    <Icon name = 'image' size = {40} color = '#b5b5b5' /> 
+                    <Text style={style.addImageText}>+ Add Photo</Text> 
+                 </TouchableOpacity>
+                
+            </View>
 
             </View>
 
-            
-           
-
-            </View>
             <View style={style.footer}>
                 <Button
                     onPress={() => console.log('test')}
