@@ -24,7 +24,7 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'MyBusinessScreen',
+  initialRouteName: 'OnboardingScreen',
   navigationOptions: {
     headerStyle: styles.header
   }
