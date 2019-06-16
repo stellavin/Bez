@@ -348,7 +348,30 @@ action2: {
   color: "#fff",
  
 },
-
+rateText:{
+  fontFamily: "Helvetica",
+  fontSize: 16,
+  fontWeight: "bold",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#2eb62c",
+  marginLeft: 72,
+  marginRight: 72,
+  marginTop: 30,
+  marginBottom: 30
+},
+successText: {
+  fontFamily: "Helvetica",
+  fontSize: 18,
+  fontWeight: "bold",
+  fontStyle: "normal",
+  lineHeight: 22,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#303030"
+}
 
 
 

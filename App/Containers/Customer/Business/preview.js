@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text,Dimensions, Image, View,TouchableOpacity } from "react-native";
+import { ScrollView, Text,Dimensions,Button, Image, View,TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import Header from "../../../Components/Header";
 import Slideshow from 'react-native-image-slider-show';
@@ -7,6 +7,8 @@ import style from '../../Styles/MainStyles';
 import StarRating from 'react-native-star-rating';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import HeaderWithoutLogo from "../../../Components/HeaderWitoutLogo";
+import Dialog, { DialogContent,DialogFooter, DialogButton } from 'react-native-popup-dialog';
+
 
 
 
@@ -18,7 +20,9 @@ constructor(props) {
     super(props);
     
     this.state = {
-        starCount: 3.5
+        starCount: 3.5,
+        showSuccess: false,
+
       
     };
 }
@@ -26,6 +30,15 @@ constructor(props) {
 componentWillMount() {
     
 }
+
+submitSuccess(){
+    this.setState({showSuccess: true})
+  
+  }
+  
+  closeSuccess(){
+    this.setState({showSuccess: false})
+  }
 
   render() {
     return (
@@ -156,11 +169,36 @@ componentWillMount() {
 
         <TouchableOpacity
         style={style.actionBox}
+        onPress={() => this.submitSuccess()}
         >
         <Text style={style.action2}>PUBLISH</Text>
         </TouchableOpacity>
 
         </View>
+
+        <Dialog
+          visible={this.state.showSuccess}
+          
+        >
+          <DialogContent>
+            <Text style={style.rateText}>Congratulations</Text>
+            <View style={{alignItems: 'center'}}>
+            <Text style={style.successText}>Buffet Spot Added</Text>
+            
+            </View>
+          <View style={{alignItems: 'center'}}>
+
+            <View style={style.dialogueButton} > 
+              <Button
+                  onPress={() => this.closeSuccess()}
+                  title="Okay"
+                  color="#2eb62c"
+                />
+
+              </View>
+          </View>
+          </DialogContent>
+        </Dialog>
         
        
       </View>
