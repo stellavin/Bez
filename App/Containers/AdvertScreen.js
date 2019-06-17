@@ -5,6 +5,7 @@ import {
   View,
   KeyboardAvoidingView,
   CheckBox,
+  Image,
   TextInput
 } from "react-native";
 import { connect } from "react-redux";
@@ -33,6 +34,14 @@ class AdvertScreen extends Component {
           tab1={<AddDetails navigation={this.props.navigation} />}
           tab2={<Payment navigation={this.props.navigation} />}
         />
+
+<BottomButtonFull 
+           style ={{
+             position:'absolute',
+             width:'100%',
+             bottom:0
+           }}
+          name="Publish" />
       </View>
     );
   }
@@ -99,8 +108,17 @@ class AddDetails extends React.Component<Props, State> {
           />
 
           {/* <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} /> */}
-          <View style = {[styles.ItemInput,{justifyContent:"center",alignItems:'center', marginBottom:10}]}>
-          <Icon name = "image" size = {24.5} color = '#b5b5b5'/>
+          <View
+            style={[
+              styles.ItemInput,
+              {
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: 10
+              }
+            ]}
+          >
+            <Icon name="image" size={24.5} color="#b5b5b5" />
           </View>
           <BottomButtonFull name="Continue" />
         </ScrollView>
@@ -125,12 +143,39 @@ class Payment extends React.Component<Props, State> {
         <ScrollView>
           <PaymentAmount amount={2300} />
 
+          <Image
+            style={{
+              width: 57,
+              height: 29,
+              marginLeft: 23,
+              marginTop: 41
+            }}
+            source={require("../Images/mpesa-logo.png")}
+          />
+
+          <Text
+            style={{
+              fontFamily: "Roboto",
+              fontSize: 14,
+              fontWeight: "normal",
+              fontStyle: "normal",
+              lineHeight: 19,
+              letterSpacing: 0,
+              textAlign: "left",
+              color: "#707070",
+              marginLeft:23
+            }}
+          >
+            1. Pay KES 7,214 {"\n"}
+            2. Pay tp paybill 123 456{"\n"}
+            3. Enter the mpesa code below to confirm eg: MJH
+          </Text>
           <InputComponent
-            style={{ marginTop: 15, marginLeft: 22, marginRight: 22 }}
+            style={{ marginTop: 15, marginLeft: 22, marginRight: 22,marginBottom:10 }}
             placeholder="Enter Code"
           />
 
-          <BottomButtonFull name="Publish" />
+         
         </ScrollView>
       </View>
     );
