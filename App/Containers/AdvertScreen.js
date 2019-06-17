@@ -1,8 +1,16 @@
-import React, { Component } from 'react'
-import { ScrollView, Text, View,KeyboardAvoidingView } from 'react-native'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import {
+  ScrollView,
+  Text,
+  View,
+  KeyboardAvoidingView,
+  CheckBox,
+  TextInput
+} from "react-native";
+import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 // Styles
 import HeaderTabs from "../Components/HeaderTabs";
@@ -11,8 +19,8 @@ import Thumbnail from "../Components/Thumbnail";
 import BottomButtonFull from "../Components/BottomButtonFull";
 import AddButton from "../Components/AddButton";
 // Styles
-import styles from './Styles/AdvertScreenStyle'
-import PaymentAmount from '../Components/PaymentAmount';
+import styles from "./Styles/AdvertScreenStyle";
+import PaymentAmount from "../Components/PaymentAmount";
 
 class AdvertScreen extends Component {
   render() {
@@ -43,73 +51,59 @@ class AddDetails extends React.Component<Props, State> {
     return (
       <View style={styles.container}>
         <ScrollView>
+          <PaymentAmount amount={2300} />
 
-       
+          <Text style={styles.title}>Ad Type</Text>
 
-        <PaymentAmount
-          amount = {2300}
-        />
+          <View style={{ flexDirection: "row" }}>
+            <InputComponent
+              style={{
+                marginTop: 23,
+                width: 150,
+                marginLeft: 22
+              }}
+              placeholder="Preferred Time"
+              is_picker={true}
+              width={150}
+            />
 
-<Text style = {styles.title}>
-          Ad Type
-        </Text>
-
-        <View style ={{flexDirection:'row'}}>
-          <InputComponent
-            style={{ marginTop: 23, marginRight: 22,width:150, marginLeft: 22 }}
-            placeholder="Business Name"
-          />
-
-          <InputComponent
-            style={{ marginTop: 15, width:150, marginLeft: 15 }}
-            is_picker={true}
-            placeholder="Type of Business"
-          />
+            <InputComponent
+              style={{
+                marginTop: 23,
+                width: 150,
+                marginLeft: 15,
+                marginRight: 22
+              }}
+              placeholder="Days eg 56"
+              width={150}
+            />
           </View>
 
           <InputComponent
-            style={{ marginTop: 15, marginLeft: 22 }}
-            placeholder="Item"
+            style={{ marginTop: 29, marginLeft: 22, marginRight: 22 }}
+            placeholder="Ad-Redirect link"
           />
 
           <InputComponent
-            style={{ marginTop: 15, marginRight: 22, marginLeft: 22 }}
+            style={{ marginTop: 29, marginLeft: 22, marginRight: 22 }}
+            placeholder="Name of Business -Redirect"
             is_picker={true}
-            placeholder="Phone Number"
           />
 
-          <Text style={styles.radio_title}>Take Order/Calls</Text>
+          <TextInput
+            style={styles.ItemInput}
+            underlineColorAndroid="transparent"
+            placeholder="Add Caption"
+            placeholderTextColor="grey"
+            numberOfLines={10}
+            multiline={false}
+          />
 
-          <Text style={styles.business_location}>Business Location</Text>
-
-          <Text style={styles.tip1}>
-            It's Recommended to be at the location of the business!
-          </Text>
-          <Text style={{ fontWeight: "bold", marginLeft: 22, marginTop: 22 }}>
-            TO INCLUDE MAP
-          </Text>
-          <Text style={styles.bus_thumb}>Business Thumbnail</Text>
-
-          <Thumbnail style={{ marginLeft: 22, marginTop: 8 }} />
-
-          <Text style={styles.bus_thumb}>Business cover photos (3 only)</Text>
-
-          <View
-            style={{
-              flexDirection: "row",
-              marginLeft: 22,
-              marginBottom: 60
-            }}
-          >
-            <Thumbnail style={{ marginTop: 8 }} />
-            <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
-            <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
+          {/* <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} /> */}
+          <View style = {[styles.ItemInput,{justifyContent:"center",alignItems:'center', marginBottom:10}]}>
+          <Icon name = "image" size = {24.5} color = '#b5b5b5'/>
           </View>
-
-          <BottomButtonFull
-            name="Continue"
-           
-          />
+          <BottomButtonFull name="Continue" />
         </ScrollView>
       </View>
     );
@@ -129,69 +123,30 @@ class Payment extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
-       <ScrollView>
-       <Text style = {styles.title2}>
-       Type of Category: Hotel
-       </Text>
+        <ScrollView>
+          <PaymentAmount amount={2300} />
 
-       <Text style = {styles.que1}>What do you want to add</Text>
-
-       <Text  style = {styles.que1}>Add (menu)</Text>
-       <InputComponent
-            style={{ marginTop: 15, marginRight: 22, marginLeft: 22 }}
-            placeholder="Item"
+          <InputComponent
+            style={{ marginTop: 15, marginLeft: 22, marginRight: 22 }}
+            placeholder="Enter Code"
           />
-          <AddButton style = {{marginLeft:240,marginTop:10}}/>
 
-
-<Text  style = {styles.que1}>Add (services)</Text>
-
-<InputComponent
-            style={{ marginTop: 15, marginRight: 22, marginLeft: 22 }}
-            placeholder="Item"
-          />
-          <AddButton style = {{marginLeft:240,marginTop:10}}/>
-
-<Text  style = {styles.que1}>Add (products)</Text>
-<InputComponent
-            style={{ marginTop: 15, marginRight: 22, marginLeft: 22 }}
-            placeholder="Item"
-          />
-          <AddButton style = {{marginLeft:240,marginTop:10}}/>
-
-          <Text style={styles.bus_thumb}>Add Service Photos (Max 12)
-
-</Text>
-
-<View
-  style={{
-    flexDirection: "row",
-    marginLeft: 22,
-    marginBottom: 60
-  }}
->
-  <Thumbnail style={{ marginTop: 8 }} />
-  <Thumbnail style={{ marginTop: 8 }} />
-  
-</View>
-<BottomButtonFull
-            name="Finish"
-           
-          />
-          </ScrollView>
+          <BottomButtonFull name="Publish" />
+        </ScrollView>
       </View>
     );
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-  }
-}
+const mapStateToProps = state => {
+  return {};
+};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
+const mapDispatchToProps = dispatch => {
+  return {};
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdvertScreen)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AdvertScreen);

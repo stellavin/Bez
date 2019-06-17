@@ -48,6 +48,20 @@ class SideMenu extends Component {
 
                 </View>
                 </View>
+
+                {/*  */}
+
+                <View style={{ flex: 1,alignItems: 'center',width:'100%', marginRight: 20, marginTop: 30}}> 
+                <View style={{width: '80%'}}> 
+                <Button
+                    onPress={() => this.props.navigation.navigate('AdvertScreen')}
+                    title="Create Advert"
+                    color="#2f2e41"
+                    style={{width: 100}}
+                  />
+
+                </View>
+                </View>
    
             
           </View>
@@ -85,10 +99,10 @@ class SideMenu extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('AdvertScreen')}
+            onPress={() => this.props.navigation.navigate('MyAdvertsScreen')}
             style={{flexDirection: 'row',  marginTop: 26}}>
                 <Icon name = 'circle' size = {20.5} color = '#000' />
-               <Text style={styles.sidebarText}>Advertise</Text>
+               <Text style={styles.sidebarText}>My Adverts</Text>
 
             </TouchableOpacity>
 

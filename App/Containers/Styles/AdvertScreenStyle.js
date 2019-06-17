@@ -88,5 +88,16 @@ export default StyleSheet.create({
   color: "#707070",
   marginLeft:22,
   marginTop:8
+  },
+  ItemInput:{
+    height: 102,
+    marginRight:22,
+    marginLeft:22,
+  backgroundColor: "#ffffff",
+  backgroundColor: "#ffffff",
+  borderStyle: "solid",
+  borderWidth: 1,
+  borderColor: "#b5b5b5",
+  marginTop:29
   }
 })

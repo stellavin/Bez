@@ -26,7 +26,7 @@ export default class InputComponent extends Component {
                 placeholderTextColor="#939393"
                 placeholder={this.props.placeholder}
                 style={{
-                  width: 260,
+                  width: this.props.width?this.props.width: 260,
                   fontSize: 14,
                   height: 33,
                   padding: 5,
@@ -40,17 +40,18 @@ export default class InputComponent extends Component {
                     selectedValue={"Type of Business"}
                     style={{
                       height: 35,
-                      width: 270,
+                      width: this.props.width?this.props.width: 260,
                       fontSize: 14,
-                      color: "#939393"
+                      color: "#939393",
+                      
                     }}
                     onValueChange={(itemValue, itemIndex) => {
                       
                     }}
                   >
                     <Picker.Item
-                      label="Type of Business"
-                      value="Type of Business"
+                      label= {this.props.placeholder}
+                      value={this.props.placeholder}
                     />
 
                     </Picker>
