@@ -37,7 +37,7 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'MyAdvertsScreen',
+  initialRouteName: 'AdvertScreen',
   navigationOptions: {
     headerStyle: styles.header
   }
