@@ -28,7 +28,7 @@ class AdvertScreen extends Component {
     return (
       <View style={styles.container}>
         <HeaderTabs
-          title="Ad Details"
+          title="Create Advert"
           sub_title1="Ad Details"
           sub_title2="Payment"
           navigation = {this.props.navigation}
