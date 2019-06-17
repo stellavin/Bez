@@ -8,7 +8,8 @@ export default StyleSheet.create({
   flexDirection:'row',
   justifyContent:'center',
   alignItems:'center',
-  elevation:3
+  elevation:3,
+  
   
   },
   input:{
