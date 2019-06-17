@@ -144,15 +144,15 @@ componentWillMount() {
 
              {/* Image section */}
              <View style={{marginTop: 30, flexDirection: 'row',flexWrap:'wrap'}}>
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/2.png")} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/3.png")}style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/4.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/5.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/6.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/7.png")}style={{width: 120, height: 120}} />
 
             </View>
             

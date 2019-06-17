@@ -53,10 +53,17 @@ class SideMenu extends Component {
           </View>
           {/* 1 */}
           <View style={{marginLeft: 25,marginTop: 37}}>
+          <TouchableOpacity 
+            onPress={() => this.props.navigation.navigate('HomeScreen')}
+            style={{flexDirection: 'row'}}>
+                <Icon name = 'home' size = {20.5} color = '#000' />
+               <Text style={styles.sidebarText}>Home</Text>
+
+            </TouchableOpacity>
 
             <TouchableOpacity 
             onPress={() => this.props.navigation.navigate('FavoriteScreen')}
-            style={{flexDirection: 'row'}}>
+            style={{flexDirection: 'row',marginTop: 26}}>
                 <Icon name = 'bookmark' size = {20.5} color = '#000' />
                <Text style={styles.sidebarText}>Your Favorites</Text>
 

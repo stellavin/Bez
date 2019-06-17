@@ -93,6 +93,8 @@ class BusinessInfo extends React.Component<Props, State> {
           </View>
 
           <BottomButtonFull
+            navigation={this.props.navigation}
+            goToPreview = {false}
             name="Continue"
            
           />
@@ -161,7 +163,8 @@ class ServicesInfo extends React.Component<Props, State> {
   
 </View>
           <BottomButtonFull
-          //  navigation={this.props.navigation.navigate('PreviewScreen')}
+            navigation={this.props.navigation}
+            goToPreview = {true}
             name="Finish"
            
           />
