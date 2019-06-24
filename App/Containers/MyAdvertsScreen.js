@@ -31,6 +31,7 @@ class MyAdvertsScreen extends Component {
           title="My Adverts"
           sub_title1="Active"
           sub_title2="History"
+          navigation={this.props.navigation}
           tab1={<Active navigation={this.props.navigation} />}
           tab2={<History navigation={this.props.navigation} />}
         />

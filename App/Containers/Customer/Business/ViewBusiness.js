@@ -9,7 +9,8 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 
 
 
-const screenHeight = Dimensions.get('window').height
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 class ViewCustomerBusinessScreen extends Component {
 
 constructor(props) {
@@ -30,6 +31,7 @@ componentWillMount() {
       <View style={style.container}>
         <Header
           show_search={false}
+          navigation = {this.props.navigation}
           type_of_nav = {'arrow-left'}
         />
         
@@ -46,9 +48,7 @@ componentWillMount() {
                 <View style={{flexDirection: "row", marginTop: 18}}>
                     <Text style={style.header1}>Buffet Spot </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
-                    <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('RateScreen')}
-                    >
+                    
                     <StarRating
                         disabled={true}
                         emptyStar={'ios-star-outline'}
@@ -61,7 +61,6 @@ componentWillMount() {
                         selectedStar={(rating) => console.log(rating)}
                         fullStarColor={'#83d475'}
                     />
-                    </TouchableOpacity>
                     </View>
                     
                 </View>
@@ -125,21 +124,52 @@ componentWillMount() {
 
                 </View>
 
+             
+
                
 
             </View>
 
+               {/* Actions section */}
+               <View style={style.actionSection}>
+                 <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('EditPhotoScreen')}
+                 style={style.actionBox}
+                 >
+                    <Text style={style.action}>EDIT</Text>
+                 </TouchableOpacity>
+                 <View style={style.verticalLine}></View>
+
+                 <TouchableOpacity
+                  onPress={() => this.props.navigation.navigate('EditPhotoScreen')}
+                 style={style.actionBox}
+                 >
+                   <Text style={style.action}>ADD PHOTOS</Text>
+                 </TouchableOpacity>
+                 <View style={style.verticalLine}></View>
+
+                 <TouchableOpacity
+                 onPress={() => this.props.navigation.navigate('UpdateBusinessScreen')}
+
+                 style={style.actionBox}
+                 >
+                   <Text style={style.action}>PUSH UPDATE</Text>
+                 </TouchableOpacity>
+
+              </View>
+
              {/* Image section */}
-             <View style={{marginTop: 30, flexDirection: 'row',flexWrap:'wrap'}}>
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+             <View style={{marginTop: 5, flexDirection: 'row',flexWrap:'wrap'}}>
+                 {/* <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} /> */}
+                 <Image source={require("../../../Images/gallery/2.png")} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/3.png")}style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/4.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/5.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/6.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/7.png")}style={{width: 120, height: 120}} />
 
             </View>
             

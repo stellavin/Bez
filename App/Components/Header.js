@@ -9,11 +9,23 @@ export default class Header extends Component {
   
 
   render () {
+    const navigation = this.props.navigation;
     return (
       <View>
 
       <View style = {styles.row}>
-        <TouchableOpacity>
+      {/* this.props.navigation.goBack() */}
+         
+        <TouchableOpacity
+        onPress={() => {
+          if(this.props.type_of_nav == 'bars'){
+            navigation.navigate("DrawerOpen");
+
+          }else {
+            navigation.goBack();
+          }
+          
+        }}>
         <Icon name = {this.props.type_of_nav} size = {17.5} color = '#000' />
         </TouchableOpacity>
         <Image

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text,Dimensions, Image, View,TouchableOpacity } from "react-native";
+import { ScrollView, Text,Dimensions, Image, View,TouchableOpacity, Button } from "react-native";
 import { connect } from "react-redux";
 import Header from "../../../Components/Header";
 import Slideshow from 'react-native-image-slider-show';
@@ -30,6 +30,7 @@ componentWillMount() {
       <View style={style.container}>
         <Header
           show_search={false}
+          navigation={this.props.navigation}
           type_of_nav = {'arrow-left'}
         />
         
@@ -47,7 +48,6 @@ componentWillMount() {
                     <Text style={style.header1}>Buffet Spot </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
                     <TouchableOpacity
-                    onPress={() => this.props.navigation.navigate('RateScreen')}
                     >
                     <StarRating
                         disabled={true}
@@ -89,9 +89,22 @@ componentWillMount() {
                     </View>
                 </View>
                 </View>
+                <View style={{ flex: 1,alignItems: 'flex-end', marginRight: 20}}> 
+                <View style={style.button}> 
+                <Button
+                    onPress={() => this.props.navigation.navigate('RateScreen')}
+                    title="Rate"
+                    color="#2eb62c"
+                    style={{width: 100}}
+                  />
+
+                </View>
+                </View>
                 <View style={{height: screenHeight}}>
                 
                 <View style={{marginLeft: 22,marginRight: 22}}>
+
+                
                 
 
                 <Text style={style.menu}>Menu</Text>
@@ -131,15 +144,15 @@ componentWillMount() {
 
              {/* Image section */}
              <View style={{marginTop: 30, flexDirection: 'row',flexWrap:'wrap'}}>
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/2.png")} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/3.png")}style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/4.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/5.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/6.png")}style={{width: 120, height: 120}} />
 
-                 <Image source={{uri: 'http://placeimg.com/640/480/any'}} style={{width: 120, height: 120}} />
+                 <Image source={require("../../../Images/gallery/7.png")}style={{width: 120, height: 120}} />
 
             </View>
             

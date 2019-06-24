@@ -16,9 +16,18 @@ export default class BottomButtonFull extends Component {
   // }
 
   render () {
+    const navigation = this.props.navigation;
     return (
       <View style={[styles.container,this.props.style]}>
-      <TouchableOpacity>
+      <TouchableOpacity
+      onPress={() =>{
+        if(this.props.goToPreview){
+          navigation.navigate('PreviewScreen')
+        }else{
+
+        } }}
+
+      >
         <Text style = {styles.name}>{this.props.name}</Text>
         </TouchableOpacity>
       </View>

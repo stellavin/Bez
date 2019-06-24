@@ -1,12 +1,16 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Dimensions } from 'react-native'
 import { ApplicationStyles } from '../../Themes/'
 import favorite from '../Client/Business/favorite';
+
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
   container:{
     flex:1,
     flexDirection:'column',
+    backgroundColor:"#FAFAFA"
     
   },
   title:{
@@ -58,6 +62,24 @@ export default StyleSheet.create({
     marginTop: 30,
     marginLeft: 22,
     marginBottom: 10
+  },
+  line:{
+    width: screenWidth,
+    height: 0,
+    opacity: 0.29,
+    borderStyle: "solid",
+    borderWidth: 1,
+    borderColor: "#2eb62c"
+  },
+  edit2: {
+    fontFamily: "Roboto",
+    fontSize: 9,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 11,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#83d475"
   }
 })
 

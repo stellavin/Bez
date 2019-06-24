@@ -26,5 +26,21 @@ export default StyleSheet.create({
    alignItems:'center',
    marginTop:21,
    marginLeft:21,
+ },
+ text: {
+  fontFamily: "Helvetica",
+  fontSize: 16,
+  fontWeight: "bold",
+  fontStyle: "normal",
+  lineHeight: 19,
+  letterSpacing: 0,
+  textAlign: "left",
+  color: "#303030",
+  marginLeft: 20
+ },
+ headerColor: {
+   backgroundColor:'#FAFAFA',
+   height: 65
+
  }
 })

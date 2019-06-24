@@ -15,6 +15,7 @@ class FavoriteScreen extends Component {
         <Header
           show_search={true}
           type_of_nav={'bars'}
+          navigation={this.props.navigation}
           placeholder="Search for a business/service..."
         />
 

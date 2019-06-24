@@ -45,10 +45,51 @@ export default StyleSheet.create({
   row:{
     flexDirection:'row',
     alignItems:'center',
-    marginTop:6
+    marginTop:6,
+    width: 200,
   },
   column1:{
     marginLeft:8,
 
+  },
+  advertise_text:{
+    fontFamily: "Roboto",
+    fontSize: 12,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 16,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#ffc765"
+  },
+  edit: {
+    fontFamily: "Roboto",
+    fontSize: 12,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 16,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#2f2e41"
+  },
+  rateValue: {
+    fontFamily: "Roboto",
+    fontSize: 12,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 16,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#c1c1c1"
+  },
+  edit2: {
+    fontFamily: "Roboto",
+    fontSize: 9,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 11,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#83d475"
   }
 })

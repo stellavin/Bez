@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 
 // Styles
 import styles from "./Styles/AddBusinessScreenStyle";
+import Mainstyles from "./Styles/MainStyles";
 import HeaderTabs from "../Components/HeaderTabs";
 import InputComponent from "../Components/InputComponent";
 import Thumbnail from "../Components/Thumbnail";
@@ -20,6 +21,7 @@ class AddBusinessScreen extends Component {
           title="Add Business"
           sub_title1="Business Info"
           sub_title2="Services"
+          navigation = {this.props.navigation}
           tab1={<BusinessInfo navigation={this.props.navigation} />}
           tab2={<ServicesInfo navigation={this.props.navigation} />}
         />
@@ -91,6 +93,8 @@ class BusinessInfo extends React.Component<Props, State> {
           </View>
 
           <BottomButtonFull
+            navigation={this.props.navigation}
+            goToPreview = {false}
             name="Continue"
            
           />
@@ -158,11 +162,15 @@ class ServicesInfo extends React.Component<Props, State> {
   <Thumbnail style={{ marginTop: 8 }} />
   
 </View>
-<BottomButtonFull
+          <BottomButtonFull
+            navigation={this.props.navigation}
+            goToPreview = {true}
             name="Finish"
            
           />
           </ScrollView>
+
+          
       </View>
     );
   }
