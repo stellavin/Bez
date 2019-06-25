@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Nenebez</string>
-    <string name="fb_app_id">363553661029518</string>
-    <string name="fb_login_protocol_scheme">fb363553661029518</string>
+    <string name="facebook_app_id">363553661029518</string>
+
 </resources>

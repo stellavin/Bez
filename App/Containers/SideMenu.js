@@ -5,8 +5,26 @@ import styles from './Styles/MainStyles';
 import {NavigationActions} from 'react-navigation';
 import {ScrollView, Text, View, TouchableOpacity, Image, Button} from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import { GoogleSignin } from 'react-native-google-signin';
+import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 
 import { StackNavigator } from 'react-navigation';
+import firebase from "react-native-firebase";
+
+const config = {
+  
+  apiKey: "AIzaSyBuYwjuPv7MYo-wlwhNYquJVYShg1WqrZQ",
+  authDomain: "nenebez-bcaf1.firebaseapp.com",
+  databaseURL: "https://nenebez-bcaf1.firebaseio.com",
+  projectId: "nenebez-bcaf1",
+  storageBucket: "nenebez-bcaf1.appspot.com",
+  messagingSenderId: "527122886768",
+  appId: "1:527122886768:web:77e7357f7fb0f410"
+};
+firebase.initializeApp(config);
+GoogleSignin.configure({
+  webClientId: '527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com', offlineAccess: true,
+});
 
 class SideMenu extends Component {
   
@@ -16,7 +34,63 @@ class SideMenu extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   }
+  componentDidMount(){
+   
+  }
 
+  googleLogin = async () => {
+    GoogleSignin.hasPlayServices()
+  .then(() => {
+
+      GoogleSignin.signIn()
+      .then((user) => {
+        console.warn(user);
+
+      })
+      .catch((err) => {
+        if(err.code === 'CANCELED')
+        {
+          console.warn('glogin canceled', err.code);
+          
+        }
+        else{
+          console.warn('error is ', err);
+        }
+      });
+  }).catch(err => {
+    console.warn('Play services error', err.code, err.message);
+  });
+  };
+  async facebookLogin() {
+    try {
+      const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
+  
+      if (result.isCancelled) {
+        // handle this however suites the flow of your app
+        throw new Error('User cancelled request'); 
+      }
+  
+      console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+  
+      // get the access token
+      const data = await AccessToken.getCurrentAccessToken();
+  
+      if (!data) {
+        // handle this however suites the flow of your app
+        throw new Error('Something went wrong obtaining the users access token');
+      }
+  
+      // create a new firebase credential with the token
+      const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+  
+      // login with credential
+      const firebaseUserCredential = await firebase.auth().signInWithCredential(credential);
+  
+      console.warn(JSON.stringify(firebaseUserCredential.user.toJSON()))
+    } catch (e) {
+      console.error(e);
+    }
+  }
   render () {
     return (
       <View style={styles.container}>
@@ -109,7 +183,7 @@ class SideMenu extends Component {
             {/* google and facebook */}
 
             <TouchableOpacity 
-            onPress={() => console.log('')}
+            onPress={() => this.googleLogin()}
             style={{flexDirection: 'row',  marginTop: 45}}>
                <Image
                 style={styles.logo}
@@ -119,13 +193,31 @@ class SideMenu extends Component {
 
 
             <TouchableOpacity 
-            onPress={() => console.log('')}
+            onPress={() => this.facebookLogin()}
             style={{flexDirection: 'row',  marginTop: 26}}>
                <Image
                 style={styles.logo}
                 source={require("../Images/facebook.png")}
               />
             </TouchableOpacity>
+
+            <LoginButton
+          onLoginFinished={
+            (error, result) => {
+              if (error) {
+                console.log("login has error: " + result.error);
+              } else if (result.isCancelled) {
+                console.log("login is cancelled.");
+              } else {
+                AccessToken.getCurrentAccessToken().then(
+                  (data) => {
+                    console.log(data.accessToken.toString())
+                  }
+                )
+              }
+            }
+          }
+          onLogoutFinished={() => console.log("logout.")}/>
 
             <TouchableOpacity 
             onPress={() => console.log('')}
