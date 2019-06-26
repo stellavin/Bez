@@ -17,6 +17,7 @@ import EditPhoto from '../Containers/Customer/Business/Edit-Photo';
 import BusinessUpdates from '../Containers/Customer/Business/Business-Updates';
 import preview from '../Containers/Customer/Business/preview';
 import SideMenu from '../Containers/SideMenu';
+import FacebookLogin from '../Containers/FacebookLogin';
 
 
 
@@ -53,7 +54,8 @@ const PrimaryNav = StackNavigator({
   ViewCustomerBusinessScreen:  {screen: ViewBusiness},
   EditPhotoScreen: {screen: EditPhoto},
   UpdateBusinessScreen: {screen: BusinessUpdates},
-  PreviewScreen: {screen: preview}
+  PreviewScreen: {screen: preview},
+  FacebookLogin: {screen: FacebookLogin}
 }, {
   // Default config for all screens
   headerMode: 'none',

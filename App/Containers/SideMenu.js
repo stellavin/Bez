@@ -10,6 +10,7 @@ import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 
 import { StackNavigator } from 'react-navigation';
 import firebase from "react-native-firebase";
+import firebase_app from "../Firebase";
 
 const config = {
   
@@ -27,7 +28,11 @@ GoogleSignin.configure({
 });
 
 class SideMenu extends Component {
-  
+  constructor() {
+    super();
+    this.ref = firebase_app.firestore().collection('users');
+    
+  }
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -41,6 +46,20 @@ class SideMenu extends Component {
       }
    });
   }
+  createUser(data){
+   console.warn("the user data is "+ JSON.stringify(data));
+   try{
+    this.ref.add(data).then((docRef) => {
+      console.warn("The data is "+ docRef)
+   }).catch((error) => {
+     console.error("Error adding document: ", error);
+   });
+   }catch(e){
+      
+   }
+   
+   
+  }
 
   googleLogin = async () => {
     GoogleSignin.hasPlayServices()
@@ -53,6 +72,13 @@ class SideMenu extends Component {
     const data = await firebase.auth().signInWithCredential(credential);
     if (data) {
       console.warn('the data is ---', JSON.stringify(data));
+      user_data = {
+        name: data.user.displayName,
+        fuid:data.user.uid,
+        email:data.user.email,
+        photo_url:data.user.photoURL
+      }
+      this.createUser(user_data);
     }
   };
   async facebookLogin() {
@@ -240,13 +266,7 @@ class SideMenu extends Component {
                <Text style={styles.sidebarText2}>Send Feedback</Text>
 
             </TouchableOpacity>
-
-
-
-
-
-            
-                       
+         
           </View>
 
         

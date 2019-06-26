@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "apisauce": "^0.14.2",
+    "firebase": "^6.2.0",
     "format-json": "^1.0.3",
     "identity-obj-proxy": "^3.0.0",
     "lodash": "^4.17.4",
+    "metro": "^0.54.1",
     "native-base": "^2.12.1",
     "prop-types": "^15.6.1",
     "querystringify": "1.0.0",

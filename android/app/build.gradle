@@ -110,7 +110,7 @@ android {
     defaultConfig {
         applicationId "com.nenebez"
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         ndk {
@@ -167,16 +167,16 @@ dependencies {
     // compile project(':react-native-vector-icons')
      implementation project(':react-native-firebase')
     compile fileTree(dir: "libs", include: ["*.jar"])
-    compile "com.android.support:appcompat-v7:23.0.1"
+    compile "com.android.support:appcompat-v7:27.0.2"
     compile "com.facebook.react:react-native:+"  // From node_modules
      implementation(project(":react-native-google-signin"))
      implementation (project(':react-native-fbsdk')) 
     //implementation "com.google.android.gms:play-services-base:15.0.1"
     implementation "com.google.android.gms:play-services-base:15.0.1"
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
-  implementation "com.google.firebase:firebase-core:15.0.2"
-  implementation "com.google.firebase:firebase-auth:16.1.0"
-  implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
+    implementation "com.google.firebase:firebase-core:15.0.2"
+    implementation "com.google.firebase:firebase-auth:16.1.0"
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
 }
 
