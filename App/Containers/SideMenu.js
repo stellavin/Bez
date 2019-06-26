@@ -10,24 +10,19 @@ import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 
 import { StackNavigator } from 'react-navigation';
 import firebase from "react-native-firebase";
+import firebase_app from "../Firebase";
+import { Left } from 'native-base';
 
-const config = {
-  
-  apiKey: "AIzaSyBuYwjuPv7MYo-wlwhNYquJVYShg1WqrZQ",
-  authDomain: "nenebez-bcaf1.firebaseapp.com",
-  databaseURL: "https://nenebez-bcaf1.firebaseio.com",
-  projectId: "nenebez-bcaf1",
-  storageBucket: "nenebez-bcaf1.appspot.com",
-  messagingSenderId: "527122886768",
-  appId: "1:527122886768:web:77e7357f7fb0f410"
-};
-firebase.initializeApp(config);
 GoogleSignin.configure({
   webClientId: '527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com', offlineAccess: true,
 });
 
 class SideMenu extends Component {
-  
+  constructor() {
+    super();
+    this.ref = firebase_app.firestore().collection('users');
+    
+  }
   navigateToScreen = (route) => () => {
     const navigateAction = NavigationActions.navigate({
       routeName: route
@@ -35,32 +30,66 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
   componentDidMount(){
-   
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.warn('user logged')
+      }
+   });
   }
 
+
   googleLogin = async () => {
-    GoogleSignin.hasPlayServices()
-  .then(() => {
+        GoogleSignin.hasPlayServices()
+        const data1 = await GoogleSignin.signIn();
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          data1.idToken
+        );
+        firebase.auth().signInWithCredential(credential)
+        .then(function (userCredential) {
+              //sign in
+              console.log(userCredential);
+              //Fetch user data from user database using fuid
+              let fuid = userCredential.user.uid;
+              var userRef = firebase_app.firestore().collection('users').doc(fuid);
+                  userRef.get().then(function(doc) {
+                      if (doc.exists) {
+                          console.log("Users first name is:", doc.data().name);
 
-      GoogleSignin.signIn()
-      .then((user) => {
-        console.warn(user);
+                          // user logged in
 
-      })
-      .catch((err) => {
-        if(err.code === 'CANCELED')
-        {
-          console.warn('glogin canceled', err.code);
-          
-        }
-        else{
-          console.warn('error is ', err);
-        }
-      });
-  }).catch(err => {
-    console.warn('Play services error', err.code, err.message);
-  });
+                      } else {
+                          // doc.data() will be undefined in this case
+                          console.log("No such document!");
+                         let fuid = userCredential.user.uid
+
+                         firebase_app.firestore().collection('users').doc(fuid).set({
+                            name: userCredential.user.displayName,
+                            uid:userCredential.user.uid,
+                            email:userCredential.user.email,
+                            photo_url:userCredential.user.photoURL
+                          
+                      })
+                      // save currentUser to localstorage
+                      console.warn('saved user')
+                      }
+                  }).catch(function(error) {
+                      console.log("Error getting document:", error);
+                  });
+
+           }).catch(function (error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              if (errorCode === 'auth/user-not-found') {
+                  //handle this
+              } else {
+                  console.error(error);
+              }
+        });
+
   };
+
+
+
   async facebookLogin() {
     try {
       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
@@ -70,7 +99,7 @@ class SideMenu extends Component {
         throw new Error('User cancelled request'); 
       }
   
-      console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+      console.log('Login success with permissions :'+ result.grantedPermissions.toString());
   
       // get the access token
       const data = await AccessToken.getCurrentAccessToken();
@@ -201,7 +230,7 @@ class SideMenu extends Component {
               />
             </TouchableOpacity>
 
-            <LoginButton
+            {/* <LoginButton
           onLoginFinished={
             (error, result) => {
               if (error) {
@@ -217,7 +246,7 @@ class SideMenu extends Component {
               }
             }
           }
-          onLogoutFinished={() => console.log("logout.")}/>
+          onLogoutFinished={() => console.log("logout.")}/> */}
 
             <TouchableOpacity 
             onPress={() => console.log('')}
@@ -246,13 +275,7 @@ class SideMenu extends Component {
                <Text style={styles.sidebarText2}>Send Feedback</Text>
 
             </TouchableOpacity>
-
-
-
-
-
-            
-                       
+         
           </View>
 
         
