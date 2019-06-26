@@ -9,9 +9,13 @@ import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 
 import { StackNavigator } from 'react-navigation';
-import firebase from "react-native-firebase";
+// import firebase from "react-native-firebase";
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 import firebase_app from "../Firebase";
 import { Left } from 'native-base';
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 GoogleSignin.configure({
   webClientId: '527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com', offlineAccess: true,
@@ -20,7 +24,11 @@ GoogleSignin.configure({
 class SideMenu extends Component {
   constructor() {
     super();
+    this.state = { 
+      showAlert: false
+     };
     this.ref = firebase_app.firestore().collection('users');
+    this.googleLogin = this.googleLogin.bind(this);
     
   }
   navigateToScreen = (route) => () => {
@@ -39,11 +47,13 @@ class SideMenu extends Component {
 
 
   googleLogin = async () => {
+    
         GoogleSignin.hasPlayServices()
         const data1 = await GoogleSignin.signIn();
         const credential = firebase.auth.GoogleAuthProvider.credential(
           data1.idToken
         );
+        this.setState({showAlert: true})
         firebase.auth().signInWithCredential(credential)
         .then(function (userCredential) {
               //sign in
@@ -51,9 +61,10 @@ class SideMenu extends Component {
               //Fetch user data from user database using fuid
               let fuid = userCredential.user.uid;
               var userRef = firebase_app.firestore().collection('users').doc(fuid);
-                  userRef.get().then(function(doc) {
+                  userRef.get().then((doc) => {
                       if (doc.exists) {
-                          console.log("Users first name is:", doc.data().name);
+                        this.setState({showAlert: false})
+                        console.log("Users first name is:", doc.data().name);
 
                           // user logged in
 
@@ -70,6 +81,7 @@ class SideMenu extends Component {
                           
                       })
                       // save currentUser to localstorage
+                      // this.setState({showAlert: false})
                       console.warn('saved user')
                       }
                   }).catch(function(error) {
@@ -87,6 +99,7 @@ class SideMenu extends Component {
         });
 
   };
+
 
 
 
@@ -120,6 +133,20 @@ class SideMenu extends Component {
       console.error(e);
     }
   }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+ 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
+
+
   render () {
     return (
       <View style={styles.container}>
@@ -281,6 +308,17 @@ class SideMenu extends Component {
         
          
         </ScrollView>
+
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
         
       </View>
     );
