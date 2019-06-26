@@ -13,6 +13,11 @@ export default StyleSheet.create({
     backgroundColor:"#FAFAFA"
     
   },
+  container2:{
+    backgroundColor:'#a4d19c',
+    flex: 1
+
+  },
   title:{
     fontFamily: "Helvetica",
     fontSize: 16,
@@ -80,6 +85,47 @@ export default StyleSheet.create({
     letterSpacing: 0,
     textAlign: "left",
     color: "#83d475"
+  },
+  alignCenter:{
+    width: screenWidth,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
+
+  },
+  text:{
+    fontFamily: "Roboto",
+    fontSize: 14,
+    fontWeight: "bold",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "center",
+    color: "#303030"
+
+  },
+  top:{
+    marginTop: screenHeight/4
+  },
+  google:{
+    height: 40,
+    backgroundColor: '#fff',
+    flexDirection: 'row'
+
+  },
+  googleText: {
+    fontFamily: "Roboto",
+    fontSize: 14,
+    fontWeight: "500",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#ffffff",
+    marginRight: 10,
+    marginLeft: 20,
+    marginTop: 10
+
   }
 })
 
