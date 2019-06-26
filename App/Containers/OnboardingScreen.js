@@ -5,11 +5,14 @@ import {
   Text,
   Button,
   TouchableOpacity,
-  StyleSheet
+  StyleSheet,
+  AsyncStorage
 } from "react-native";
 import { connect } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Swiper from "react-native-swiper";
+import firebase from "react-native-firebase";
+
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -17,6 +20,14 @@ import Swiper from "react-native-swiper";
 import styles from "./Styles/OnboardingScreenStyle";
 
 class OnboardingScreen extends Component {
+  async finishOnBoarding(){
+    try {
+      await AsyncStorage.setItem("ONBOARDING_DONE", true);
+    } catch (error) {
+      console.warn('error', error)
+    }
+  }
+
   render() {
     return (
       <Swiper
@@ -74,6 +85,7 @@ class OnboardingScreen extends Component {
           </Text>
           <TouchableOpacity 
            onPress = {()=>{
+             this.finishOnBoarding();
              this.props.navigation.navigate("HomeScreen");
            }}
           >

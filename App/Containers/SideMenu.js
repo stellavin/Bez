@@ -35,31 +35,25 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
   componentDidMount(){
-   
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.warn('user logged')
+      }
+   });
   }
 
   googleLogin = async () => {
     GoogleSignin.hasPlayServices()
-  .then(() => {
-
-      GoogleSignin.signIn()
-      .then((user) => {
-        console.warn(user);
-
-      })
-      .catch((err) => {
-        if(err.code === 'CANCELED')
-        {
-          console.warn('glogin canceled', err.code);
-          
-        }
-        else{
-          console.warn('error is ', err);
-        }
-      });
-  }).catch(err => {
-    console.warn('Play services error', err.code, err.message);
-  });
+    const data1 = await GoogleSignin.signIn();
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+      data1.idToken,
+      data1.accessToken
+    );
+    // login with credential
+    const data = await firebase.auth().signInWithCredential(credential);
+    if (data) {
+      console.warn('the data is ---', JSON.stringify(data));
+    }
   };
   async facebookLogin() {
     try {
@@ -70,7 +64,7 @@ class SideMenu extends Component {
         throw new Error('User cancelled request'); 
       }
   
-      console.log(`Login success with permissions: ${result.grantedPermissions.toString()}`);
+      console.log('Login success with permissions :'+ result.grantedPermissions.toString());
   
       // get the access token
       const data = await AccessToken.getCurrentAccessToken();
@@ -201,7 +195,7 @@ class SideMenu extends Component {
               />
             </TouchableOpacity>
 
-            <LoginButton
+            {/* <LoginButton
           onLoginFinished={
             (error, result) => {
               if (error) {
@@ -217,7 +211,7 @@ class SideMenu extends Component {
               }
             }
           }
-          onLogoutFinished={() => console.log("logout.")}/>
+          onLogoutFinished={() => console.log("logout.")}/> */}
 
             <TouchableOpacity 
             onPress={() => console.log('')}
