@@ -30,9 +30,10 @@ export default class Categories extends Component {
   }
 
   renderCategory(){
-    return this.props.categories.map((category)=>{
+    return this.props.categories.map((category, i)=>{
          return (
           <TouchableOpacity
+          key={i}
            onPress = {()=>{
             this.props.onCategoryChange(category.category)
              this.setState({selected:category.category})

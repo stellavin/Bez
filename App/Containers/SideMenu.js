@@ -37,12 +37,21 @@ class SideMenu extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   }
+  
   componentDidMount(){
-    firebase.auth().onAuthStateChanged((user) => {
+   
+  }
+
+  checkIfUserIsLoggedIn = async () => {
+   await firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        console.warn('user logged')
+        console.warn('user logged', user)
+        this.props.navigation.navigate('AddBusinessScreen', {currentUser: user});
+      }else{
+        this.props.navigation.navigate('LoginScreen');
       }
    });
+
   }
 
 
@@ -53,7 +62,7 @@ class SideMenu extends Component {
         const credential = firebase.auth.GoogleAuthProvider.credential(
           data1.idToken
         );
-        this.setState({showAlert: true})
+        // this.setState({showAlert: true})
         firebase.auth().signInWithCredential(credential)
         .then(function (userCredential) {
               //sign in
@@ -63,9 +72,9 @@ class SideMenu extends Component {
               var userRef = firebase_app.firestore().collection('users').doc(fuid);
                   userRef.get().then((doc) => {
                       if (doc.exists) {
-                        this.setState({showAlert: false})
+                        
                         console.log("Users first name is:", doc.data().name);
-
+                        // this.setState = ({showAlert: false})
                           // user logged in
 
                       } else {
@@ -170,7 +179,7 @@ class SideMenu extends Component {
             <View style={{ flex: 1,alignItems: 'center',width:'100%', marginRight: 20, marginTop: 30}}> 
                 <View style={{width: '80%'}}> 
                 <Button
-                    onPress={() => this.props.navigation.navigate('AddBusinessScreen')}
+                    onPress={() => this.checkIfUserIsLoggedIn()}
                     title="Add Your Business"
                     color="#2eb62c"
                     style={{width: 100}}

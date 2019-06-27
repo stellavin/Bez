@@ -60,6 +60,7 @@ class HomeScreen extends Component {
         </View>
 
         <BusinessCard
+          key= {1}
           name="Champion Garage"
           rating={4.2}
           source={require("../Images/sample1.png")}
@@ -67,6 +68,7 @@ class HomeScreen extends Component {
         />
 
         <BusinessCard
+        key= {2}
           style = {{marginTop:21}}
           name="Happy Eateries"
           rating={4.2}
@@ -74,6 +76,7 @@ class HomeScreen extends Component {
           navigate={this.props.navigation}
         />
         <BusinessCard
+        key= {3}
           style = {{marginTop:21}}
           name="Happy Eateries"
           rating={4.2}
@@ -81,6 +84,7 @@ class HomeScreen extends Component {
           navigate={this.props.navigation}
         />
         <BusinessCard
+        key= {4}
            style = {{marginTop:21}}
           name="Champion Garage"
           rating={4.2}
@@ -88,6 +92,7 @@ class HomeScreen extends Component {
           navigate={this.props.navigation}
         />
         <BusinessCard
+        key= {5}
            style = {{marginTop:21}}
           name="Nick's Garage"
           rating={4.2}
