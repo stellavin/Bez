@@ -1,4 +1,5 @@
 import { StackNavigator ,DrawerNavigator } from 'react-navigation'
+import SplashScreen from '../Containers/SplashScreen'
 import MyAdvertsScreen from '../Containers/MyAdvertsScreen'
 import AdvertScreen from '../Containers/AdvertScreen'
 import AddBusinessScreen from '../Containers/AddBusinessScreen'
@@ -16,6 +17,7 @@ import EditPhoto from '../Containers/Customer/Business/Edit-Photo';
 import BusinessUpdates from '../Containers/Customer/Business/Business-Updates';
 import preview from '../Containers/Customer/Business/preview';
 import SideMenu from '../Containers/SideMenu';
+import FacebookLogin from '../Containers/FacebookLogin';
 
 
 
@@ -37,6 +39,7 @@ const Drawer = DrawerNavigator ({
 
 // Manifest of possible screens
 const PrimaryNav = StackNavigator({
+  SplashScreen: { screen: SplashScreen },
   HomeScreen: {screen: Drawer},
   AddBusinessScreen: { screen: Drawer },
   AdvertScreen: { screen: Drawer },
@@ -51,11 +54,12 @@ const PrimaryNav = StackNavigator({
   ViewCustomerBusinessScreen:  {screen: ViewBusiness},
   EditPhotoScreen: {screen: EditPhoto},
   UpdateBusinessScreen: {screen: BusinessUpdates},
-  PreviewScreen: {screen: preview}
+  PreviewScreen: {screen: preview},
+  FacebookLogin: {screen: FacebookLogin}
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'OnboardingScreen',
+  initialRouteName: 'SplashScreen',
   navigationOptions: {
     headerStyle: styles.header
   }

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "527122886768",
+    "firebase_url": "https://nenebez-bcaf1.firebaseio.com",
+    "project_id": "nenebez-bcaf1",
+    "storage_bucket": "nenebez-bcaf1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:527122886768:android:523aab5629541548",
+        "android_client_info": {
+          "package_name": "com.nenebez"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "527122886768-n27ej2mvdhr8iiumblf1tfa90nmef126.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nenebez",
+            "certificate_hash": "db496c463eadf751d52cf1cfda422fc2bd72eaf1"
+          }
+        },
+        {
+          "client_id": "527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZUEEaDu0OZuvvibHqucahRefAf4bNO9M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

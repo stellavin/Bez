@@ -12,7 +12,7 @@ import InputComponent from "../Components/InputComponent";
 import Thumbnail from "../Components/Thumbnail";
 import BottomButtonFull from "../Components/BottomButtonFull";
 import AddButton from "../Components/AddButton";
-
+import firebase from "react-native-firebase";
 class AddBusinessScreen extends Component {
   render() {
     return (
@@ -33,7 +33,9 @@ class BusinessInfo extends React.Component<Props, State> {
   constructor(props) {
     super(props);
     // TODO: undo the lines
+        this.ref = firebase.firestore().collection('todos');
 
+       
     this.state = {
       driversExist: false
     };
