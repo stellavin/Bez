@@ -6,24 +6,27 @@ import Input from './Input';
 import Icon from "react-native-vector-icons/FontAwesome5";
 
 export default class Header extends Component {
-  // // Prop type warnings
-  // static propTypes = {
-  //   someProperty: PropTypes.object,
-  //   someSetting: PropTypes.bool.isRequired,
-  // }
-  //
-  // // Defaults for props
-  // static defaultProps = {
-  //   someSetting: false
-  // }
+  
 
   render () {
+    const navigation = this.props.navigation;
     return (
       <View>
 
       <View style = {styles.row}>
-        <TouchableOpacity>
-        <Icon name = 'bars' size = {17.5} color = '#000' />
+      {/* this.props.navigation.goBack() */}
+         
+        <TouchableOpacity
+        onPress={() => {
+          if(this.props.type_of_nav == 'bars'){
+            navigation.navigate("DrawerOpen");
+
+          }else {
+            navigation.goBack();
+          }
+          
+        }}>
+        <Icon name = {this.props.type_of_nav} size = {17.5} color = '#000' />
         </TouchableOpacity>
         <Image
             style={styles.logo}

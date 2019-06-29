@@ -20,14 +20,37 @@ const dummy_category_data = [
 ];
 
 class HomeScreen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state ={
+       selected:"",
+
+    }
+    console.warn(JSON.stringify(this.props.categories))
+   
+  }
+  componentDidMount(){
+    
+  }
   render() {
     return (
       <ScrollView style={styles.container}>
         <Header
           show_search={true}
+          type_of_nav={'bars'}
+          navigation = {this.props.navigation}
           placeholder="Search for a business/service..."
         />
-        <Categories categories={dummy_category_data} />
+
+        <View style={{marginTop: 15}}></View>
+
+        <View style={styles.line}></View>
+        <Categories categories={dummy_category_data}
+          onCategoryChange = {(selected)=>{
+            console.warn("The selected category is "+ selected)
+          }}
+         />
         <View style={styles.row1}>
           <Text style={styles.title}>Near You</Text>
 
@@ -40,6 +63,7 @@ class HomeScreen extends Component {
           name="Champion Garage"
           rating={4.2}
           source={require("../Images/sample1.png")}
+          navigate={this.props.navigation}
         />
 
         <BusinessCard
@@ -47,6 +71,28 @@ class HomeScreen extends Component {
           name="Happy Eateries"
           rating={4.2}
           source={require("../Images/sample2.png")}
+          navigate={this.props.navigation}
+        />
+        <BusinessCard
+          style = {{marginTop:21}}
+          name="Happy Eateries"
+          rating={4.2}
+          source={require("../Images/sample2.png")}
+          navigate={this.props.navigation}
+        />
+        <BusinessCard
+           style = {{marginTop:21}}
+          name="Champion Garage"
+          rating={4.2}
+          source={require("../Images/sample1.png")}
+          navigate={this.props.navigation}
+        />
+        <BusinessCard
+           style = {{marginTop:21}}
+          name="Nick's Garage"
+          rating={4.2}
+          source={require("../Images/sample1.png")}
+          navigate={this.props.navigation}
         />
       </ScrollView>
     );

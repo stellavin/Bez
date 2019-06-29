@@ -18,7 +18,9 @@ export default class Categories extends Component {
     super(props);
 
     this.state ={
-       categories:[]
+       categories:[],
+       selected:"",
+
     }
     console.warn(JSON.stringify(this.props.categories))
    
@@ -31,9 +33,21 @@ export default class Categories extends Component {
     return this.props.categories.map((category)=>{
          return (
           <TouchableOpacity
-            // onPress = {this.props.onPress}
+           onPress = {()=>{
+            this.props.onCategoryChange(category.category)
+             this.setState({selected:category.category})
+            
+            // console.warn("the selected is "+ category.category)
+           }}
            >
-          <Text style = {styles.cat}>{category.category}</Text>
+           <View>
+           {this.state.selected == category.category?
+            <Text style = {[styles.cat,{color:'#2EB62C'}]}>{category.category}</Text>:
+            <Text style = {styles.cat}>{category.category}</Text>
+            
+           }
+          
+          </View>
         </TouchableOpacity>
          )
     })
