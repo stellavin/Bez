@@ -3,14 +3,11 @@ package com.nenebez;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-<<<<<<< HEAD
-=======
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
->>>>>>> 2171d9bd042fea472e32de9217086e733cecb57b
 import io.invertase.firebase.RNFirebasePackage;
 // import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;

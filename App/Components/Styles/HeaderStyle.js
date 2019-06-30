@@ -9,8 +9,8 @@ export default StyleSheet.create({
     borderColor:'#000'
   },
   logo:{
-    width: 88.8, 
-    height: 14.2,
+    width: 88, 
+    height: 32,
     alignSelf:"flex-start",
     marginLeft:22 ,
     marginTop:3

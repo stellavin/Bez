@@ -3,26 +3,20 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Styles/MainStyles';
 import {NavigationActions} from 'react-navigation';
-import {ScrollView, Text, View, TouchableOpacity, Image, Button} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, Image, Button, Platform} from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 
 import { StackNavigator } from 'react-navigation';
-import firebase from "react-native-firebase";
+// import firebase from "react-native-firebase";
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 import firebase_app from "../Firebase";
+import { Left } from 'native-base';
+import AwesomeAlert from 'react-native-awesome-alerts';
 
-const config = {
-  
-  apiKey: "AIzaSyBuYwjuPv7MYo-wlwhNYquJVYShg1WqrZQ",
-  authDomain: "nenebez-bcaf1.firebaseapp.com",
-  databaseURL: "https://nenebez-bcaf1.firebaseio.com",
-  projectId: "nenebez-bcaf1",
-  storageBucket: "nenebez-bcaf1.appspot.com",
-  messagingSenderId: "527122886768",
-  appId: "1:527122886768:web:77e7357f7fb0f410"
-};
-firebase.initializeApp(config);
+
 GoogleSignin.configure({
   webClientId: '527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com', offlineAccess: true,
 });
@@ -30,7 +24,20 @@ GoogleSignin.configure({
 class SideMenu extends Component {
   constructor() {
     super();
+    this.state = { 
+      showAlert: false
+     };
+     try{
+      if (Platform.OS !== 'web') {
+        window = null
+      }
+    }catch(error){
+      console.warn(error)
+    }
     this.ref = firebase_app.firestore().collection('users');
+    this.googleLogin = this.googleLogin.bind(this);
+   
+   
     
   }
   navigateToScreen = (route) => () => {
@@ -39,48 +46,81 @@ class SideMenu extends Component {
     });
     this.props.navigation.dispatch(navigateAction);
   }
+  
   componentDidMount(){
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.warn('user logged')
-      }
-   });
-  }
-  createUser(data){
-   console.warn("the user data is "+ JSON.stringify(data));
-   try{
-    this.ref.add(data).then((docRef) => {
-      console.warn("The data is "+ docRef)
-   }).catch((error) => {
-     console.error("Error adding document: ", error);
-   });
-   }catch(e){
-      
-   }
-   
    
   }
 
-  googleLogin = async () => {
-    GoogleSignin.hasPlayServices()
-    const data1 = await GoogleSignin.signIn();
-    const credential = firebase.auth.GoogleAuthProvider.credential(
-      data1.idToken,
-      data1.accessToken
-    );
-    // login with credential
-    const data = await firebase.auth().signInWithCredential(credential);
-    if (data) {
-      console.warn('the data is ---', JSON.stringify(data));
-      user_data = {
-        name: data.user.displayName,
-        fuid:data.user.uid,
-        email:data.user.email,
-        photo_url:data.user.photoURL
+  checkIfUserIsLoggedIn = async () => {
+   await firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        console.warn('user logged', user)
+        this.props.navigation.navigate('AddBusinessScreen', {currentUser: user});
+      }else{
+        this.props.navigation.navigate('LoginScreen');
       }
-      this.createUser(user_data);
-    }
+   });
+
+  }
+
+
+  googleLogin = async () => {
+    
+        GoogleSignin.hasPlayServices()
+        const data1 = await GoogleSignin.signIn();
+        const credential = firebase.auth.GoogleAuthProvider.credential(
+          data1.idToken
+        );
+        // this.setState({showAlert: true})
+        firebase.auth().signInWithCredential(credential)
+        .then(function (userCredential) {
+              //sign in
+              console.log(userCredential);
+              //Fetch user data from user database using fuid
+              let fuid = userCredential.user.uid;
+              var userRef = firebase_app.firestore().collection('users').doc(fuid);
+                  userRef.get().then((doc) => {
+                      if (doc.exists) {
+                        
+                        console.log("Users first name is:", doc.data().name);
+                        // this.setState = ({showAlert: false})
+                          // user logged in
+
+                      } else {
+                          // doc.data() will be undefined in this case
+                          console.log("No such document!");
+                         let fuid = userCredential.user.uid
+
+                         firebase_app.firestore().collection('users').doc(fuid).set({
+                            name: userCredential.user.displayName,
+                            uid:userCredential.user.uid,
+                            email:userCredential.user.email,
+                            photo_url:userCredential.user.photoURL
+                          
+                      })
+                      // save currentUser to localstorage
+                      // this.setState({showAlert: false})
+                      console.warn('saved user')
+                      }
+                  }).catch(function(error) {
+                      console.log("Error getting document:", error);
+                  });
+
+           }).catch(function (error) {
+              // Handle Errors here.
+              var errorCode = error.code;
+              if (errorCode === 'auth/user-not-found') {
+                  //handle this
+              } else {
+                  console.error(error);
+              }
+        });
+
   };
+
+
+
+
   async facebookLogin() {
     try {
       const result = await LoginManager.logInWithReadPermissions(['public_profile', 'email']);
@@ -111,6 +151,20 @@ class SideMenu extends Component {
       console.error(e);
     }
   }
+
+  showAlert = () => {
+    this.setState({
+      showAlert: true
+    });
+  };
+ 
+  hideAlert = () => {
+    this.setState({
+      showAlert: false
+    });
+  };
+
+
   render () {
     return (
       <View style={styles.container}>
@@ -134,7 +188,7 @@ class SideMenu extends Component {
             <View style={{ flex: 1,alignItems: 'center',width:'100%', marginRight: 20, marginTop: 30}}> 
                 <View style={{width: '80%'}}> 
                 <Button
-                    onPress={() => this.props.navigation.navigate('AddBusinessScreen')}
+                    onPress={() => this.checkIfUserIsLoggedIn()}
                     title="Add Your Business"
                     color="#2eb62c"
                     style={{width: 100}}
@@ -272,6 +326,17 @@ class SideMenu extends Component {
         
          
         </ScrollView>
+
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
         
       </View>
     );

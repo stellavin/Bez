@@ -33,7 +33,7 @@ class SplashScreen extends Component {
   
   async checkOnBoarding(){
     try {
-     let onboarding_done =  await AsyncStorage.getItem("ONBOARDING_DONE", true);
+     let onboarding_done =  await AsyncStorage.getItem("ONBOARDING_DONE");
       if(onboarding_done){
           this.props.navigation.navigate("HomeScreen")          
       }else{

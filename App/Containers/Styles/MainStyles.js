@@ -12,6 +12,11 @@ export default StyleSheet.create({
     backgroundColor:'#FAFAFA',
     flex: 1
   },
+  container2:{
+    backgroundColor:'#83d475',
+    flex: 1
+
+  },
   header1: {
     fontFamily: "Helvetica",
     fontSize: 16,
@@ -413,6 +418,7 @@ sidebarText2:{
   letterSpacing: 0,
   textAlign: "left",
   color: "#b5b5b5"
+ 
 }
 
 
