@@ -14,6 +14,7 @@ import io.invertase.firebase.RNFirebasePackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.facebook.soloader.SoLoader;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage; // <-- Add this line
 
@@ -42,7 +43,8 @@ public class MainApplication extends Application implements ReactApplication {
             new RNGoogleSigninPackage(),
             new RNFirebasePackage(),
             new RNFirebaseAuthPackage(),
-            new MapsPackage()
+            new MapsPackage(),
+            new ImagePickerPackage()
             // new VectorIconsPackage()
       );
     }

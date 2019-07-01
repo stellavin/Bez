@@ -12,7 +12,25 @@ import BottomButtonFull from "../Components/BottomButtonFull";
 import AddButton from "../Components/AddButton";
 import firebase from "react-native-firebase";
 import HeaderTabs from "../Components/HeaderTabs";
+import firebase_app from "../Firebase";
 import MapView from "react-native-maps";
+import ImagePicker from "react-native-image-picker";
+
+export interface Props {
+  navigation: any;
+  list: any;
+}
+export interface State {}
+
+const options = {
+  title: "Take Photo",
+  quality: 0.1,
+  storageOptions: {
+    skipBackup: true,
+    initialLoader: false,
+    path: "images"
+  }
+};
 
 const screenWidth = Dimensions.get('window').width;
 
@@ -153,6 +171,53 @@ class BusinessInfo extends React.Component<Props, State> {
     this.props.pos
   }
 
+  pickItem(name, category, index){
+    console.warn('item---', name, category)
+    ImagePicker.launchCamera(options, response => {
+      if(response.uri != undefined){
+      const source = { uri: response.uri };
+      console.warn("url----",source )
+      this.saveToFirebase(name,category,source, index)
+    }else{
+      
+    }
+    });
+  }
+
+  saveToFirebase(name,category,source, index){
+    this.setState({initialLoader: true})
+    this.firebaseFunction(
+      source,
+      name,
+      "DP_attachments",
+      index
+    );
+   
+  }
+
+  firebaseFunction(uri, imageName, folderName, index) {
+    firebase_app
+      .storage()
+      .ref(folderName)
+      .child(imageName).putFile(uri.uri, { contentType: "image/jpg" })
+      .then(url => {
+        // URL of the image uploaded on Firebase storage
+        console.warn(JSON.stringify(url.downloadURL));
+        console.log('image',JSON.stringify(url.downloadURL));
+        const src = uri
+        const name = imageName
+        const firebase_uri = url.downloadURL;
+        console.warn('url---', firebase_uri)
+        // this._updateAttachments(src,firebase_uri, index)
+        // this._updateImageObject (firebase_uri, name) 
+        
+      })
+      .catch(error => {
+        // this.setState({ showLoading: false });
+        console.log(error);
+      });
+  }
+
  
 
   handleChange =(itemValue, itemIndex) => {
@@ -239,7 +304,10 @@ class BusinessInfo extends React.Component<Props, State> {
           
 
           <Text style={styles.bus_thumb}>Business Thumbnail</Text>
-          <TouchableOpacity>
+          <TouchableOpacity
+          onPress={this.pickItem('Thumbnail')}
+          
+          >
               <Thumbnail style={{ marginLeft: 22, marginTop: 8 }} />
           </TouchableOpacity>
 

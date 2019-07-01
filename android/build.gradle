@@ -2,7 +2,7 @@
 
 buildscript {
     ext {
-         buildToolsVersion = "23.0.1"
+         buildToolsVersion = "27.0.3"
         minSdkVersion = 16
         compileSdkVersion = 28
         targetSdkVersion = 23
@@ -15,7 +15,7 @@ buildscript {
     }
     dependencies {
         // classpath 'com.android.tools.build:gradle:3.3.1'
-      classpath 'com.android.tools.build:gradle:3.1.2'
+      classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'com.google.gms:google-services:3.2.1'
 
         // classpath 'com.google.gms:google-services:4.0.1'
@@ -47,6 +47,15 @@ allprojects {
       jcenter()
         
 
+    }
+}
+subprojects {project ->
+    if (project.name.contains('module name, e.g. react-native-image-picker')) {
+            buildscript {
+                repositories {
+                maven { url "https://dl.bintray.com/android/android-tools/"  }
+            }    
+        }
     }
 }
 
