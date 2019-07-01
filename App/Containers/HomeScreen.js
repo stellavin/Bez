@@ -60,8 +60,8 @@ class HomeScreen extends React.Component<Props, State> {
   renderBusiness =() => {
     const businesses = this.state.businesses;
 
-    if(businesses.length != undefined){
-     businesses.map((business, index) => {
+    if(businesses.length != 0){
+      return businesses.map((business, index) => {
         console.log("business---------", business );
         return (
         <BusinessCard
@@ -72,9 +72,9 @@ class HomeScreen extends React.Component<Props, State> {
             source={require("../Images/sample1.png")}
             navigate={this.props.navigation}
           />
-        )
+        );
 
-      })
+      });
 
     }else {
       return (
@@ -90,6 +90,7 @@ class HomeScreen extends React.Component<Props, State> {
 
   render() {
     const {businesses} = this.state;
+    console.log('length---',this.state.businesses.length, businesses)
     return (
       <ScrollView style={styles.container}>
         <Header
@@ -117,7 +118,7 @@ class HomeScreen extends React.Component<Props, State> {
 
 
 
-       {businesses.length != undefined?(
+       {this.state.businesses.length != 0?(
          <View>
             {this.renderBusiness()}
 
