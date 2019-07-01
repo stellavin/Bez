@@ -39,7 +39,7 @@ export default class HeaderTabs extends Component {
       </View>
       <Tabs
           initialPage={0}
-          locked={false}
+          locked={true}
           tabBarUnderlineStyle={{ backgroundColor: "#fff" }}
         >
           <Tab

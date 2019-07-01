@@ -13,6 +13,8 @@ import BusinessCard from "../Components/BusinessCard";
 import firebase from "react-native-firebase";
 import firebase_app from "../Firebase";
 import AwesomeAlert from 'react-native-awesome-alerts';
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 
 
 const dummy_category_data = [
@@ -39,7 +41,7 @@ class HomeScreen extends React.Component<Props, State> {
     
   }
    
-  componentDidMount(){
+  componentWillMount(){
     this.fetchBusiness()
   
   }
