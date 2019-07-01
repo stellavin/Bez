@@ -3,6 +3,7 @@ package com.nenebez;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
@@ -14,7 +15,7 @@ import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
- import io.invertase.firebase.auth.RNFirebaseAuthPackage; // <-- Add this line
+import io.invertase.firebase.auth.RNFirebaseAuthPackage; // <-- Add this line
 
 
 import java.util.Arrays;
@@ -40,7 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
             new FBSDKPackage(mCallbackManager),
             new RNGoogleSigninPackage(),
             new RNFirebasePackage(),
-            new RNFirebaseAuthPackage()
+            new RNFirebaseAuthPackage(),
+            new MapsPackage()
             // new VectorIconsPackage()
       );
     }

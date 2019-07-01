@@ -171,9 +171,10 @@ dependencies {
     compile "com.facebook.react:react-native:+"  // From node_modules
      implementation(project(":react-native-google-signin"))
      implementation (project(':react-native-fbsdk')) 
+    implementation project(':react-native-maps')
     //implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation 'com.google.android.gms:play-services-auth:15.0.1'
+    implementation "com.google.android.gms:play-services-base:16.1.0"
+     implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation "com.google.firebase:firebase-core:15.0.2"
     implementation "com.google.firebase:firebase-auth:16.1.0"
     implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
@@ -186,4 +187,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
 apply plugin: 'com.google.gms.google-services'

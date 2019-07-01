@@ -22,7 +22,7 @@ import styles from "./Styles/OnboardingScreenStyle";
 class OnboardingScreen extends Component {
   async finishOnBoarding(){
     try {
-      await AsyncStorage.setItem("ONBOARDING_DONE", true);
+      await AsyncStorage.setItem("ONBOARDING_DONE", 'true');
     } catch (error) {
       console.warn('error', error)
     }

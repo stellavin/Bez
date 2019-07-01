@@ -2,7 +2,10 @@
     package="com.nenebez">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+<uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -10,7 +13,14 @@
       android:icon="@mipmap/ic_launcher"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
-      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+
+      <meta-data
+     android:name="com.google.android.geo.API_KEY"
+     android:value="AIzaSyAZUEEaDu0OZuvvibHqucahRefAf4bNO9M"/>
+
+      <meta-data 
+      android:name="com.facebook.sdk.ApplicationId" 
+      android:value="@string/facebook_app_id"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
