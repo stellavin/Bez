@@ -35,6 +35,8 @@ const options = {
     }
   };
 
+  
+
 
 class BusinessInfo extends React.Component{
   
@@ -42,23 +44,39 @@ class BusinessInfo extends React.Component{
       driversExist: false,
       picker_items: [
         {
-          id: 'item',
-          name: 'item'
+          id: 'Hotel',
+          name: 'Hotel'
         },
         {
-          id: 'item 1',
-          name: 'item 1'
-        }
+          id: 'Hospital',
+          name: 'Hospital'
+        },
+        {
+            id: 'Salon',
+            name: 'Salon'
+          },
+          {
+            id: 'Clothing',
+            name: 'Clothing'
+          },
+          {
+            id: 'Garage',
+            name: 'Garage'
+          }
       ],
       picker_items2: [
         {
-          id: 'item 3',
-          name: 'item 3'
+          id: 'Menu',
+          name: 'Menu'
         },
         {
-          id: 'item 6',
-          name: 'item 6'
-        }
+          id: 'Services',
+          name: 'Services'
+        },
+        {
+            id: 'Products',
+            name: 'Products'
+          }
       ],
       type:"",
       category: "",

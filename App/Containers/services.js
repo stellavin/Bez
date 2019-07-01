@@ -37,7 +37,10 @@ const options = {
 
 const screenWidth = Dimensions.get('window').width;
 
-class AddServicesScreen extends React.Component<Props, State> {
+
+
+class AddServicesScreen extends React.Component {
+
     constructor(props) {
       super(props);
       // TODO: undo the lines
