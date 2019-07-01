@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, Picker, PermissionsAndroid, Dimensions, TouchableOpacity} from "react-native";
+import { ScrollView, Text, View, Picker, PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -15,6 +15,7 @@ import HeaderTabs from "../Components/HeaderTabs";
 import firebase_app from "../Firebase";
 import MapView from "react-native-maps";
 import ImagePicker from "react-native-image-picker";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 export interface Props {
   navigation: any;
@@ -23,7 +24,7 @@ export interface Props {
 export interface State {}
 
 const options = {
-  title: "Take Photo",
+  title: "Select Photo",
   quality: 0.1,
   storageOptions: {
     skipBackup: true,
@@ -57,6 +58,7 @@ class AddBusinessScreen extends React.Component {
   }
 
   componentWillMount(){
+    console.log('current user------id----', this.params.currentUser.uid)
     this.requestAccess();  
   }
 
@@ -122,7 +124,7 @@ requestAccess = async () => {
           sub_title1="Business Info"
           sub_title2="Services"
           navigation = {this.props.navigation}
-          tab1={<BusinessInfo navigation={this.props.navigation} pos= {this.state.pos}  />}
+          tab1={<BusinessInfo navigation={this.props.navigation} pos= {this.state.pos} currentUser={this.params.currentUser} />}
           tab2={<ServicesInfo navigation={this.props.navigation} />}
         />
       </View>
@@ -163,7 +165,19 @@ class BusinessInfo extends React.Component<Props, State> {
       longitude:"",
       error:"",
       latitudeDelta:"",
-      longitudeDelta:""
+      longitudeDelta:"",
+
+      thumbnail_uri:"",
+      thumbnail_src:"",
+
+      biz_cover_photo_1_src: "",
+      biz_cover_photo_1_uri: "",
+
+      biz_cover_photo_2_src: "",
+      biz_cover_photo_2_uri: "",
+
+      biz_cover_photo_3_src: "",
+      biz_cover_photo_3_uri: "",
     };
   }
 
@@ -172,13 +186,33 @@ class BusinessInfo extends React.Component<Props, State> {
   }
 
   pickItem(name, category, index){
+    console.log('clicked')
     console.warn('item---', name, category)
-    ImagePicker.launchCamera(options, response => {
+    ImagePicker.showImagePicker(options, response => {
+      console.log('options------', options)
+      console.log('response------', response)
       if(response.uri != undefined){
       const source = { uri: response.uri };
+     
+      if(name == "Thumbnail"){
+        this.setState({thumbnail_src: response.uri });
+      }else if (name == "biz_cover_photo_1") {
+        this.setState({biz_cover_photo_1_src: response.uri });
+
+      }else if (name == "biz_cover_photo_2") {
+        this.setState({biz_cover_photo_2_src: response.uri });
+
+      }else if (name == "biz_cover_photo_3") {
+        this.setState({biz_cover_photo_3_src: response.uri });
+
+      }
       console.warn("url----",source )
+      console.warn("url---000----",this.state.thumbnail_src )
+
       this.saveToFirebase(name,category,source, index)
-    }else{
+    }
+    else{
+      console.log('error')
       
     }
     });
@@ -189,14 +223,14 @@ class BusinessInfo extends React.Component<Props, State> {
     this.firebaseFunction(
       source,
       name,
-      "DP_attachments",
+      "Business_images",
       index
     );
    
   }
 
   firebaseFunction(uri, imageName, folderName, index) {
-    firebase_app
+    firebase
       .storage()
       .ref(folderName)
       .child(imageName).putFile(uri.uri, { contentType: "image/jpg" })
@@ -207,9 +241,24 @@ class BusinessInfo extends React.Component<Props, State> {
         const src = uri
         const name = imageName
         const firebase_uri = url.downloadURL;
-        console.warn('url---', firebase_uri)
-        // this._updateAttachments(src,firebase_uri, index)
-        // this._updateImageObject (firebase_uri, name) 
+        console.warn('firebase url---', firebase_uri)
+        
+        if(imageName == "Thumbnail"){
+          this.setState({thumbnail_uri: firebase_uri })
+          console.log('thumnanil', firebase_uri)
+        }else if (imageName == "biz_cover_photo_1") {
+          this.setState({biz_cover_photo_1_uri: firebase_uri })
+          console.log('biz_cover_photo_1_src', firebase_uri)
+
+        }else if (imageName == "biz_cover_photo_2") {
+          this.setState({biz_cover_photo_2_uri: firebase_uri })
+          console.log('biz_cover_photo_2_src', firebase_uri)
+
+        }else if (imageName == "biz_cover_photo_3") {
+          this.setState({biz_cover_photo_3_uri: firebase_uri })
+          console.log('biz_cover_photo_3_src', firebase_uri)
+
+        }
         
       })
       .catch(error => {
@@ -217,6 +266,46 @@ class BusinessInfo extends React.Component<Props, State> {
         console.log(error);
       });
   }
+
+  CreateBusiness = () => {
+    
+    if(
+      this.state.type != "" &&
+      this.state.category != "" &&
+      this.state.business_name != "" &&
+      this.state.phone_number != "" &&
+      this.state.thumbnail_uri != "" &&
+      this.state.biz_cover_photo_1_uri != "" &&
+      this.state.biz_cover_photo_2_uri != "" &&
+      this.state.biz_cover_photo_3_uri != ""
+    ){
+
+      // save to firebase
+      
+      firebase_app.firestore().collection('customer-businesses').doc().set({
+        user_uid:this.props.currentUser.uid,
+        business_name:this.state.business_name,
+        business_type:this.state.type,
+        business_category:this.state.category,
+        phone_number: this.state.phone_number,
+        location:this.props.pos,
+        business_thumbnail: this.state.biz_cover_photo_1_uri,
+        business_cover_photos: [this.state.biz_cover_photo_2_uri, this.state.biz_cover_photo_3_uri]
+      
+      }).then((doc) => {  // fetch the doc again and show its data
+            console.log("Business----data---",doc)  // prints {id: "the unique id"}
+        
+    })
+
+
+
+    }else {
+      console.log('Fill in all the fields')
+    }
+
+  }
+  
+  
 
  
 
@@ -241,7 +330,7 @@ class BusinessInfo extends React.Component<Props, State> {
 
  
   render() {
-    const {picker_items, picker_items2} = this.state;
+    const {picker_items, picker_items2, thumbnail_src, biz_cover_photo_1_src, biz_cover_photo_2_src, biz_cover_photo_3_src} = this.state;
     console.log('pos---00000----', this.props.pos)
     return (
       <View style={styles.container}>
@@ -301,17 +390,24 @@ class BusinessInfo extends React.Component<Props, State> {
           null
           }
           
-          
-
           <Text style={styles.bus_thumb}>Business Thumbnail</Text>
-          <TouchableOpacity
-          onPress={this.pickItem('Thumbnail')}
+
+
+          {thumbnail_src != ""?(
+            <Image 
+            source={{uri: thumbnail_src}}
+            style={{width: 100, height: 100, marginLeft: 22, marginTop: 8}}
+            />
+
+              ):
+              <TouchableOpacity
+                onPress={() => {this.pickItem('Thumbnail', 'Thumbnail')}}
+                style={{ marginLeft: 22, marginTop: 8}}
+              >
+                <Icon name="image" size={80}  />
+              </TouchableOpacity>
+              }
           
-          >
-              <Thumbnail style={{ marginLeft: 22, marginTop: 8 }} />
-          </TouchableOpacity>
-
-
           <Text style={styles.bus_thumb}>Business cover photos (3 only)</Text>
 
           <View
@@ -321,28 +417,57 @@ class BusinessInfo extends React.Component<Props, State> {
               marginBottom: 60
             }}
           >
-            <TouchableOpacity>
-               <Thumbnail style={{ marginTop: 8 }} />
+            {biz_cover_photo_1_src != ""?(
+            <Image 
+            source={{uri: biz_cover_photo_1_src}}
+            style={{width: 100, height: 100, marginTop: 8}}
+            />
 
-            </TouchableOpacity>
-            
+              ):
+              <TouchableOpacity
+                onPress={() => {this.pickItem('biz_cover_photo_1', 'biz_cover_photo_1')}}
+                style={{ marginLeft: 22, marginTop: 8}}
+              >
+                <Icon name="image" size={80}  />
+              </TouchableOpacity>
+              }
 
-            <TouchableOpacity>
-                <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
-              
-            </TouchableOpacity>
+            {biz_cover_photo_2_src != ""?(
+              <Image 
+              source={{uri: biz_cover_photo_2_src}}
+              style={{width: 100, height: 100,marginLeft: 14, marginTop: 8}}
+              />
 
-            <TouchableOpacity>
-             <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
-              
+                ):
+                <TouchableOpacity
+                  onPress={() => {this.pickItem('biz_cover_photo_2', 'biz_cover_photo_2')}}
+                  style={{ marginLeft: 22, marginTop: 8}}
+                >
+                  <Icon name="image" size={80}  />
+                </TouchableOpacity>
+                }
+
+
+        {biz_cover_photo_3_src != ""?(
+          <Image 
+          source={{uri: biz_cover_photo_3_src}}
+          style={{width: 100, height: 100,marginLeft: 14, marginTop: 8}}
+          />
+
+            ):
+            <TouchableOpacity
+              onPress={() => {this.pickItem('biz_cover_photo_3', 'biz_cover_photo_3')}}
+              style={{ marginLeft: 22, marginTop: 8}}
+            >
+              <Icon name="image" size={80}  />
             </TouchableOpacity>
+      }
             
-            
-           
           </View>
 
           <BottomButtonFull
             navigation={this.props.navigation}
+            performAnAction= {this.CreateBusiness()}
             goToPreview = {false}
             name="Continue"
            
