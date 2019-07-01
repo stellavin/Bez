@@ -52,7 +52,7 @@ class HomeScreen extends React.Component<Props, State> {
           console.log(doc._document.data.toString())
           data.push(doc.data());
         });
-        this.setState({business: data})
+        this.setState({businesses: data})
         console.log('data-------', data)
     });
   }
