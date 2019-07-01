@@ -52,7 +52,7 @@ class HomeScreen extends React.Component<Props, State> {
           console.log(doc._document.data.toString())
           data.push(doc.data());
         });
-        this.setState({business: data})
+        this.setState({businesses: data})
         console.log('data-------', data)
     });
   }
@@ -68,8 +68,9 @@ class HomeScreen extends React.Component<Props, State> {
             key={index}
             name= {business.business_name}
             rating={4.2}
-            // source={this.business.business_thumbnail}
-            source={require("../Images/sample1.png")}
+            style={{marginBottom: 20}}
+            source={business.business_thumbnail}
+            // source={require("../Images/sample1.png")}
             navigate={this.props.navigation}
           />
         );
