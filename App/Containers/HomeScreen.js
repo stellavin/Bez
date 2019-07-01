@@ -12,6 +12,8 @@ import Categories from "../Components/Categories";
 import BusinessCard from "../Components/BusinessCard";
 import firebase from "react-native-firebase";
 import firebase_app from "../Firebase";
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 const dummy_category_data = [
   { category: "Restaurants" },
@@ -27,7 +29,8 @@ class HomeScreen extends React.Component<Props, State> {
 
     this.state ={
        selected:"",
-       businesses:[]
+       businesses:[],
+       showAlert: true
 
     }
 
@@ -52,8 +55,9 @@ class HomeScreen extends React.Component<Props, State> {
           console.log(doc._document.data.toString())
           data.push(doc.data());
         });
-        this.setState({businesses: data})
+        this.setState({businesses: data, showAlert: false})
         console.log('data-------', data)
+
     });
   }
 
@@ -93,7 +97,8 @@ class HomeScreen extends React.Component<Props, State> {
     const {businesses} = this.state;
     console.log('length---',this.state.businesses.length, businesses)
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
+      <ScrollView >
         <Header
           show_search={true}
           type_of_nav={'bars'}
@@ -127,11 +132,22 @@ class HomeScreen extends React.Component<Props, State> {
 
         ):
         <View>
-          <Text>Loading data ....</Text>
+          {/* <Text style={{marginLeft: 22, marginTop: 8}}>Loading data ....</Text> */}
         </View>}
 
         
       </ScrollView>
+      <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="Loading Businesses..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
+      </View>
     );
   }
 }

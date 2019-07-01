@@ -16,6 +16,8 @@ import firebase_app from "../Firebase";
 import MapView from "react-native-maps";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
+import AwesomeAlert from 'react-native-awesome-alerts';
+
 
 export interface Props {
   navigation: any;
@@ -178,6 +180,8 @@ class BusinessInfo extends React.Component<Props, State> {
 
       biz_cover_photo_3_src: "",
       biz_cover_photo_3_uri: "",
+
+      showAlert: false
     };
   }
 
@@ -196,20 +200,33 @@ class BusinessInfo extends React.Component<Props, State> {
      
       if(name == "Thumbnail"){
         this.setState({thumbnail_src: response.uri });
-      }else if (name == "biz_cover_photo_1") {
-        this.setState({biz_cover_photo_1_src: response.uri });
-
-      }else if (name == "biz_cover_photo_2") {
-        this.setState({biz_cover_photo_2_src: response.uri });
-
-      }else if (name == "biz_cover_photo_3") {
-        this.setState({biz_cover_photo_3_src: response.uri });
-
-      }
-      console.warn("url----",source )
+        console.warn("url----",source )
       console.warn("url---000----",this.state.thumbnail_src )
 
       this.saveToFirebase(name,category,source, index)
+      }else if (name == "biz_cover_photo_1") {
+        this.setState({biz_cover_photo_1_src: response.uri });
+        console.warn("url----",source )
+      console.warn("url---000----",this.state.thumbnail_src )
+
+      this.saveToFirebase(name,category,source, index)
+
+      }else if (name == "biz_cover_photo_2") {
+        this.setState({biz_cover_photo_2_src: response.uri });
+        console.warn("url----",source )
+      console.warn("url---000----",this.state.thumbnail_src )
+
+      this.saveToFirebase(name,category,source, index)
+
+      }else if (name == "biz_cover_photo_3") {
+        this.setState({biz_cover_photo_3_src: response.uri });
+        console.warn("url----",source )
+      console.warn("url---000----",this.state.thumbnail_src )
+
+      this.saveToFirebase(name,category,source, index)
+
+      }
+      
     }
     else{
       console.log('error')
@@ -219,7 +236,7 @@ class BusinessInfo extends React.Component<Props, State> {
   }
 
   saveToFirebase(name,category,source, index){
-    this.setState({initialLoader: true})
+    this.setState({showAlert: true})
     this.firebaseFunction(
       source,
       name,
@@ -246,17 +263,21 @@ class BusinessInfo extends React.Component<Props, State> {
         if(imageName == "Thumbnail"){
           this.setState({thumbnail_uri: firebase_uri })
           console.log('thumnanil', firebase_uri)
+          this.setState({showAlert: false})
         }else if (imageName == "biz_cover_photo_1") {
           this.setState({biz_cover_photo_1_uri: firebase_uri })
           console.log('biz_cover_photo_1_src', firebase_uri)
+          this.setState({showAlert: false})
 
         }else if (imageName == "biz_cover_photo_2") {
           this.setState({biz_cover_photo_2_uri: firebase_uri })
           console.log('biz_cover_photo_2_src', firebase_uri)
+          this.setState({showAlert: false})
 
         }else if (imageName == "biz_cover_photo_3") {
           this.setState({biz_cover_photo_3_uri: firebase_uri })
           console.log('biz_cover_photo_3_src', firebase_uri)
+          this.setState({showAlert: false})
 
         }
         
@@ -473,6 +494,17 @@ class BusinessInfo extends React.Component<Props, State> {
            
           />
         </ScrollView>
+
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
       </View>
     );
   }
