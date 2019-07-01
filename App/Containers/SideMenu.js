@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Styles/MainStyles';
 import {NavigationActions} from 'react-navigation';
-import {ScrollView, Text, View, TouchableOpacity, Image, Button} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, Image, Button, Platform, AsyncStorage} from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
@@ -22,13 +22,26 @@ GoogleSignin.configure({
 });
 
 class SideMenu extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.state = {
+      fuid:""
+    }
+    
     this.state = { 
       showAlert: false
      };
+     try{
+      if (Platform.OS !== 'web') {
+        window = null
+      }
+    }catch(error){
+      console.warn(error)
+    }
     this.ref = firebase_app.firestore().collection('users');
     this.googleLogin = this.googleLogin.bind(this);
+   
+   
     
   }
   navigateToScreen = (route) => () => {
@@ -38,7 +51,28 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
   
-  componentDidMount() { window = undefined; let db = firebase.firestore();}
+  componentDidMount(){
+    this.getFuid();
+  }
+  saveFuid(fuid){
+    try{
+      AsyncStorage.setItem("FUID", fuid);
+    }catch(e){
+
+    }
+  }
+  async getFuid(){
+    try{
+   let fuid = await AsyncStorage.getItem("FUID");
+   if(fuid){
+     this.setState({
+       fuid:fuid
+     })
+   }
+    }catch(e){
+
+    }
+  }
 
   checkIfUserIsLoggedIn = async () => {
    await firebase.auth().onAuthStateChanged((user) => {
@@ -61,12 +95,17 @@ class SideMenu extends Component {
           data1.idToken
         );
         // this.setState({showAlert: true})
+       let  self = this;
         firebase.auth().signInWithCredential(credential)
         .then(function (userCredential) {
               //sign in
               console.log(userCredential);
               //Fetch user data from user database using fuid
               let fuid = userCredential.user.uid;
+              self.setState({
+                fuid:fuid
+              })
+              self.saveFuid(fuid)
               var userRef = firebase_app.firestore().collection('users').doc(fuid);
                   userRef.get().then((doc) => {
                       if (doc.exists) {
@@ -191,7 +230,15 @@ class SideMenu extends Component {
                 <View style={{ flex: 1,alignItems: 'center',width:'100%', marginRight: 20, marginTop: 30}}> 
                 <View style={{width: '80%'}}> 
                 <Button
-                    onPress={() => this.props.navigation.navigate('AdvertScreen')}
+                    onPress={() =>{
+                      if(this.state.fuid){
+                        this.props.navigation.navigate('AdvertScreen',{fuid:this.state.fuid});
+
+                      }else{
+                        alert("You need to be logged in before you can proceed")
+                      }
+                      
+                       }}
                     title="Create Advert"
                     color="#2f2e41"
                     style={{width: 100}}
@@ -236,7 +283,13 @@ class SideMenu extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('MyAdvertsScreen')}
+            onPress={() => {
+              if(this.state.fuid){
+                this.props.navigation.navigate('MyAdvertsScreen',{fuid:this.state.fuid})
+              }else{
+                alert("You need to be logged in before you can proceed")
+              }
+            }}
             style={{flexDirection: 'row',  marginTop: 26}}>
                 <Icon name = 'circle' size = {20.5} color = '#000' />
                <Text style={styles.sidebarText}>My Adverts</Text>

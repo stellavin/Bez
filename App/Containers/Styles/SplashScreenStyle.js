@@ -9,7 +9,7 @@ export default StyleSheet.create({
     justifyContent:'center'
   },
   splash_image:{
-    width:180,
-    height:32
+    width:188,
+    height:68
   }
 })
