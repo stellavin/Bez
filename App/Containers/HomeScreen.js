@@ -10,6 +10,8 @@ import Header from "../Components/Header";
 import FullButton from "../Components/FullButton";
 import Categories from "../Components/Categories";
 import BusinessCard from "../Components/BusinessCard";
+import firebase from "react-native-firebase";
+import firebase_app from "../Firebase";
 
 const dummy_category_data = [
   { category: "Restaurants" },
@@ -19,21 +21,75 @@ const dummy_category_data = [
   { category: "Supermarket" }
 ];
 
-class HomeScreen extends Component {
+class HomeScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
 
     this.state ={
        selected:"",
+       businesses:[]
 
     }
+
     console.warn(JSON.stringify(this.props.categories))
-   
-  }
-  componentDidMount(){
+
     
   }
+   
+  componentDidMount(){
+    this.fetchBusiness()
+  
+  }
+
+  fetchBusiness(){
+    firebase_app.firestore().collection('customer-businesses')
+    .get()
+    .then(snapshot => {
+      var data = [];
+      snapshot
+        .docs
+        .forEach(doc => {
+          console.log(doc._document.data.toString())
+          data.push(doc.data());
+        });
+        this.setState({business: data})
+        console.log('data-------', data)
+    });
+  }
+
+  renderBusiness =() => {
+    const businesses = this.state.businesses;
+
+    if(businesses.length != undefined){
+     businesses.map((business, index) => {
+        console.log("business---------", business );
+        return (
+        <BusinessCard
+            key={index}
+            name= {business.business_name}
+            rating={4.2}
+            // source={this.business.business_thumbnail}
+            source={require("../Images/sample1.png")}
+            navigate={this.props.navigation}
+          />
+        )
+
+      })
+
+    }else {
+      return (
+          <Text>No Items</Text>
+      )
+
+      
+    }
+
+  }
+
+
+
   render() {
+    const {businesses} = this.state;
     return (
       <ScrollView style={styles.container}>
         <Header
@@ -59,46 +115,20 @@ class HomeScreen extends Component {
           </View>
         </View>
 
-        <BusinessCard
-          key= {1}
-          name="Champion Garage"
-          rating={4.2}
-          source={require("../Images/sample1.png")}
-          navigate={this.props.navigation}
-        />
 
-        <BusinessCard
-        key= {2}
-          style = {{marginTop:21}}
-          name="Happy Eateries"
-          rating={4.2}
-          source={require("../Images/sample2.png")}
-          navigate={this.props.navigation}
-        />
-        <BusinessCard
-        key= {3}
-          style = {{marginTop:21}}
-          name="Happy Eateries"
-          rating={4.2}
-          source={require("../Images/sample2.png")}
-          navigate={this.props.navigation}
-        />
-        <BusinessCard
-        key= {4}
-           style = {{marginTop:21}}
-          name="Champion Garage"
-          rating={4.2}
-          source={require("../Images/sample1.png")}
-          navigate={this.props.navigation}
-        />
-        <BusinessCard
-        key= {5}
-           style = {{marginTop:21}}
-          name="Nick's Garage"
-          rating={4.2}
-          source={require("../Images/sample1.png")}
-          navigate={this.props.navigation}
-        />
+
+       {businesses.length != undefined?(
+         <View>
+            {this.renderBusiness()}
+
+         </View>
+
+        ):
+        <View>
+          <Text>Loading data ....</Text>
+        </View>}
+
+        
       </ScrollView>
     );
   }

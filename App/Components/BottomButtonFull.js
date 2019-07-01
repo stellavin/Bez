@@ -24,6 +24,7 @@ export default class BottomButtonFull extends Component {
         if(this.props.goToPreview){
           navigation.navigate('PreviewScreen')
         }else{
+          this.props.performAnAction
 
         } }}
 
