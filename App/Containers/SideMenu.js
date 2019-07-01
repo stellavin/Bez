@@ -38,9 +38,7 @@ class SideMenu extends Component {
     this.props.navigation.dispatch(navigateAction);
   }
   
-  componentDidMount(){
-   
-  }
+  componentDidMount() { window = undefined; let db = firebase.firestore();}
 
   checkIfUserIsLoggedIn = async () => {
    await firebase.auth().onAuthStateChanged((user) => {
