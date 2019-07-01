@@ -16,10 +16,11 @@ class SplashScreen extends Component {
        onboarding_done:false,
 
     }
-    console.warn(JSON.stringify(this.props.categories))
+    // console.warn(JSON.stringify(this.props.categories))
    
   }
   componentDidMount(){
+    try {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         console.warn('user logged')
@@ -28,15 +29,23 @@ class SplashScreen extends Component {
         this.checkOnBoarding();
       }
    });
+  }
+  catch (error) {
+    console.warn('error', error)
+  }
    
   }
   
   async checkOnBoarding(){
+    console.log('1')
     try {
      let onboarding_done =  await AsyncStorage.getItem("ONBOARDING_DONE");
-      if(onboarding_done){
+     console.log('4', onboarding_done )
+      if(onboarding_done != null){
+        console.log('2')
           this.props.navigation.navigate("HomeScreen")          
       }else{
+        console.log('3')
         this.props.navigation.navigate("OnboardingScreen")
       }
     } catch (error) {

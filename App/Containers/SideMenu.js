@@ -41,7 +41,6 @@ class SideMenu extends Component {
     this.ref = firebase_app.firestore().collection('users');
     this.googleLogin = this.googleLogin.bind(this);
    
-   
     
   }
   navigateToScreen = (route) => () => {

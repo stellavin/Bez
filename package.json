@@ -38,6 +38,8 @@
     "react-native-firebase": "^5.5.3",
     "react-native-google-signin": "^2.0.0",
     "react-native-image-slider-show": "^1.0.3",
+    "react-native-imagepicker": "^2.0.0",
+    "react-native-maps": "^0.24.2",
     "react-native-onboarding-swiper": "^1.1.0",
     "react-native-popup-dialog": "^0.18.2",
     "react-native-star-rating": "^1.1.0",

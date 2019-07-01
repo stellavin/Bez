@@ -4,9 +4,6 @@ import { View, Text,TextInput,Picker, } from 'react-native'
 import styles from './Styles/InputComponentStyle'
 
 export default class InputComponent extends Component {
-
- 
-
   render () {
 
   

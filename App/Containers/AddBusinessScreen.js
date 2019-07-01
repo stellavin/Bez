@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, Picker } from "react-native";
+import { ScrollView, Text, View, Picker, PermissionsAndroid, Dimensions, TouchableOpacity} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -12,6 +12,28 @@ import BottomButtonFull from "../Components/BottomButtonFull";
 import AddButton from "../Components/AddButton";
 import firebase from "react-native-firebase";
 import HeaderTabs from "../Components/HeaderTabs";
+import firebase_app from "../Firebase";
+import MapView from "react-native-maps";
+import ImagePicker from "react-native-image-picker";
+
+export interface Props {
+  navigation: any;
+  list: any;
+}
+export interface State {}
+
+const options = {
+  title: "Take Photo",
+  quality: 0.1,
+  storageOptions: {
+    skipBackup: true,
+    initialLoader: false,
+    path: "images"
+  }
+};
+
+const screenWidth = Dimensions.get('window').width;
+
 
 
 class AddBusinessScreen extends React.Component {
@@ -21,6 +43,12 @@ class AddBusinessScreen extends React.Component {
     this.params = this.props.navigation.state.params;
     this.state = { 
       item:"yes-------",
+      latitude:"",
+      longitude:"",
+      error:"",
+      latitudeDelta:"",
+      longitudeDelta:"",
+      pos: []
       
 
      };
@@ -28,15 +56,60 @@ class AddBusinessScreen extends React.Component {
 
   }
 
-componentWillMount(){
-  this.toggle();
+  componentWillMount(){
+    this.requestAccess();  
+  }
 
-}
 
 
 toggle = () => {
   console.log('current user----', this.state.item)
 }
+
+requestAccess = async () => {
+  console.log('im here ---- 1')
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+      {
+        'title': 'Location permission',
+        'message': 'App needs access to your location ' +
+                   'so we can show your location.'
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+      console.log('im here ---- 2')
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("positions---->>>", position)
+          const latitude = position.coords.latitude
+            const longitude = position.coords.longitude
+          
+          let data = [
+            latitude,
+            longitude
+            
+          ]
+          this.setState({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            error: null,
+            pos: data
+          });
+                
+        },
+        (error) => this.setState({ error: error.message })
+      );
+
+    } else {
+      console.log("Location permission denied")
+    }
+  } catch (err) {
+    console.warn(err)
+  }
+}
+
+
 
 
   render() {
@@ -49,7 +122,7 @@ toggle = () => {
           sub_title1="Business Info"
           sub_title2="Services"
           navigation = {this.props.navigation}
-          tab1={<BusinessInfo navigation={this.props.navigation} />}
+          tab1={<BusinessInfo navigation={this.props.navigation} pos= {this.state.pos}  />}
           tab2={<ServicesInfo navigation={this.props.navigation} />}
         />
       </View>
@@ -85,9 +158,67 @@ class BusinessInfo extends React.Component<Props, State> {
       type:"",
       category: "",
       business_name: "",
-      phone_number:""
+      phone_number:"",
+      latitude:"",
+      longitude:"",
+      error:"",
+      latitudeDelta:"",
+      longitudeDelta:""
     };
   }
+
+  componentWillUnmount(){
+    this.props.pos
+  }
+
+  pickItem(name, category, index){
+    console.warn('item---', name, category)
+    ImagePicker.launchCamera(options, response => {
+      if(response.uri != undefined){
+      const source = { uri: response.uri };
+      console.warn("url----",source )
+      this.saveToFirebase(name,category,source, index)
+    }else{
+      
+    }
+    });
+  }
+
+  saveToFirebase(name,category,source, index){
+    this.setState({initialLoader: true})
+    this.firebaseFunction(
+      source,
+      name,
+      "DP_attachments",
+      index
+    );
+   
+  }
+
+  firebaseFunction(uri, imageName, folderName, index) {
+    firebase_app
+      .storage()
+      .ref(folderName)
+      .child(imageName).putFile(uri.uri, { contentType: "image/jpg" })
+      .then(url => {
+        // URL of the image uploaded on Firebase storage
+        console.warn(JSON.stringify(url.downloadURL));
+        console.log('image',JSON.stringify(url.downloadURL));
+        const src = uri
+        const name = imageName
+        const firebase_uri = url.downloadURL;
+        console.warn('url---', firebase_uri)
+        // this._updateAttachments(src,firebase_uri, index)
+        // this._updateImageObject (firebase_uri, name) 
+        
+      })
+      .catch(error => {
+        // this.setState({ showLoading: false });
+        console.log(error);
+      });
+  }
+
+ 
 
   handleChange =(itemValue, itemIndex) => {
     this.setState({ type: itemValue });
@@ -107,11 +238,11 @@ class BusinessInfo extends React.Component<Props, State> {
     this.setState({ phone_number: value });
     console.log('text----', value)
   }
-  
-  
+
+ 
   render() {
     const {picker_items, picker_items2} = this.state;
-    console.log('picker_items----', picker_items)
+    console.log('pos---00000----', this.props.pos)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -153,13 +284,33 @@ class BusinessInfo extends React.Component<Props, State> {
           <Text style={styles.tip1}>
             It's Recommended to be at the location of the business!
           </Text>
-          
-          <Text style={{ fontWeight: "bold", marginLeft: 22, marginTop: 22 }}>
-            TO INCLUDE MAP
-          </Text>
-          <Text style={styles.bus_thumb}>Business Thumbnail</Text>
+          {this.props.pos.length != undefined || this.props.pos.length > 0 ?(
+            <MapView
+            style={{width: 400, height: 200}}
+              initialRegion={{ // initial region set to Bileto
+                 latitude: this.props.pos[0],
+                  longitude: this.props.pos[1],
+                  latitudeDelta: 0.0922,
+                  longitudeDelta: 0.0421
+              }}
+              >
+  
+              </MapView>
 
-          <Thumbnail style={{ marginLeft: 22, marginTop: 8 }} />
+          ): 
+          null
+          }
+          
+          
+
+          <Text style={styles.bus_thumb}>Business Thumbnail</Text>
+          <TouchableOpacity
+          onPress={this.pickItem('Thumbnail')}
+          
+          >
+              <Thumbnail style={{ marginLeft: 22, marginTop: 8 }} />
+          </TouchableOpacity>
+
 
           <Text style={styles.bus_thumb}>Business cover photos (3 only)</Text>
 
@@ -170,9 +321,24 @@ class BusinessInfo extends React.Component<Props, State> {
               marginBottom: 60
             }}
           >
-            <Thumbnail style={{ marginTop: 8 }} />
-            <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
-            <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
+            <TouchableOpacity>
+               <Thumbnail style={{ marginTop: 8 }} />
+
+            </TouchableOpacity>
+            
+
+            <TouchableOpacity>
+                <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
+              
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+             <Thumbnail style={{ marginLeft: 14, marginTop: 8 }} />
+              
+            </TouchableOpacity>
+            
+            
+           
           </View>
 
           <BottomButtonFull
