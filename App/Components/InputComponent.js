@@ -56,4 +56,5 @@ export default class InputComponent extends Component {
       </View>
     )
   }
+
 }

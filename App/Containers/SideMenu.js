@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styles from './Styles/MainStyles';
 import {NavigationActions} from 'react-navigation';
-import {ScrollView, Text, View, TouchableOpacity, Image, Button} from 'react-native';
+import {ScrollView, Text, View, TouchableOpacity, Image, Button, Platform} from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { GoogleSignin } from 'react-native-google-signin';
 import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
