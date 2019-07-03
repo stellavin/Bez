@@ -125,7 +125,7 @@ class AdvertScreen extends Component {
             }
           }}
           style={{
-            position: "absolute",
+            
             width: "100%",
             bottom: 0
           }}

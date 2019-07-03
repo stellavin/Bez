@@ -62,7 +62,7 @@ import com.android.build.OutputFile
  *   // date; if you have any other folders that you want to ignore for performance reasons (gradle
  *   // indexes the entire tree), add them here. Alternatively, if you have JS files in android/
  *   // for example, you might want to remove it from here.
- *   inputExcludes: ["android/**", "ios/**"],
+ *   inputExcludes: ["android/*", "ios/*"],
  *
  *   // override which node gets called and with what additional arguments
  *   nodeExecutableAndArgs: ["node"],
@@ -175,9 +175,10 @@ dependencies {
      implementation(project(":react-native-google-signin"))
      implementation (project(':react-native-fbsdk')) 
     implementation project(':react-native-maps')
+        implementation project(':react-native-image-picker')
 
     //implementation "com.google.android.gms:play-services-base:15.0.1"
-    implementation "com.google.android.gms:play-services-base:15.0.1"
+    implementation "com.google.android.gms:play-services-base:16.1.0"
      implementation 'com.google.android.gms:play-services-auth:16.0.1'
     implementation "com.google.firebase:firebase-core:15.0.2"
     implementation "com.google.firebase:firebase-auth:16.1.0"
@@ -195,4 +196,3 @@ task copyDownloadableDepsToLibs(type: Copy) {
 
 apply plugin: 'com.google.gms.google-services'
 com.google.gms.googleservices.GoogleServicesPlugin.config.disableVersionCheck = true
-

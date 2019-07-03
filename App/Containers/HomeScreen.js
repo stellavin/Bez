@@ -40,6 +40,25 @@ class HomeScreen extends React.Component<Props, State> {
     this.fetchBusiness()
   
   }
+  getBusinessByCategory(category){
+    this.setState({businesses: []})
+    firebase_app
+      .firestore()
+      .collection("customer-businesses")
+      .where("business_category", "==", category)
+    .get()
+    .then(snapshot => {
+      var data = [];
+      snapshot
+        .docs
+        .forEach(doc => {
+          console.log(doc._document.data.toString())
+          data.push(doc.data());
+        });
+        this.setState({businesses: data})
+        console.log('data-------', data)
+    });
+  }
 
   fetchBusiness(){
     firebase_app.firestore().collection('customer-businesses')
@@ -107,6 +126,7 @@ class HomeScreen extends React.Component<Props, State> {
         <Categories categories={dummy_category_data}
           onCategoryChange = {(selected)=>{
             console.warn("The selected category is "+ selected)
+            this.getBusinessByCategory(selected);
           }}
          />
         <View style={styles.row1}>
