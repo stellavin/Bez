@@ -17,7 +17,7 @@ import MapView from "react-native-maps";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AwesomeAlert from 'react-native-awesome-alerts';
-
+import RNFetchBlob from 'react-native-fetch-blob'
 import uuid from 'react-native-uuid';
 
 // var uuid = require('react-native-uuid');
@@ -92,142 +92,30 @@ class BusinessInfo extends React.Component{
       latitudeDelta:"",
       longitudeDelta:"",
 
-      thumbnail_uri:"",
-      thumbnail_src:"",
-
-      biz_cover_photo_1_src: "",
-      biz_cover_photo_1_uri: "",
-
-      biz_cover_photo_2_src: "",
-      biz_cover_photo_2_uri: "",
-
-      biz_cover_photo_3_src: "",
-      biz_cover_photo_3_uri: "",
-
       showAlert: false,
       showSuccess: false,
       showDanger: false,
 
-      business_uuid:""
+      business_uuid:"",
+      images:[],
+      imageUrls:[],
+      thumbnail_uri:"",
+      thumbnail:[],
+      thumbnail_src:""
+
     };
 
     componentWillMount(){
       
     }
-  
 
-
-  pickItem(name, category, index){
-    ImagePicker.showImagePicker(options, response => {
-      console.log('options------', options)
-      console.log('response------', response)
-      if(response.uri != undefined){
-      const source = { uri: response.uri };
-     
-      if(name == "Thumbnail"){
-        this.setState({thumbnail_src: response.uri });
-        console.warn("url----",source )
-      console.warn("url---000----",this.state.thumbnail_src )
-
-      return this.saveToFirebase(name,category,source, index)
-      }else if (name == "biz_cover_photo_1") {
-        this.setState({biz_cover_photo_1_src: response.uri });
-        console.warn("url----",source )
-      console.warn("url---000----",this.state.thumbnail_src )
-
-      return  this.saveToFirebase(name,category,source, index)
-
-      }else if (name == "biz_cover_photo_2") {
-        this.setState({biz_cover_photo_2_src: response.uri });
-        console.warn("url----",source )
-      console.warn("url---000----",this.state.thumbnail_src )
-
-      return this.saveToFirebase(name,category,source, index)
-
-      }else if (name == "biz_cover_photo_3") {
-        this.setState({biz_cover_photo_3_src: response.uri });
-        console.warn("url----",source )
-      console.warn("url---000----",this.state.thumbnail_src )
-
-      return this.saveToFirebase(name,category,source, index)
-
-      }
-      
-    }
-    else{
-      console.log('error')
-      
-    }
-    });
-  }
-
-  saveToFirebase(name,category,source, index){
-    this.setState({showAlert: true})
-    this.firebaseFunction(
-      source,
-      name,
-      "Business_images",
-      index
-    );
-   
-  }
-
-  firebaseFunction(uri, imageName, folderName, index) {
-    firebase
-      .storage()
-      .ref(folderName)
-      .child(imageName).putFile(uri.uri, { contentType: "image/jpg" })
-      .then(url => {
-        // URL of the image uploaded on Firebase storage
-        console.warn(JSON.stringify(url.downloadURL));
-        console.log('image',JSON.stringify(url.downloadURL));
-        const src = uri
-        const name = imageName
-        const firebase_uri = url.downloadURL;
-        console.warn('firebase url---', firebase_uri)
-        
-        if(imageName == "Thumbnail"){
-          console.log('thumnanil', firebase_uri)
-          return this.setState({thumbnail_uri: firebase_uri, showAlert: false})
-        }else if (imageName == "biz_cover_photo_1") {
-          return this.setState({biz_cover_photo_1_uri: firebase_uri, showAlert: false })
-
-        }else if (imageName == "biz_cover_photo_2") {
-          return this.setState({biz_cover_photo_2_uri: firebase_uri , showAlert: false})
-          
-
-        }else if (imageName == "biz_cover_photo_3") {
-          return this.setState({biz_cover_photo_3_uri: firebase_uri, showAlert: false })
-          
-
-        }
-        
-      })
-      .catch(error => {
-        // this.setState({ showLoading: false });
-        console.log(error);
-      });
-  }
-
-
-
-  CreateBusiness = () => {
-    this.setState({showAlert: true})
+  CreateBusiness = (imageUrls,thumbnail_uri) => {
+    
     const business_uuid = uuid.v4(); 
     this.setState({business_uuid: business_uuid})
 
       console.log('business_uuid-----', business_uuid)
     
-    if(
-      this.state.type != "" ||
-      this.state.category != "" ||
-      this.state.business_name != "" ||
-      this.state.phone_number != "" ||
-      this.state.thumbnail_uri != "" ||
-      this.state.biz_cover_photo_1_uri != "" ||
-      this.state.biz_cover_photo_2_uri != "" ||
-      this.state.biz_cover_photo_3_uri != ""
-    ){
 
       // save to firebase
       
@@ -239,8 +127,8 @@ class BusinessInfo extends React.Component{
         business_category:this.state.category,
         phone_number: this.state.phone_number,
         location:this.props.pos,
-        business_thumbnail: this.state.thumbnail_uri,
-        business_cover_photos: [this.state.biz_cover_photo_1_uri,this.state.biz_cover_photo_2_uri, this.state.biz_cover_photo_3_uri]
+        business_thumbnail: thumbnail_uri[0],
+        business_cover_photos: imageUrls
       
       }).then((doc) => {  // fetch the doc again and show its data
             console.log("Business----data---",doc)  // prints {id: "the unique id"}
@@ -249,10 +137,7 @@ class BusinessInfo extends React.Component{
       
     })
       
-    }else {
-      console.log('Fill in all the fields')
-      this.setState({showDanger: true})
-    }
+    
 
   }
 
@@ -274,9 +159,6 @@ class BusinessInfo extends React.Component{
     </View>
   );
   
-  
-
- 
 
   handleChange =(itemValue, itemIndex) => {
     this.setState({ type: itemValue });
@@ -296,7 +178,132 @@ class BusinessInfo extends React.Component{
     this.setState({ phone_number: value });
     console.log('text----', value)
   }
+// new image
 
+pickItem(){
+  ImagePicker.showImagePicker(options, response => {
+    console.log('options------', options)
+    console.log('response------', response)
+    if(response.uri != undefined){
+    const source = response.uri ; 
+    const timestamp = Date.now();
+    console.log('uri----', source) 
+    this.setState(prevState => ({
+      images: [...prevState.images, {
+        name: source,
+        time: timestamp}]
+    }))
+
+    console.log('images----', this.state.images)
+    }
+    else{
+      console.log('error')
+      
+    }
+  });
+}
+
+uploadListImageMeal = () => {
+  this.setState({showAlert: true})
+  const userID = this.props.currentUser.uid;
+
+  const urls = this.state.images.map((image) => {
+    const uploadUri =image.name;
+    const time = image.time;
+    const mime = 'application/octet-stream';
+    const Blob = RNFetchBlob.polyfill.Blob;
+    const fs = RNFetchBlob.fs;
+    // let uploadBlob = null
+    const currentTime = Date.now()
+    const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+    return fs.readFile(uploadUri, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+      })
+      .then((blob) => {
+        // uploadBlob = blob
+        return imageRef.put(blob._ref, blob, { contentType: mime })
+      })
+      .then(() => {
+        // uploadBlob.close()
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        return (url)
+      })
+      .catch((error) => {
+        return host
+      })
+  })
+  return Promise.all(urls)
+  .then((imageUrls) => {
+    console.log('urls---------', imageUrls);
+    this.setState({imageUrls: imageUrls})
+    this.uploadListImageMeal2(imageUrls)
+  })
+}
+
+pickItem2(){
+  ImagePicker.showImagePicker(options, response => {
+    console.log('options------', options)
+    console.log('response------', response)
+    if(response.uri != undefined){
+    const source = response.uri ; 
+    const timestamp = Date.now();
+    console.log('uri----', source) 
+    this.setState(prevState => ({
+      thumbnail: [...prevState.thumbnail, {
+        name: source,
+        time: timestamp}], thumbnail_src: source
+    }))
+
+    console.log('images----', this.state.thumbnail)
+    }
+    else{
+      console.log('error')
+      
+    }
+  });
+}
+
+uploadListImageMeal2 = (imageUrls) => {
+  const userID = this.props.currentUser.uid;
+
+  const urls = this.state.thumbnail.map((image) => {
+    const uploadUri =image.name;
+    const time = image.time;
+    const mime = 'application/octet-stream';
+    const Blob = RNFetchBlob.polyfill.Blob;
+    const fs = RNFetchBlob.fs;
+    // let uploadBlob = null
+    const currentTime = Date.now()
+    const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+    return fs.readFile(uploadUri, 'base64')
+      .then((data) => {
+        return Blob.build(data, { type: `${mime};BASE64` })
+      })
+      .then((blob) => {
+        // uploadBlob = blob
+        return imageRef.put(blob._ref, blob, { contentType: mime })
+      })
+      .then(() => {
+        // uploadBlob.close()
+        return imageRef.getDownloadURL()
+      })
+      .then((url) => {
+        return (url)
+      })
+      .catch((error) => {
+        return host
+      })
+  })
+  return Promise.all(urls)
+  .then((thumbnail_uri) => {
+    console.log('urls---------', thumbnail_uri);
+    this.setState({thumbnail_uri: thumbnail_uri})
+    this.CreateBusiness(imageUrls,thumbnail_uri)
+  })
+}
  
   render() {
     const {picker_items, picker_items2, thumbnail_src, biz_cover_photo_1_src, biz_cover_photo_2_src, biz_cover_photo_3_src} = this.state;
@@ -365,90 +372,89 @@ class BusinessInfo extends React.Component{
           {thumbnail_src != ""?(
             <Image 
             source={{uri: thumbnail_src}}
-            style={{width: 100, height: 100, marginLeft: 22, marginTop: 8}}
+            style={{width: 73, height: 69, marginLeft: 22, marginTop: 8}}
             />
 
               ):
               <TouchableOpacity
-                onPress={() => {this.pickItem('Thumbnail', 'Thumbnail')}}
-                style={{ marginLeft: 22, marginTop: 8}}
-              >
-                <Icon name="image" size={80}  />
-              </TouchableOpacity>
+                    onPress={() => {this.pickItem2()}}
+                    style={{ 
+                      width: 73,
+                      height: 69,
+                      borderRadius: 3,
+                      marginLeft: 22,
+                      backgroundColor: "#ffffff",
+                      borderStyle: "solid",
+                      borderWidth: 1,
+                      borderColor: "#b5b5b5",
+                      alignItems:"center",
+                      marginTop: 8
+
+                    }}
+                  >
+                    <Image
+                    style={{marginTop: 20}}
+                      source={require("../Images/image_icon.png")}
+                    />
+                  </TouchableOpacity>
               }
           
           <Text style={styles.bus_thumb}>Business cover photos (3 only)</Text>
 
           <View
-            style={{
-              flexDirection: "row",
-              marginLeft: 22,
-              marginBottom: 60
-            }}
-          >
-            {biz_cover_photo_1_src != ""?(
-            <Image 
-            source={{uri: biz_cover_photo_1_src}}
-            style={{width: 100, height: 100, marginTop: 8}}
-            />
-
-              ):
-              <TouchableOpacity
-                onPress={() => {this.pickItem('biz_cover_photo_1', 'biz_cover_photo_1')}}
-                style={{ marginLeft: 22, marginTop: 8}}
+              style={{
+                  flexDirection: "row",
+                  marginLeft: 22,
+                  marginBottom: 60,
+                  flexWrap: 'wrap'
+              }}
               >
-                <Icon name="image" size={80}  />
-              </TouchableOpacity>
-              }
+                {
+                    this.state.images.map((image, index) => (
+                      <Image 
+                      key={index}
+                      source={{uri: image.name}}
+                      style={{width: 73,
+                          height: 69,
+                          borderRadius: 3,
+                          marginRight: 10,
+                        marginTop: 8}}
+                      />
+                        
+                    ))
+                  }
+                
 
-            {biz_cover_photo_2_src != ""?(
-              <Image 
-              source={{uri: biz_cover_photo_2_src}}
-              style={{width: 100, height: 100,marginLeft: 14, marginTop: 8}}
-              />
+                  <TouchableOpacity
+                    onPress={() => {this.pickItem()}}
+                    style={{ 
+                      width: 73,
+                      height: 69,
+                      borderRadius: 3,
+                      backgroundColor: "#ffffff",
+                      borderStyle: "solid",
+                      borderWidth: 1,
+                      borderColor: "#b5b5b5",
+                      alignItems:"center",
+                      marginTop: 8
 
-                ):
-                <TouchableOpacity
-                  onPress={() => {this.pickItem('biz_cover_photo_2', 'biz_cover_photo_2')}}
-                  style={{ marginLeft: 22, marginTop: 8}}
-                >
-                  <Icon name="image" size={80}  />
-                </TouchableOpacity>
-                }
+                    }}
+                  >
+                    <Image
+                    style={{marginTop: 20}}
+                      source={require("../Images/image_icon.png")}
+                    />
+                  </TouchableOpacity>
+                  
+              
+              </View>
 
-
-        {biz_cover_photo_3_src != ""?(
-          <Image 
-          source={{uri: biz_cover_photo_3_src}}
-          style={{width: 100, height: 100,marginLeft: 14, marginTop: 8}}
-          />
-
-            ):
-            <TouchableOpacity
-              onPress={() => {this.pickItem('biz_cover_photo_3', 'biz_cover_photo_3')}}
-              style={{ marginLeft: 22, marginTop: 8}}
-            >
-              <Icon name="image" size={80}  />
-            </TouchableOpacity>
-      }
-            
-          </View>
-
-          {/* <BottomButtonFull
-            navigation={this.props.navigation}
-            performAnAction= {this.CreateBusiness()}
-            goToPreview = {false}
-            name="Continue"
-           
-          /> */}
-          {/* <View style={styles.footer}> */}
                 <Button
-                    onPress={() => this.CreateBusiness()}
+                    onPress={() => this.uploadListImageMeal()}
                     title="Continue"
                     color="#2eb62c"
                 />
 
-            {/* </View> */}
         </ScrollView>
 
         <AwesomeAlert
