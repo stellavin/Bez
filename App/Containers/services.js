@@ -224,7 +224,7 @@ class AddServicesScreen extends React.Component {
       if(this.state.menuItems.length != undefined){
         
         firebase_app.firestore().collection('business-items').doc().set({
-          business_uid:"this.props.business_uid",
+          business_uuid:this.params.business_uuid,
           items:this.state.menuItems,
           images: data
         
@@ -236,7 +236,7 @@ class AddServicesScreen extends React.Component {
         
       }else if(this.state.servicesItems.length != undefined){
         firebase_app.firestore().collection('business-items').doc().set({
-          business_uid:this.props.business_uid,
+          business_uuid:this.params.business_uuid,
           items:this.state.servicesItems,
           images: data
         
@@ -248,7 +248,7 @@ class AddServicesScreen extends React.Component {
 
       }else if(this.state.productsItems.length != undefined){
         firebase_app.firestore().collection('business-items').doc().set({
-          business_uid:this.props.business_uid,
+          business_uuid:this.params.business_uuid,
           items:this.state.productsItems,
           images: data
         

@@ -18,6 +18,10 @@ import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AwesomeAlert from 'react-native-awesome-alerts';
 
+import uuid from 'react-native-uuid';
+
+// var uuid = require('react-native-uuid');
+
 
 export interface Props {
   navigation: any;
@@ -102,8 +106,14 @@ class BusinessInfo extends React.Component{
 
       showAlert: false,
       showSuccess: false,
-      showDanger: false
+      showDanger: false,
+
+      business_uuid:""
     };
+
+    componentWillMount(){
+      
+    }
   
 
 
@@ -199,8 +209,14 @@ class BusinessInfo extends React.Component{
       });
   }
 
+
+
   CreateBusiness = () => {
     this.setState({showAlert: true})
+    const business_uuid = uuid.v4(); 
+    this.setState({business_uuid: business_uuid})
+
+      console.log('business_uuid-----', business_uuid)
     
     if(
       this.state.type != "" ||
@@ -215,9 +231,10 @@ class BusinessInfo extends React.Component{
 
       // save to firebase
       
-      firebase_app.firestore().collection('customer-businesses').doc().set({
+      firebase_app.firestore().collection('customer-businesses').doc(business_uuid).set({
         user_uid:this.props.currentUser.uid,
         business_name:this.state.business_name,
+        business_uuid: business_uuid,
         business_type:this.state.type,
         business_category:this.state.category,
         phone_number: this.state.phone_number,
@@ -240,7 +257,7 @@ class BusinessInfo extends React.Component{
   }
 
   GotoServices(){
-    this.props.navigation.navigate("AddServicesScreen",{user_uid:this.props.currentUser.uid});
+    this.props.navigation.navigate("AddServicesScreen",{user_uid:this.props.currentUser.uid, business_uuid: this.state.business_uuid});
   }
 
   showSuccess = () => {
