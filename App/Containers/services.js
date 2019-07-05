@@ -59,20 +59,7 @@ class AddServicesScreen extends React.Component {
         menuItem:"",
         serviceItem:"",
         productItem:"",
-        images:[
-          {
-            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          },
-          {
-            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          },
-          {
-            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          },
-          {
-            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-          }
-        ]
+        images:[]
       };
     }
 
@@ -161,6 +148,27 @@ class AddServicesScreen extends React.Component {
         console.log('menu---products ----item', this.state.productsItems)  
       }
       
+    }
+
+    pickItem(){
+      ImagePicker.showImagePicker(options, response => {
+        console.log('options------', options)
+        console.log('response------', response)
+        if(response.uri != undefined){
+        const source = response.uri ; 
+        console.log('uri----', source) 
+        this.setState(prevState => ({
+          images: [...prevState.images, {
+            name: source}]
+        }))
+
+        console.log('images----', this.state.images)
+        }
+        else{
+          console.log('error')
+          
+        }
+      });
     }
   
     render() {
@@ -390,7 +398,7 @@ class AddServicesScreen extends React.Component {
                 
 
                   <TouchableOpacity
-                    onPress={() => {this.pickItem('Thumbnail', 'Thumbnail')}}
+                    onPress={() => {this.pickItem()}}
                     style={{ 
                       width: 73,
                       height: 69,
