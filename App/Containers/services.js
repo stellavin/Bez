@@ -19,6 +19,7 @@ import MapView from "react-native-maps";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AwesomeAlert from 'react-native-awesome-alerts';
+import RNFetchBlob from 'react-native-fetch-blob'
 
 
 export interface Props {
@@ -33,7 +34,10 @@ const options = {
   storageOptions: {
     skipBackup: true,
     initialLoader: false,
-    path: "images"
+    path: "images",
+    showAlert: false,
+    showSuccess: false,
+    showDanger: false
   }
 };
 
@@ -46,8 +50,7 @@ class AddServicesScreen extends React.Component {
 
     constructor(props) {
       super(props);
-      // TODO: undo the lines
-  
+      this.params = this.props.navigation.state.params;
       this.state = {
         driversExist: false,
         menuChecked: false,
@@ -59,7 +62,8 @@ class AddServicesScreen extends React.Component {
         menuItem:"",
         serviceItem:"",
         productItem:"",
-        images:[]
+        images:[],
+        imageUrls:[]
       };
     }
 
@@ -156,10 +160,12 @@ class AddServicesScreen extends React.Component {
         console.log('response------', response)
         if(response.uri != undefined){
         const source = response.uri ; 
+        const timestamp = Date.now();
         console.log('uri----', source) 
         this.setState(prevState => ({
           images: [...prevState.images, {
-            name: source}]
+            name: source,
+            time: timestamp}]
         }))
 
         console.log('images----', this.state.images)
@@ -170,6 +176,112 @@ class AddServicesScreen extends React.Component {
         }
       });
     }
+
+    uploadListImageMeal = () => {
+      this.setState({showAlert: true})
+      const userID = this.params.user_uid;
+    
+      const urls = this.state.images.map((image) => {
+        const uploadUri =image.name;
+        const time = image.time;
+        const mime = 'application/octet-stream';
+        const Blob = RNFetchBlob.polyfill.Blob;
+        const fs = RNFetchBlob.fs;
+        // let uploadBlob = null
+        const currentTime = Date.now()
+        const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+        return fs.readFile(uploadUri, 'base64')
+          .then((data) => {
+            return Blob.build(data, { type: `${mime};BASE64` })
+          })
+          .then((blob) => {
+            // uploadBlob = blob
+            return imageRef.put(blob._ref, blob, { contentType: mime })
+          })
+          .then(() => {
+            // uploadBlob.close()
+            return imageRef.getDownloadURL()
+          })
+          .then((url) => {
+            return (url)
+          })
+          .catch((error) => {
+            return host
+          })
+      })
+    
+    
+      return Promise.all(urls)
+        .then((data) => {
+          console.log('urls---------', data);
+          this.setState({imageUrls: data})
+          this.saveItemsToDB(data)
+        })
+    }
+
+    saveItemsToDB = (data) => {
+      
+      if(this.state.menuItems.length != undefined){
+        
+        firebase_app.firestore().collection('business-items').doc().set({
+          business_uid:"this.props.business_uid",
+          items:this.state.menuItems,
+          images: data
+        
+        }).then((doc) => {  // fetch the doc again and show its data
+              console.log("item----data---",doc)  // prints {id: "the unique id"}
+              this.setState({showAlert: false})
+              this.setState({showSuccess: true, successMessage: "Congratulations you have successfully added your items"})
+      })
+        
+      }else if(this.state.servicesItems.length != undefined){
+        firebase_app.firestore().collection('business-items').doc().set({
+          business_uid:this.props.business_uid,
+          items:this.state.servicesItems,
+          images: data
+        
+        }).then((doc) => {  // fetch the doc again and show its data
+              console.log("item----data---",doc)  // prints {id: "the unique id"}
+              this.setState({showAlert: false})
+              this.setState({showSuccess: true, successMessage: "Congratulations you have successfully added your items"})
+      })
+
+      }else if(this.state.productsItems.length != undefined){
+        firebase_app.firestore().collection('business-items').doc().set({
+          business_uid:this.props.business_uid,
+          items:this.state.productsItems,
+          images: data
+        
+        }).then((doc) => {  // fetch the doc again and show its data
+              console.log("item----data---",doc)  // prints {id: "the unique id"}
+              this.setState({showAlert: false})
+              this.setState({showSuccess: true, successMessage: "Congratulations you have successfully added your items"})
+      })
+
+      }else {
+        console.log('Fill in all the fields')
+        this.setState({showDanger: true})
+      }
+  
+    }
+  
+    GotoServices(){
+      this.props.navigation.navigate("HomeScreen");
+    }
+  
+    showSuccess = () => {
+      this.setState({
+        showSuccess: false
+      });
+      this.GotoServices();
+    };
+  
+    renderCustomSuccessAlert = () => (
+      <View>
+        <Icon style={{fontSize: 80, color: 'green',alignSelf :"center",}} name="check"></Icon>
+        <Text>{this.state.successMessage}</Text>
+      </View>
+    );
   
     render() {
       const {servicesChecked, menuChecked, productsChecked} = this.state;
@@ -423,7 +535,7 @@ class AddServicesScreen extends React.Component {
               
             </ScrollView>
             <TouchableOpacity
-                onPress={() => this.addServiceItem()}
+                onPress={() => this.uploadListImageMeal()}
                 style={{
                   width:screenWidth, 
                   bottom:0, 
@@ -442,6 +554,56 @@ class AddServicesScreen extends React.Component {
                marginTop: 15}}>Finish</Text>
                 </View>
               </TouchableOpacity>
+
+              <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
+
+          <AwesomeAlert
+              show={this.state.showDanger}
+              showProgress={false}
+              message="Please Fill All The Fields"
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={false}
+              cancelText="OK"
+              confirmText="Yes, delete it"
+              cancelButtonColor="red"
+              onCancelPressed={() => {
+                  this.setState({showDanger: false, showAlert: false, showSuccess: false})
+              }}
+              onConfirmPressed={() => {
+                this.setState({showDanger: false, showAlert: false, showSuccess: false})
+            }}
+              
+            />
+
+            <AwesomeAlert
+              show={this.state.showSuccess}
+              customView={this.renderCustomSuccessAlert()}
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={false}
+              cancelText="Awesome"
+              confirmText="Yes, delete it"
+              cancelButtonColor="green"
+              onCancelPressed={() => {
+                this.showSuccess();
+              }}
+              onConfirmPressed={() => {
+                this.showSuccess();
+              }}
+              
+            />
   
             
         </View>

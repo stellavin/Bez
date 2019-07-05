@@ -240,7 +240,7 @@ class BusinessInfo extends React.Component{
   }
 
   GotoServices(){
-    this.props.navigation.navigate("AddServicesScreen");
+    this.props.navigation.navigate("AddServicesScreen",{user_uid:this.props.currentUser.uid});
   }
 
   showSuccess = () => {
