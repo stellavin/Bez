@@ -64,7 +64,7 @@ const PrimaryNav = StackNavigator({
 }, {
   // Default config for all screens
   headerMode: 'none',
-  initialRouteName: 'SplashScreen',
+  initialRouteName: 'AddServicesScreen',
   navigationOptions: {
     headerStyle: styles.header
   }
