@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View, Picker, PermissionsAndroid,Image, Dimensions, TouchableOpacity, StyleSheet} from "react-native";
+import { ScrollView, Text, View,Image, Dimensions, TouchableOpacity, StyleSheet} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -59,24 +59,20 @@ class AddServicesScreen extends React.Component {
         menuItem:"",
         serviceItem:"",
         productItem:"",
-        names: [
+        images:[
           {
-             id: 0,
-             name: 'Ben',
+            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           },
           {
-             id: 1,
-             name: 'Susan',
+            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           },
           {
-             id: 2,
-             name: 'Robert',
+            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           },
           {
-             id: 3,
-             name: 'Mary',
+            name:"https://images.pexels.com/photos/67636/rose-blue-flower-rose-blooms-67636.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
           }
-       ]
+        ]
       };
     }
 
@@ -366,16 +362,54 @@ class AddServicesScreen extends React.Component {
             <Text style={styles.bus_thumb}>Add Service Photos (Max 12)
   
               </Text>
+
+              <View style={{marginBottom:20}}></View>
   
               <View
               style={{
                   flexDirection: "row",
                   marginLeft: 22,
-                  marginBottom: 60
+                  marginBottom: 60,
+                  flexWrap: 'wrap'
               }}
               >
-              <Thumbnail style={{ marginTop: 8 }} />
-              <Thumbnail style={{ marginTop: 8 }} />
+                {
+                    this.state.images.map((image, index) => (
+                      <Image 
+                      key={index}
+                      source={{uri: image.name}}
+                      style={{width: 73,
+                          height: 69,
+                          borderRadius: 3,
+                          marginRight: 10,
+                        marginTop: 8}}
+                      />
+                        
+                    ))
+                  }
+                
+
+                  <TouchableOpacity
+                    onPress={() => {this.pickItem('Thumbnail', 'Thumbnail')}}
+                    style={{ 
+                      width: 73,
+                      height: 69,
+                      borderRadius: 3,
+                      backgroundColor: "#ffffff",
+                      borderStyle: "solid",
+                      borderWidth: 1,
+                      borderColor: "#b5b5b5",
+                      alignItems:"center",
+                      marginTop: 8
+
+                    }}
+                  >
+                    <Image
+                    style={{marginTop: 20}}
+                      source={require("../Images/image_icon.png")}
+                    />
+                  </TouchableOpacity>
+                  
               
               </View>
               
