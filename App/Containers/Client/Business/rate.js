@@ -23,14 +23,15 @@ constructor(props) {
         rating_text:'',
         rater_uid:'',
         rater_name:'',
-        ratings_array:[]
+        ratings_array:[],
+        slider:[]
       
     };
 }
     
 componentWillMount() {
-    console.warn('the id is '+ this.params.business_id)
-    this.getUser();
+  console.warn("images----- ", this.params.cover_photos_urls)
+   this.getUser();
     this.fetchRatings()
 
 }
@@ -142,17 +143,13 @@ renderRatings(){
         
         <View style={{marginTop: 20}}>
         <Slideshow 
-            dataSource={[
-                { url:'http://placeimg.com/640/480/any' },
-                { url:'http://placeimg.com/640/480/any' },
-                { url:'http://placeimg.com/640/480/any' }
-            ]}/>
+            dataSource={this.params.cover_photos_urls}/>
             <ScrollView>
               <KeyboardAvoidingView behavior="padding">
             <View style={{marginLeft: 22,marginRight: 22}}>
 
                 <View style={{flexDirection: "row", marginTop: 18}}>
-                    <Text style={style.header1}>Koi's Boutique </Text>
+                    <Text style={style.header1}>{this.params.business_name} </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
                     <StarRating
                         disabled={true}

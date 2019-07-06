@@ -179,7 +179,7 @@ addFavorite(){
                 <View style={{ flex: 1,alignItems: 'flex-end', marginRight: 20}}> 
                 <View style={style.button}> 
                 <Button
-                    onPress={() => this.props.navigation.navigate('RateScreen',{business_id:this.params.business_id})}
+                    onPress={() => this.props.navigation.navigate('RateScreen',{business_id:this.params.business_id, business_name: this.params.business_name, cover_photos_urls: this.state.slider})}
                     title="Rate"
                     color="#2eb62c"
                     style={{width: 100}}
