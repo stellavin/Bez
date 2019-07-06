@@ -304,7 +304,7 @@ class AddServicesScreen extends React.Component {
         <View style={{flexDirection:'row', width: screenWidth, marginLeft: 10, marginTop: 8,marginBottom: 10}}>
             <View style={{flexDirection:'row', width: screenWidth/3}}>
                 <CheckBox
-                    value={false}
+                    value={this.state.menuChecked}
                     onValueChange={() => this.handleMenu()}
                     />
                 <Text style={{marginTop: 5}}> Menu</Text>
@@ -312,7 +312,7 @@ class AddServicesScreen extends React.Component {
 
             <View style={{flexDirection:'row', width: screenWidth/3}}>
                 <CheckBox
-                    value={false}
+                    value={this.state.servicesChecked}
                     onValueChange={() => this.handleServices()}
                     />
                 <Text style={{marginTop: 5}}> Services</Text>
@@ -320,7 +320,7 @@ class AddServicesScreen extends React.Component {
 
             <View style={{flexDirection:'row'}}>
                 <CheckBox
-                    value={false}
+                    value={this.state.productsChecked}
                     onValueChange={() => this.handleProducts()}
                     />
                 <Text style={{marginTop: 5}}> Products</Text>
