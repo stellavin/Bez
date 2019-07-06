@@ -20,6 +20,7 @@ import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AwesomeAlert from 'react-native-awesome-alerts';
 import RNFetchBlob from 'react-native-fetch-blob'
+import HeaderWithoutLogo from "../Components/HeaderWitoutLogo";
 
 
 export interface Props {
@@ -287,6 +288,11 @@ class AddServicesScreen extends React.Component {
       const {servicesChecked, menuChecked, productsChecked} = this.state;
       return (
         <View style={styles.container}>
+          <HeaderWithoutLogo
+          type_of_nav={'arrow-left'}
+          navigation={this.props.navigation}
+          headerTitle = {'Add Items   '}
+        />
          <ScrollView style={{height:'100%',flexGrow: 1}}>
          <Text style = {styles.title2}>
          Type of Category: Hotel

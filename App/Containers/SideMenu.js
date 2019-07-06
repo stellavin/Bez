@@ -157,6 +157,7 @@ class SideMenu extends Component {
   render () {
     return (
       <View style={styles.container}>
+        
         <ScrollView>
           <View>
           {/* Logo section */}
