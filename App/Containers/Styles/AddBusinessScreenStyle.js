@@ -1,5 +1,8 @@
-import { StyleSheet } from 'react-native'
-import { ApplicationStyles } from '../../Themes/'
+import { StyleSheet, Dimensions } from 'react-native'
+import { ApplicationStyles } from '../../Themes'
+
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
 
 export default StyleSheet.create({
   ...ApplicationStyles.screen,
@@ -79,5 +82,12 @@ export default StyleSheet.create({
   color: "#707070",
   marginLeft:22,
   marginTop:8
-  }
+  },
+  footer: {
+    position: 'absolute',
+    height: 51,
+    left: 0, 
+    top: screenHeight - 40, 
+    width: screenWidth,
+ },
 })

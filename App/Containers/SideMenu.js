@@ -11,7 +11,7 @@ import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 import { StackNavigator } from 'react-navigation';
 // import firebase from "react-native-firebase";
 import * as firebase from 'firebase';
-import 'firebase/firestore';
+
 import firebase_app from "../Firebase";
 import { Left } from 'native-base';
 import AwesomeAlert from 'react-native-awesome-alerts';

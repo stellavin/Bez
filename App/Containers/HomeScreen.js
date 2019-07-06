@@ -12,6 +12,10 @@ import Categories from "../Components/Categories";
 import BusinessCard from "../Components/BusinessCard";
 import firebase from "react-native-firebase";
 import firebase_app from "../Firebase";
+import AwesomeAlert from 'react-native-awesome-alerts';
+import Icon from "react-native-vector-icons/FontAwesome5";
+
+
 
 const dummy_category_data = [
   { category: "Restaurants" },
@@ -27,7 +31,9 @@ class HomeScreen extends React.Component<Props, State> {
 
     this.state ={
        selected:"",
-       businesses:[]
+       businesses:[],
+       showAlert: true,
+       search_term:""
 
     }
 
@@ -36,11 +42,12 @@ class HomeScreen extends React.Component<Props, State> {
     
   }
    
-  componentDidMount(){
+  componentWillMount(){
     this.fetchBusiness()
   
   }
   getBusinessByCategory(category){
+    this.setState({showAlert: true})
     this.setState({businesses: []})
     firebase_app
       .firestore()
@@ -55,7 +62,11 @@ class HomeScreen extends React.Component<Props, State> {
           console.log(doc._document.data.toString())
           data.push(doc.data());
         });
-        this.setState({businesses: data})
+        
+        this.setState({
+          showAlert:false,
+          businesses: data
+        })
         console.log('data-------', data)
     });
   }
@@ -71,8 +82,9 @@ class HomeScreen extends React.Component<Props, State> {
           console.log(doc._document.data.toString())
           data.push(doc.data());
         });
-        this.setState({businesses: data})
+        this.setState({businesses: data, showAlert: false})
         console.log('data-------', data)
+
     });
   }
 
@@ -106,18 +118,49 @@ class HomeScreen extends React.Component<Props, State> {
 
   }
 
-
+  searchValue(value){
+    this.setState({showAlert: true})
+    this.setState({businesses: []})
+    firebase_app
+      .firestore()
+      .collection("customer-businesses")
+      .where("business_name", "==", value)
+    .get()
+    .then(snapshot => {
+      var data = [];
+      snapshot
+        .docs
+        .forEach(doc => {
+          console.log(doc._document.data.toString())
+          data.push(doc.data());
+        });
+        
+        this.setState({
+          showAlert:false,
+          businesses: data
+        })
+        console.log('data-------', data)
+    });
+  }
 
   render() {
     const {businesses} = this.state;
     console.log('length---',this.state.businesses.length, businesses)
     return (
-      <ScrollView style={styles.container}>
+      <View style={styles.container}>
+      <ScrollView >
         <Header
           show_search={true}
           type_of_nav={'bars'}
           navigation = {this.props.navigation}
           placeholder="Search for a business/service..."
+          onSearch = {()=>{
+           console.warn("the selected value is "+ this.state.search_term);
+           this.searchValue(this.state.search_term)
+          }}
+          onChangeText = {(text)=>{
+             this.setState({search_term:text})
+          }}
         />
 
         <View style={{marginTop: 15}}></View>
@@ -147,11 +190,23 @@ class HomeScreen extends React.Component<Props, State> {
 
         ):
         <View>
-          <Text>Loading data ....</Text>
+          {/* <Icon size = {40} name = 'frown'/>
+          <Text>So Empty</Text> */}
         </View>}
 
         
       </ScrollView>
+      <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="Loading Businesses..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
+      </View>
     );
   }
 }

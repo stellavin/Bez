@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
-import { View, Text,TextInput } from 'react-native'
+import { View, Text,TextInput,TouchableOpacity } from 'react-native'
 import styles from './Styles/InputStyle'
 import Icon from "react-native-vector-icons/FontAwesome5";
 export default class Input extends Component {
@@ -34,7 +34,9 @@ export default class Input extends Component {
                 onChangeText={this.props.onChangeText}
                 value={this.props.value}
               />
-              <Icon name = "search" color = '#2eb62c' size = {14.8}/>
+          <TouchableOpacity onPress = {this.props.onSearch}>    
+            <Icon name = "search" color = '#2eb62c' size = {14.8}/>
+          </TouchableOpacity>
       </View>
     )
   }

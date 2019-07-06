@@ -35,7 +35,11 @@ export default class Header extends Component {
       </View>
         
          
-          {this.props.show_search?<View style = {styles.search_input}><Input placeholder = {this.props.placeholder}/></View>:null}
+          {this.props.show_search?<View style = {styles.search_input}>
+            <Input 
+            onSearch = {this.props.onSearch}
+            onChangeText = {this.props.onChangeText}
+            placeholder = {this.props.placeholder}/></View>:null}
         
           
           
