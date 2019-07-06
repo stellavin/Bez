@@ -19,15 +19,37 @@ constructor(props) {
     this.state = {
         starCount: 0,
         user_id:'',
-        user_name:''
+        user_name:'',
+        slider:[],
+        items:[],
+        images:[]
     };
 
 }
     
 componentWillMount() {
     console.warn("the name is "+ this.params.business_name+ 'the cover photos urls is '+ JSON.stringify(this.params.cover_photos_urls))
+    const arr = this.params.cover_photos_urls;
      this.getUser()
+     this.fetchItems()
+
+     var newArr = [];
+      for(var i = 0; i < arr.length; i++)
+      {
+        var obj = arr[i];
+        obj['url'] = obj['uri'];
+        delete(obj['uri']);
+        newArr.push(obj);
+      }
+
+      console.log('newArr-----', newArr)
+      this.setState({slider:newArr })
+      return newArr;
+
+
+ 
   }
+
   async getUser(){
     try{
     let fuid =  await AsyncStorage.getItem('FUID');
@@ -42,6 +64,7 @@ componentWillMount() {
   
     }
   }
+
 addFavorite(){
   
     let data = {
@@ -61,7 +84,35 @@ addFavorite(){
             console.warn("Error getting document:", error);
           });
 }
+
+  fetchItems(){
+    const bizUUid = this.params.business_id;
+    firebase_app
+      .firestore()
+      .collection("business-items")
+      .where("business_uuid", "==", bizUUid)
+      .get()
+      .then(snapshot => {
+        var data = [];
+        snapshot
+          .docs
+          .forEach(doc => {
+            console.log(doc._document.data.toString())
+            data.push(doc.data());
+          });
+
+          this.setState({images: data[0].images})
+          this.setState({items: data[0].items})
+          
+          console.log('data-------', data[0].images)
+          console.log('items-------', data[0].items)
+      });
+    
+  }
+
   render() {
+    const {items, images}=this.state;
+    console.log('items---------ppppp----', items )
     return (
       <View style={style.container}>
         <Header
@@ -72,7 +123,7 @@ addFavorite(){
         
         <View style={{marginTop: 20}}>
         <Slideshow 
-            dataSource={this.params.cover_photos_urls}/>
+            dataSource={this.state.slider}/>
             <ScrollView>
             <View style={{marginLeft: 22,marginRight: 22}}>
 
@@ -146,33 +197,30 @@ addFavorite(){
                 <Text style={style.menu}>Menu</Text>
 
                 {/* display menu */}
-                <View style={{flexDirection: "row",marginTop: 15}}>
-                    <Icon name = 'stop-circle' size = {25} color = '#000' />
 
-                    <View style={{marginLeft: 20}}>
-                        <Text style={style.menuTitle}>Ugali & Fish</Text>
-                        <Text style={style.menuDesscription}>Served with greens</Text>
+                
+                <View>
+                  
+                {
+                    items.map((item, index) => (
+                    <View style={{flexDirection: "row",marginTop: 15}}>
+                        <Icon name = 'stop-circle' size = {25} color = '#000' />
+
+                        <View style={{marginLeft: 20}}>
+                            <Text style={style.menuTitle}>{item.name}</Text>
+                            {/* <Text style={style.menuDesscription}>Served with greens</Text> */}
+                        </View>
+                        <View style={{ flex: 1,alignItems:'flex-end'}}>
+                          <Icon name = 'check-double' size = {17.5} color = '#000' />
+                        </View>
+
                     </View>
-                    <View style={{ flex: 1,alignItems:'flex-end'}}>
-                      <Icon name = 'check-double' size = {17.5} color = '#000' />
-                    </View>
+                 ))
+                }
 
                 </View>
 
-                {/* menu 2 */}
-
-                <View style={{flexDirection: "row",marginTop: 15}}>
-                    <Icon name = 'stop-circle' size = {25} color = '#000' />
-
-                    <View style={{marginLeft: 20}}>
-                        <Text style={style.menuTitle}>Ugali & Fish</Text>
-                        <Text style={style.menuDesscription}>Served with greens</Text>
-                    </View>
-                    <View style={{ flex: 1,alignItems:'flex-end'}}>
-                      <Icon name = 'check-double' size = {17.5} color = '#000' />
-                    </View>
-
-                </View>
+               
 
                
 
@@ -180,16 +228,11 @@ addFavorite(){
 
              {/* Image section */}
              <View style={{marginTop: 30, flexDirection: 'row',flexWrap:'wrap'}}>
-                 <Image source={require("../../../Images/gallery/2.png")} style={{width: 120, height: 120}} />
-                 <Image source={require("../../../Images/gallery/3.png")}style={{width: 120, height: 120}} />
-                 <Image source={require("../../../Images/gallery/4.png")}style={{width: 120, height: 120}} />
-
-                 <Image source={require("../../../Images/gallery/5.png")}style={{width: 120, height: 120}} />
-
-                 <Image source={require("../../../Images/gallery/6.png")}style={{width: 120, height: 120}} />
-
-                 <Image source={require("../../../Images/gallery/7.png")}style={{width: 120, height: 120}} />
-
+             {
+                    images.map((image, index) => (
+                  <Image source={{uri: image}} style={{width: 120, height: 120}} />
+                  ))
+                }
             </View>
             
             </View>
