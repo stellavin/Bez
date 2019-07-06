@@ -60,6 +60,13 @@ class SideMenu extends Component {
 
     }
   }
+  saveName (name){
+    try{
+      AsyncStorage.setItem("NAME", name);
+    }catch(e){
+
+    }
+  }
   async getFuid(){
     try{
    let fuid = await AsyncStorage.getItem("FUID");
@@ -104,7 +111,8 @@ class SideMenu extends Component {
               self.setState({
                 fuid:fuid
               })
-              self.saveFuid(fuid)
+              self.saveFuid(fuid);
+              self.saveName(userCredential.user.displayName);
               var userRef = firebase_app.firestore().collection('users').doc(fuid);
                   userRef.get().then((doc) => {
                       if (doc.exists) {
@@ -117,7 +125,7 @@ class SideMenu extends Component {
                           // doc.data() will be undefined in this case
                           console.log("No such document!");
                          let fuid = userCredential.user.uid
-
+                          
                          firebase_app.firestore().collection('users').doc(fuid).set({
                             name: userCredential.user.displayName,
                             uid:userCredential.user.uid,

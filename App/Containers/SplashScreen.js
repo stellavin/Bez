@@ -97,6 +97,7 @@ class SplashScreen extends Component {
         this.checkUser()
     });
   }
+ 
 }
 
 const mapStateToProps = (state) => {

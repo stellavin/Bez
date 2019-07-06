@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View,Button, Picker, PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
+import { ScrollView, Text, View,Button, Picker,AsyncStorage, PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -35,41 +35,11 @@ const options = {
     }
   };
 
-  
-  const category_data = [
-    { category: "Restaurants" },
-    { category: "Garage" },
-    { category: "Boutique" },
-    { category: "Salon" },
-    { category: "Supermarket" }
-  ];
-
+ 
 class BusinessInfo extends React.Component{
   
     state = {
       driversExist: false,
-      picker_items: [
-        {
-          id: 'Hotel',
-          name: 'Hotel'
-        },
-        {
-          id: 'Hospital',
-          name: 'Hospital'
-        },
-        {
-            id: 'Salon',
-            name: 'Salon'
-          },
-          {
-            id: 'Clothing',
-            name: 'Clothing'
-          },
-          {
-            id: 'Garage',
-            name: 'Garage'
-          }
-      ],
       picker_items2: [
         {
           id: 'Menu',
@@ -84,6 +54,7 @@ class BusinessInfo extends React.Component{
             name: 'Products'
           }
       ],
+      categories_obj:[],
       type:"",
       category: "",
       business_name: "",
@@ -108,10 +79,39 @@ class BusinessInfo extends React.Component{
 
       showAlert: false,
       showSuccess: false,
-      showDanger: false
+      showDanger: false,
+      last_id:0
     };
   
-
+   componentWillMount(){
+     this.getBusinessCatories();
+     this.getbusinessesCount()
+   }
+    async getBusinessCatories(){
+      //get the saved business categories .... saved at splash from firestore
+      try{
+      let categories = await AsyncStorage.getItem('CAT');
+      if(categories){
+        console.warn('the categories list is '+ categories);
+        let cat_array = JSON.parse(categories).categories;
+        console.warn('the array is --------'+ cat_array)
+        let category_data = []
+        for(let i = 0; i < cat_array.length; i ++){
+             category_data.push({
+               id:cat_array[i],
+               name:cat_array[i]
+             })
+        }
+        this.setState({
+          categories_obj:category_data
+        })
+      }
+  
+  
+      }catch(error){
+  
+      }
+    }
 
   pickItem(name, category, index){
     ImagePicker.showImagePicker(options, response => {
@@ -168,6 +168,15 @@ class BusinessInfo extends React.Component{
    
   }
 
+  getbusinessesCount(){
+    firebase_app
+      .firestore().collection("customer-businesses").get().then(function(querySnapshot) {      
+      console.warn('the item count is '+querySnapshot.size); 
+      this.setState({
+        last_id:querySnapshot.size-1
+      })
+  });
+  }
   firebaseFunction(uri, imageName, folderName, index) {
     firebase
       .storage()
@@ -223,9 +232,10 @@ class BusinessInfo extends React.Component{
       
       firebase_app.firestore().collection('customer-businesses').doc().set({
         user_uid:this.props.currentUser.uid,
+        id:this.state.last_id+1,
         business_name:this.state.business_name,
-        business_type:this.state.type,
-        business_category:this.state.category,
+        business_type:this.state.category,
+        business_category:this.state.type,
         phone_number: this.state.phone_number,
         location:this.props.pos,
         business_thumbnail: this.state.thumbnail_uri,
@@ -244,6 +254,8 @@ class BusinessInfo extends React.Component{
     }
 
   }
+
+  
 
   GotoServices(){
     this.props.navigation.navigate("AddServicesScreen");
@@ -302,7 +314,7 @@ class BusinessInfo extends React.Component{
           <InputComponent
             style={{ marginTop: 15, marginRight: 22, marginLeft: 22 }}
             is_picker={true}
-            items={picker_items}
+            items={this.state.categories_obj}
             itemValue={this.state.type}
             handleChange ={this.handleChange}
             placeholder="Select Type of Business"

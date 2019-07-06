@@ -1,11 +1,12 @@
 import React, { Component } from "react";
-import { ScrollView, Text,Dimensions, Image, View,TouchableOpacity, Button } from "react-native";
+import { ScrollView, Text,Dimensions, Image, View,TouchableOpacity, Button,AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import Header from "../../../Components/Header";
 import Slideshow from 'react-native-image-slider-show';
 import style from '../../Styles/MainStyles';
 import StarRating from 'react-native-star-rating';
 import Icon from "react-native-vector-icons/FontAwesome5";
+import firebase_app from "../../../Firebase";
 
 
 
@@ -14,17 +15,52 @@ class ViewBusinessScreen extends Component {
 
 constructor(props) {
     super(props);
-    
+    this.params = this.props.navigation.state.params;
     this.state = {
-        starCount: 3.5
-      
+        starCount: 0,
+        user_id:'',
+        user_name:''
     };
+
 }
     
 componentWillMount() {
-    
+    console.warn("the name is "+ this.params.business_name+ 'the cover photos urls is '+ JSON.stringify(this.params.cover_photos_urls))
+     this.getUser()
+  }
+  async getUser(){
+    try{
+    let fuid =  await AsyncStorage.getItem('FUID');
+    let name =  await AsyncStorage.getItem('NAME');
+    if(name && fuid){
+      this.setState({
+        user_name:name,
+        user_id:fuid
+      })
+    }
+    }catch(error){
+  
+    }
+  }
+addFavorite(){
+  
+    let data = {
+      user_id: this.state.user_id,
+      business_uid: this.params.business_id,
+    }
+    console.warn('the data is '+ JSON.stringify(data))
+      firebase_app
+          .firestore()
+          .collection("favorite")
+          .doc(new Date().toLocaleString())
+          .set(data)
+          .then(doc => {
+            alert("Business successfully added to favorites");
+          })
+          .catch(function(error) {
+            console.warn("Error getting document:", error);
+          });
 }
-
   render() {
     return (
       <View style={style.container}>
@@ -36,16 +72,12 @@ componentWillMount() {
         
         <View style={{marginTop: 20}}>
         <Slideshow 
-            dataSource={[
-                { url:'http://placeimg.com/640/480/any' },
-                { url:'http://placeimg.com/640/480/any' },
-                { url:'http://placeimg.com/640/480/any' }
-            ]}/>
+            dataSource={this.params.cover_photos_urls}/>
             <ScrollView>
             <View style={{marginLeft: 22,marginRight: 22}}>
 
                 <View style={{flexDirection: "row", marginTop: 18}}>
-                    <Text style={style.header1}>Buffet Spot </Text>
+                    <Text style={style.header1}>{this.params.business_name} </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
                     <TouchableOpacity
                     >
@@ -73,6 +105,9 @@ componentWillMount() {
                     </View>
                 </View>
 
+                <TouchableOpacity onPress = {()=>{
+                   this.addFavorite()
+                }}>
                 <View style={{flexDirection: "row", marginTop: 18}}>
                      <Icon name = 'bookmark' size = {17.5} color = '#000' />
                     <Text style={style.favorite}>  Favorite </Text>
@@ -80,6 +115,7 @@ componentWillMount() {
                         <Icon name = 'share' size = {17.5} color = '#000' />
                     </View>
                 </View>
+                </TouchableOpacity>
 
                 <View style={{flexDirection: "row", marginTop: 18}}>
                 <Icon name = 'phone' size = {17.5} color = '#000' />
@@ -92,7 +128,7 @@ componentWillMount() {
                 <View style={{ flex: 1,alignItems: 'flex-end', marginRight: 20}}> 
                 <View style={style.button}> 
                 <Button
-                    onPress={() => this.props.navigation.navigate('RateScreen')}
+                    onPress={() => this.props.navigation.navigate('RateScreen',{business_id:this.params.business_id})}
                     title="Rate"
                     color="#2eb62c"
                     style={{width: 100}}

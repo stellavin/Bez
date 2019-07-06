@@ -28,13 +28,17 @@ const category_data = [
 class HomeScreen extends React.Component<Props, State> {
   constructor(props) {
     super(props);
-
+    
     this.state ={
        selected:"",
        businesses:[],
        showAlert: true,
        search_term:"",
-       category_data:[]
+       category_data:[],
+       businesses_id:[],
+       limit:4,
+       last_id:0,
+       can_trigger_on_scroll: true,
 
     }
 
@@ -43,7 +47,7 @@ class HomeScreen extends React.Component<Props, State> {
     
   }
   async getBusinessCatories(){
-    //get the saved business categories .... saved at splash from firestore
+    //get the saved business categories .... saved at splash
     try{
     let categories = await AsyncStorage.getItem('CAT');
     if(categories){
@@ -97,19 +101,45 @@ class HomeScreen extends React.Component<Props, State> {
         console.log('data-------', data)
     });
   }
+  handleScroll = (e) => {
+    if (this.state.can_trigger_on_scroll) {
+      let paddingToBottom = 10;
+      paddingToBottom += e.nativeEvent.layoutMeasurement.height;
+      if (e.nativeEvent.contentOffset.y >= e.nativeEvent.contentSize.height - paddingToBottom) {
+        // make something...
+        //console.warn("the array is ", this.state.services_array.length);
+       // this.getServices();
+       console.warn('has reached the end');
+       this.fetchBusiness();
+      }
+    }
+  }
 
   fetchBusiness(){
-    firebase_app.firestore().collection('customer-businesses')
+   this.setState({
+     can_trigger_on_scroll:false
+   })
+    firebase_app.firestore().collection('customer-businesses').orderBy('id')
+    .startAfter(this.state.last_id).limit(this.state.limit)
     .get()
     .then(snapshot => {
-      var data = [];
-      snapshot
+       snapshot
         .docs
         .forEach(doc => {
           console.log(doc._document.data.toString())
-          data.push(doc.data());
+          const id = doc.id;
+          console.warn('the name of the doc is '+ id);
+          this.setState({
+            businesses:[...this.state.businesses,doc.data()],
+            businesses_id:[...this.state.businesses_id,id],
+          })
         });
-        this.setState({businesses: data, showAlert: false})
+        let last_item = snapshot.docs[snapshot.docs.length - 1];
+        console.warn('the last id is '+last_item.data().id)
+        this.setState({
+           last_id:last_item.data().id,
+           can_trigger_on_scroll:true,
+          showAlert: false})
         console.log('data-------', data)
 
     });
@@ -120,15 +150,18 @@ class HomeScreen extends React.Component<Props, State> {
 
     if(businesses.length != 0){
       return businesses.map((business, index) => {
-        console.log("business---------", business );
+        
         return (
         <BusinessCard
             key={index}
+           
+            business_id= {this.state.businesses_id[index]}
+            business_name={business.business_name}
+            cover_photos_urls = {business.business_cover_photos}
             name= {business.business_name}
             rating={4.2}
             style={{marginBottom: 20}}
             source={business.business_thumbnail}
-            // source={require("../Images/sample1.png")}
             navigate={this.props.navigation}
           />
         );
@@ -175,7 +208,9 @@ class HomeScreen extends React.Component<Props, State> {
     console.log('length---',this.state.businesses.length, businesses)
     return (
       <View style={styles.container}>
-      <ScrollView >
+      <ScrollView 
+         onScroll={this.handleScroll}
+      >
         <Header
           show_search={true}
           type_of_nav={'bars'}

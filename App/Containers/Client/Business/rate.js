@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text,Dimensions, Image, View, TextInput, Button } from "react-native";
+import { ScrollView, Text,Dimensions,KeyboardAvoidingView, AsyncStorage, View, TextInput, Button } from "react-native";
 import { connect } from "react-redux";
 import Header from "../../../Components/Header";
 import Slideshow from 'react-native-image-slider-show';
@@ -7,6 +7,7 @@ import style from '../../Styles/MainStyles';
 import StarRating from 'react-native-star-rating';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Dialog, { DialogContent,DialogFooter, DialogButton } from 'react-native-popup-dialog';
+import firebase_app from "../../../Firebase";
 
 
 
@@ -15,25 +16,119 @@ class RateScreen extends Component {
 
 constructor(props) {
     super(props);
-    
+    this.params = this.props.navigation.state.params;
     this.state = {
         starCount: 3.5,
         showRating: false,
+        rating_text:'',
+        rater_uid:'',
+        rater_name:'',
+        ratings_array:[]
       
     };
 }
     
 componentWillMount() {
-    
+    console.warn('the id is '+ this.params.business_id)
+    this.getUser();
+    this.fetchRatings()
+
+}
+async getUser(){
+  try{
+  let fuid =  await AsyncStorage.getItem('FUID');
+  let name =  await AsyncStorage.getItem('NAME');
+  if(name && fuid){
+    this.setState({
+      rater_name:name,
+      rater_uid:fuid
+    })
+  }
+  }catch(error){
+
+  }
+}
+onTextChange = (text)=>{
+  this.setState({
+    rating_text:text
+  })
 }
 submitRate(){
-  this.setState({showRating: false})
+let data = {
+  rating_text:this.state.rating_text,
+  rater_uid:this.state.rater_uid,
+  rating:this.state.starCount,
+  business_uid:  this.params.business_id,
+  rater_name:this.state.rater_name
+}
+console.warn('the data is '+ JSON.stringify(data))
+this.setState({showRating: false})
+  firebase_app
+      .firestore()
+      .collection("rate")
+      .doc(new Date().toLocaleString())
+      .set(data)
+      .then(doc => {
+        alert("Congratulations you have added your advert");
+      })
+      .catch(function(error) {
+        console.warn("Error getting document:", error);
+      });
+  
 
 }
 
 submitReview(){
   this.setState({showRating: true})
 
+}
+fetchRatings(){
+    let fetched
+    firebase_app
+      .firestore()
+      .collection("rate")
+      .where("business_uid", "==", this.params.business_id)
+    .get()
+    .then(snapshot => {
+      snapshot
+        .docs
+        .forEach(doc => {
+          console.warn("the data is "+JSON.stringify(doc.data()))
+          this.setState({
+            ratings_array:[...this.state.ratings_array,doc.data()]
+          })
+        });
+    });
+}
+renderRatings(){
+  return this.state.ratings_array.map((rating)=>{
+   return(
+    <View style={{flexDirection: "row",marginTop: 15}}>
+    <Icon name = 'user-circle' size = {25} color = '#000' />
+
+    <View style={{marginLeft: 20}}>
+        <Text style={style.menuTitle}>{rating.rater_name}</Text>
+        <View style={{width: 70}}>
+        <StarRating
+            disabled={true}
+            emptyStar={'ios-star-outline'}
+            fullStar={'ios-star'}
+            halfStar={'ios-star-half'}
+            iconSet={'Ionicons'}
+            maxStars={5}
+            starSize={10}
+            rating={rating.rating}
+            selectedStar={(rating) => console.log(rating)}
+            fullStarColor={'#83d475'}
+        />
+        </View>
+        <Text style={style.reviewText}>
+            {rating.rating_text}</Text>
+    </View>
+
+</View>
+   )
+  })
 }
 
   render() {
@@ -53,6 +148,7 @@ submitReview(){
                 { url:'http://placeimg.com/640/480/any' }
             ]}/>
             <ScrollView>
+              <KeyboardAvoidingView behavior="padding">
             <View style={{marginLeft: 22,marginRight: 22}}>
 
                 <View style={{flexDirection: "row", marginTop: 18}}>
@@ -93,6 +189,7 @@ submitReview(){
 
                 <TextInput
                     style={style.textArea}
+                    onChangeText = {this.onTextChange}
                     underlineColorAndroid="transparent"
                     placeholder="Type something"
                     placeholderTextColor="grey"
@@ -116,70 +213,14 @@ submitReview(){
                 <View style={{marginBottom: 50}}></View>
                 
 
-                {/* display review */}
-                <View style={{flexDirection: "row",marginTop: 15}}>
-                    <Icon name = 'user-circle' size = {25} color = '#000' />
-
-                    <View style={{marginLeft: 20}}>
-                        <Text style={style.menuTitle}>John Doe</Text>
-                        <View style={{width: 70}}>
-                        <StarRating
-                            disabled={true}
-                            emptyStar={'ios-star-outline'}
-                            fullStar={'ios-star'}
-                            halfStar={'ios-star-half'}
-                            iconSet={'Ionicons'}
-                            maxStars={5}
-                            starSize={10}
-                            rating={this.state.starCount}
-                            selectedStar={(rating) => console.log(rating)}
-                            fullStarColor={'#83d475'}
-                        />
-                        </View>
-                        <Text style={style.reviewText}>
-                            Lorem Ipsum is simply dummy text of the 
-                            printing and typesetting industry. Lorem 
-                            Ipsum has been the industry's...</Text>
-                    </View>
-
-                </View>
-
-                {/* second review */}
-
-                <View style={{flexDirection: "row",marginTop: 15}}>
-                    <Icon name = 'user-circle' size = {25} color = '#000' />
-
-                    <View style={{marginLeft: 20}}>
-                        <Text style={style.menuTitle}>Stella Sikhila</Text>
-                        <View style={{width: 70}}>
-                        <StarRating
-                            disabled={true}
-                            emptyStar={'ios-star-outline'}
-                            fullStar={'ios-star'}
-                            halfStar={'ios-star-half'}
-                            iconSet={'Ionicons'}
-                            maxStars={5}
-                            starSize={10}
-                            rating={this.state.starCount}
-                            selectedStar={(rating) => console.log(rating)}
-                            fullStarColor={'#83d475'}
-                        />
-                        </View>
-                        <Text style={style.reviewText}>
-                            Lorem Ipsum is simply dummy text of the 
-                            printing and typesetting industry. Lorem 
-                            Ipsum has been the industry's...</Text>
-                    </View>
-
-                </View>
-
+               {this.renderRatings()}
 
             </View>
 
             
             
             </View>
-
+            </KeyboardAvoidingView>
             </ScrollView>
         </View>
 
@@ -192,7 +233,7 @@ submitReview(){
             <View style={{alignItems: 'center'}}>
             <View style={{width: 150}}>
               <StarRating
-                  disabled={true}
+                 
                   emptyStar={'ios-star-outline'}
                   fullStar={'ios-star'}
                   halfStar={'ios-star-half'}
@@ -200,7 +241,11 @@ submitReview(){
                   maxStars={5}
                   starSize={30}
                   rating={this.state.starCount}
-                  selectedStar={(rating) => console.log(rating)}
+                  selectedStar={(rating) => {
+                    this.setState({
+                      starCount: rating
+                    });
+                  }}
                   fullStarColor={'#83d475'}
               />
           </View>

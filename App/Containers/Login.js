@@ -31,6 +31,13 @@ class LoginScreen extends Component {
 
     }
   }
+  saveName (name){
+    try{
+      AsyncStorage.setItem("NAME", name);
+    }catch(e){
+
+    }
+  }
   googleLogin = async () => {
     
     GoogleSignin.hasPlayServices()
@@ -50,6 +57,7 @@ class LoginScreen extends Component {
             fuid:fuid
           })
           self.saveFuid(fuid)
+          self.saveName(userCredential.user.displayName);
           var userRef = firebase_app.firestore().collection('users').doc(fuid);
               userRef.get().then((doc) => {
                   if (doc.exists) {
