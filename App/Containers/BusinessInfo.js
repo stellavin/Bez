@@ -79,13 +79,24 @@ class BusinessInfo extends React.Component{
       imageUrls:[],
       thumbnail_uri:"",
       thumbnail:[],
-      thumbnail_src:""
+      thumbnail_src:"",
+      successMessage:""
     };
   
    componentWillMount(){
      this.getBusinessCatories();
      this.getbusinessesCount()
    }
+
+   getbusinessesCount(){
+    firebase_app
+      .firestore().collection("customer-businesses").get().then(function(querySnapshot) {      
+      console.warn('the item count is '+querySnapshot.size); 
+      this.setState({
+        last_id:querySnapshot.size-1
+      })
+  });
+  }
 
     async getBusinessCatories(){
       //get the saved business categories .... saved at splash from firestore

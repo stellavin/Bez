@@ -300,27 +300,31 @@ class AddServicesScreen extends React.Component {
   
          <Text style = {styles.que1}>What do you want to add</Text>
 
-        <View style={{flexDirection:"row"}}>
-          <CheckBox
-              title='Menu'
-              value={this.state.menuChecked}
-              onPress={() => this.handleMenu()}
+       
+        <View style={{flexDirection:'row', width: screenWidth, marginLeft: 10, marginTop: 8,marginBottom: 10}}>
+            <View style={{flexDirection:'row', width: screenWidth/3}}>
+                <CheckBox
+                    value={false}
+                    onValueChange={() => this.handleMenu()}
+                    />
+                <Text style={{marginTop: 5}}> Menu</Text>
+            </View>
 
-            />
+            <View style={{flexDirection:'row', width: screenWidth/3}}>
+                <CheckBox
+                    value={false}
+                    onValueChange={() => this.handleServices()}
+                    />
+                <Text style={{marginTop: 5}}> Services</Text>
+            </View>
 
-            <CheckBox
-              title='Services'
-              value={this.state.servicesChecked}
-              onPress={() => this.handleServices()}
-
-            />
-
-            <CheckBox
-              title='Products'
-              value={this.state.productsChecked}
-              onPress={() => this.handleProducts()}
-
-            />
+            <View style={{flexDirection:'row'}}>
+                <CheckBox
+                    value={false}
+                    onValueChange={() => this.handleProducts()}
+                    />
+                <Text style={{marginTop: 5}}> Products</Text>
+            </View>
 
         </View>
 
@@ -329,7 +333,7 @@ class AddServicesScreen extends React.Component {
 
             <View>
               <Text  style = {styles.que1}>Add (menu)</Text>
-              <View style={{marginLeft: 22,width: 320, marginTop: 20, marginBottom: 20}}>
+              <View style={{marginLeft: 22,width: 320, marginTop: 10, marginBottom: 20}}>
                   {
                     this.state.menuItems.map((item, index) => (
                       <View style = {serviceStyles.container}>
@@ -382,7 +386,7 @@ class AddServicesScreen extends React.Component {
             <View>
                 <Text  style = {styles.que1}>Add (Service)</Text>
 
-                <View style={{marginLeft: 22,width: 320, marginTop: 20, marginBottom: 20}}>
+                <View style={{marginLeft: 22,width: 320, marginTop: 10, marginBottom: 20}}>
                   {
                     this.state.servicesItems.map((item, index) => (
                       <View style = {serviceStyles.container}>
@@ -436,7 +440,7 @@ class AddServicesScreen extends React.Component {
             <View>
                 <Text  style = {styles.que1}>Add (Products)</Text>
 
-                <View style={{marginLeft: 22,width: 320, marginTop: 20, marginBottom: 20}}>
+                <View style={{marginLeft: 22,width: 320, marginTop: 10, marginBottom: 20}}>
                   {
                     this.state.productsItems.map((item, index) => (
                       <View style = {serviceStyles.container}>
