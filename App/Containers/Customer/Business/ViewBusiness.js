@@ -73,8 +73,16 @@ componentWillMount() {
                 </View>
 
                 <View style={{flexDirection: "row", marginTop: 18}}>
+
+                   <TouchableOpacity
+                    
+                   >
+                    <View>
                      <Icon name = 'bookmark' size = {17.5} color = '#000' />
                     <Text style={style.favorite}>  Favorite </Text>
+                    </View>
+                    </TouchableOpacity>
+                    
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
                         <Icon name = 'share' size = {17.5} color = '#000' />
                     </View>

@@ -4,14 +4,10 @@ import { View, Text,TextInput,Picker, } from 'react-native'
 import styles from './Styles/InputComponentStyle'
 
 export default class InputComponent extends Component {
-
-  
-
   render () {
 
   
-    console.log('picker---', this.props.is_picker)
-    console.log('items----', this.props.items)
+  
     return (
       <View style={[styles.container, this.props.style]}>
       <View>
@@ -30,7 +26,7 @@ export default class InputComponent extends Component {
                 }}
                 name="email"
                 keyboardType = {this.props.inputType}
-                onChangeText={this.props.onChangeText}
+                onChangeText={this.props.handleChange}
                 value={this.props.value}
               />:
                <Picker

@@ -27,11 +27,22 @@ import PaymentAmount from "../Components/PaymentAmount";
 import firebase_app from "../Firebase";
 
 class AdvertScreen extends Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
-      ad_data:{}
-    }
+      is_business_ad: false,
+      is_generic_ad: false,
+      preferred_time: "",
+      ad_link: "",
+      business_name: "Champion Garage LTD",
+      banner_url: "https://example.com",
+      caption: "",
+      days_active: 0,
+      ad_type: "",
+      has_added_ad: false,
+      activeTab: 0
+    };
+    this.params = this.props.navigation.state.params;
     try {
       if (Platform.OS !== "web") {
         window = null;
@@ -39,11 +50,36 @@ class AdvertScreen extends Component {
     } catch (error) {
       console.warn(error);
     }
-   
   }
-  saveAd(data){
-    firebase_app.firestore().collection('users').doc(fuid).set(data)
+  saveAd(data) {
+    console.warn("The data is " + JSON.stringify(data));
+    let self = this;
+    firebase_app
+      .firestore()
+      .collection("adverts")
+      .doc(new Date().toLocaleString())
+      .set(data)
+      .then(doc => {
+        alert("Congratulations you have added your advert");
+        this.setState({
+          has_added_ad: true,
+        })
+      })
+      .catch(function(error) {
+        console.warn("Error getting document:", error);
+      });
   }
+  onAdLinkChange = text => {
+    this.setState({
+      ad_link: text
+    });
+  };
+  onCaptionChange = text => {
+    this.setState({
+      caption: text
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -51,52 +87,57 @@ class AdvertScreen extends Component {
           title="Create Advert"
           sub_title1="Ad Details"
           sub_title2="Payment"
+          activeTab={this.state.activeTab}
           navigation={this.props.navigation}
-          tab1={<AddDetails 
-            onFormComplete = {(data)=>{
-             this.setState({
-               data:data
-             })
-          }}  navigation={this.props.navigation} />}
+          tab1={this.renderAddDetails()}
           tab2={<Payment navigation={this.props.navigation} />}
         />
 
-        <BottomButtonFull 
-           style ={{
-             position:'absolute',
-             width:'100%',
-             bottom:0
-           }}
-          name="Continue"
-           /> 
+        <BottomButtonFull
+          onPress={() => {
+            if (!this.state.has_added_ad) {
+              this.saveAd({
+                ad_link: this.state.ad_link,
+                ad_type: this.state.is_business_ad
+                  ? "Business Ad"
+                  : "Generic Ad",
+                banner_url: this.state.banner_url,
+                business_name: this.state.business_name,
+                caption: this.state.caption,
+                days_active: Number(this.state.days_active),
+                preferred_time: this.state.preferred_time,
+                fuid: this.params.fuid
+              });
+            } else {
+              this.setState({
+                activeTab: 1,
+                is_business_ad: false,
+                is_generic_ad: false,
+                preferred_time: "",
+                ad_link: "",
+                business_name: "",
+                banner_url: "",
+                caption: "",
+                days_active: 0,
+                ad_type: "",
+               
+              });
+            }
+          }}
+          style={{
+            
+            width: "100%",
+            bottom: 0
+          }}
+          name={this.state.has_added_ad ? "Proceed" : "Continue"}
+        />
       </View>
     );
   }
-}
-class AddDetails extends React.Component<Props, State> {
-  constructor(props) {
-    super(props);
-    // TODO: undo the lines
 
-    this.state = {
-      is_business_ad: false,
-      is_generic_ad: false,
-      preferred_time: "",
-      days: 0,
-      ad_redirect_link: "",
-      business_name: "",
-      ad_caption: "",
-      banner_url: ""
-    };
-    this.props.onFormComplete = onFormComplete;
-   
-  }
-  onFormComplete = ()=>{
-    
-  }
-  render() {
+  renderAddDetails() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { flex: 1 }]}>
         <ScrollView>
           <PaymentAmount amount={2300} />
 
@@ -172,8 +213,9 @@ class AddDetails extends React.Component<Props, State> {
                 });
               }}
               items={[
-                { name: "Morning", id: "Moring" },
-                { name: "Noon", id: "Noon" }
+                { name: "Morning", id: "Morning" },
+                { name: "Evening", id: "Evening" },
+                { name: "Whole Day", id: "Whole Day" }
               ]}
               width={150}
             />
@@ -187,6 +229,11 @@ class AddDetails extends React.Component<Props, State> {
               }}
               placeholder="Days eg 56"
               width={150}
+              handleChange={value => {
+                this.setState({
+                  days_active: value
+                });
+              }}
             />
           </View>
 
@@ -194,6 +241,7 @@ class AddDetails extends React.Component<Props, State> {
             <InputComponent
               style={{ marginTop: 29, marginLeft: 22, marginRight: 22 }}
               placeholder="Ad-Redirect link"
+              handleChange={this.onAdLinkChange}
             />
           ) : null}
 
@@ -202,9 +250,14 @@ class AddDetails extends React.Component<Props, State> {
             placeholder="Name of Business -Redirect"
             is_picker={true}
             itemValue={this.state.business_name}
+            handleChange={value => {
+              this.setState({
+                business_name: value
+              });
+            }}
             items={[
-              { name: "Morning", id: "Moring" },
-              { name: "Noon", id: "Noon" }
+              { name: "Business A", id: "Business A" },
+              { name: "Business B", id: "Business B" }
             ]}
           />
 
@@ -214,6 +267,11 @@ class AddDetails extends React.Component<Props, State> {
             placeholder="Add Caption"
             placeholderTextColor="grey"
             numberOfLines={10}
+            onChangeText={text => {
+              this.setState({
+                caption: text
+              });
+            }}
             multiline={true}
           />
 
@@ -232,16 +290,6 @@ class AddDetails extends React.Component<Props, State> {
               <Icon name="image" size={24.5} color="#b5b5b5" />
             </View>
           ) : null}
-
-          {/* <BottomButtonFull
-            style={{
-              position: "absolute",
-              marginTop:70,
-              width: "100%",
-              bottom: 0
-            }}
-            name="Continue"
-          /> */}
         </ScrollView>
       </View>
     );

@@ -123,7 +123,7 @@ export default class AdvertCard extends Component {
               color: this.props.history?"#707070": "#83d475"
             }}
           >
-            Morning|Evening
+           {this.props.preferred_time}
           </Text>
         </View>
 
@@ -153,7 +153,7 @@ export default class AdvertCard extends Component {
               color: this.props.history?"#707070": "#83d475"
             }}
           >
-            3 days
+            {this.props.days_active} days
           </Text>
         </View>
 

@@ -40,7 +40,13 @@ const options = {
   };
 
   
-
+  const category_data = [
+    { category: "Restaurants" },
+    { category: "Garage" },
+    { category: "Boutique" },
+    { category: "Salon" },
+    { category: "Supermarket" }
+  ];
 
 class BusinessInfo extends React.Component{
   
@@ -353,8 +359,8 @@ uploadListImageMeal2 = (imageUrls) => {
             <MapView
             style={{width: 400, height: 200}}
               initialRegion={{ // initial region set to Bileto
-                 latitude: this.props.pos[0],
-                  longitude: this.props.pos[1],
+                 latitude:  -1.288882480710017,//this.props.pos[0],
+                  longitude: 36.822870410978794,// this.props.pos[1],
                   latitudeDelta: 0.0922,
                   longitudeDelta: 0.0421
               }}

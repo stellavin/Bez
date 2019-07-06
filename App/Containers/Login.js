@@ -1,9 +1,16 @@
 import React, { Component } from "react";
-import { ScrollView, Text, Button, View, TouchableOpacity, Image } from "react-native";
+import { ScrollView, Text, AsyncStorage, View, TouchableOpacity, Image } from "react-native";
 import { connect } from "react-redux";
 import styles from "./Styles/HomeScreenStyle";
 import firebase from 'firebase'
+import { GoogleSignin } from 'react-native-google-signin';
+import firebase_app from "../Firebase";
 import Header from "../Components/Header";
+
+
+GoogleSignin.configure({
+  webClientId: '527122886768-h4mdfrgv7h7c68551edc2esd1pfv48b8.apps.googleusercontent.com', offlineAccess: true,
+});
 
 class LoginScreen extends Component {
   constructor(props) {
@@ -17,9 +24,71 @@ class LoginScreen extends Component {
   componentDidMount(){
     
   }
-  login = () => {
-    
+  saveFuid(fuid){
+    try{
+      AsyncStorage.setItem("FUID", fuid);
+    }catch(e){
+
+    }
   }
+  googleLogin = async () => {
+    
+    GoogleSignin.hasPlayServices()
+    const data1 = await GoogleSignin.signIn();
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+      data1.idToken
+    );
+    // this.setState({showAlert: true})
+   let  self = this;
+    firebase.auth().signInWithCredential(credential)
+    .then(function (userCredential) {
+          //sign in
+          console.log(userCredential);
+          //Fetch user data from user database using fuid
+          let fuid = userCredential.user.uid;
+          self.setState({
+            fuid:fuid
+          })
+          self.saveFuid(fuid)
+          var userRef = firebase_app.firestore().collection('users').doc(fuid);
+              userRef.get().then((doc) => {
+                  if (doc.exists) {
+                    
+                    console.log("Users first name is:", doc.data().name);
+                    // this.setState = ({showAlert: false})
+                      // user logged in
+
+                  } else {
+                      // doc.data() will be undefined in this case
+                      console.log("No such document!");
+                     let fuid = userCredential.user.uid
+
+                     firebase_app.firestore().collection('users').doc(fuid).set({
+                        name: userCredential.user.displayName,
+                        uid:userCredential.user.uid,
+                        email:userCredential.user.email,
+                        photo_url:userCredential.user.photoURL
+                      
+                  })
+                  // save currentUser to localstorage
+                  // this.setState({showAlert: false})
+                  console.warn('saved user')
+                  }
+              }).catch(function(error) {
+                  console.log("Error getting document:", error);
+              });
+
+       }).catch(function (error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          if (errorCode === 'auth/user-not-found') {
+              //handle this
+          } else {
+              console.error(error);
+          }
+    });
+
+};
 
   logout = () => {
     
@@ -62,6 +131,7 @@ class LoginScreen extends Component {
           <View style={{marginLeft: 62, marginRight: 62}}>
            <TouchableOpacity
              style={styles.google}
+             onPress = {this.googleLogin}
            >
              <View style={{width: 40}}>
              <Image

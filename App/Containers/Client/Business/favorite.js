@@ -26,7 +26,7 @@ class FavoriteScreen extends Component {
 
        
 
-        <BusinessCard
+        {/* <BusinessCard
           name="Champion Garage"
           rating={4.2}
           source={require("../../../Images/sample1.png")}
@@ -39,7 +39,7 @@ class FavoriteScreen extends Component {
           rating={4.2}
           source={require("../../../Images/sample2.png")}
           navigate={this.props.navigation}
-        />
+        /> */}
       </ScrollView>
     );
   }
