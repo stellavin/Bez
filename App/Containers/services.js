@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View,Image, Dimensions, TouchableOpacity, StyleSheet} from "react-native";
+import { ScrollView,CheckBox, Text, View,Image, Dimensions, TouchableOpacity, StyleSheet} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -10,7 +10,7 @@ import InputComponent from "../Components/InputComponent";
 import Thumbnail from "../Components/Thumbnail";
 import BottomButtonFull from "../Components/BottomButtonFull";
 import AddButton from "../Components/AddButton";
-import { CheckBox } from 'react-native-elements'
+// import { CheckBox } from 'react-native-elements'
 
 import firebase from "react-native-firebase";
 import HeaderTabs from "../Components/HeaderTabs";
