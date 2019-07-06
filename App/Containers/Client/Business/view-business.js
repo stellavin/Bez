@@ -22,7 +22,8 @@ constructor(props) {
         user_name:'',
         slider:[],
         items:[],
-        images:[]
+        images:[],
+        service:""
     };
 
 }
@@ -103,6 +104,7 @@ addFavorite(){
 
           this.setState({images: data[0].images})
           this.setState({items: data[0].items})
+          this.setState({service: data[0].service})
           
           console.log('data-------', data[0].images)
           console.log('items-------', data[0].items)
@@ -194,7 +196,7 @@ addFavorite(){
                 
                 
 
-                <Text style={style.menu}>Menu</Text>
+                <Text style={style.menu}>{this.state.service}</Text>
 
                 {/* display menu */}
 

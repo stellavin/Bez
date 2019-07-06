@@ -18,7 +18,7 @@ constructor(props) {
     super(props);
     this.params = this.props.navigation.state.params;
     this.state = {
-        starCount: 3.5,
+        starCount: 0,
         showRating: false,
         rating_text:'',
         rater_uid:'',
@@ -67,10 +67,12 @@ this.setState({showRating: false})
   firebase_app
       .firestore()
       .collection("rate")
-      .doc(new Date().toLocaleString())
+      .doc()
       .set(data)
       .then(doc => {
+        this.fetchRatings()
         alert("Congratulations you have added your advert");
+        
       })
       .catch(function(error) {
         console.warn("Error getting document:", error);

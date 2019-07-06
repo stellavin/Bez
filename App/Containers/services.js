@@ -227,7 +227,8 @@ class AddServicesScreen extends React.Component {
         firebase_app.firestore().collection('business-items').doc().set({
           business_uuid:this.params.business_uuid,
           items:this.state.menuItems,
-          images: data
+          images: data,
+          service:"Menu"
         
         }).then((doc) => {  // fetch the doc again and show its data
               console.log("item----data---",doc)  // prints {id: "the unique id"}
@@ -239,7 +240,8 @@ class AddServicesScreen extends React.Component {
         firebase_app.firestore().collection('business-items').doc().set({
           business_uuid:this.params.business_uuid,
           items:this.state.servicesItems,
-          images: data
+          images: data,
+          service:"Services"
         
         }).then((doc) => {  // fetch the doc again and show its data
               console.log("item----data---",doc)  // prints {id: "the unique id"}
@@ -251,7 +253,8 @@ class AddServicesScreen extends React.Component {
         firebase_app.firestore().collection('business-items').doc().set({
           business_uuid:this.params.business_uuid,
           items:this.state.productsItems,
-          images: data
+          images: data,
+          service:"Products"
         
         }).then((doc) => {  // fetch the doc again and show its data
               console.log("item----data---",doc)  // prints {id: "the unique id"}
