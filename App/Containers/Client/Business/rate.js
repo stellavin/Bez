@@ -71,6 +71,7 @@ this.setState({showRating: false})
       .set(data)
       .then(doc => {
         this.fetchRatings()
+        this.setState({rating_text:""})
         alert("Congratulations you have added your advert");
         
       })
