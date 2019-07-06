@@ -162,7 +162,7 @@ class LoginScreen extends Component {
 
 
 
-        <View style={styles.alignCenter}>
+        {/* <View style={styles.alignCenter}>
           <View style={{marginLeft: 62, marginRight: 62}}>
            <TouchableOpacity
              style={styles.google}
@@ -181,7 +181,7 @@ class LoginScreen extends Component {
 
            </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
 
         
         

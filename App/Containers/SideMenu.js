@@ -316,14 +316,14 @@ class SideMenu extends Component {
             </TouchableOpacity>
 
 
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
             onPress={() => this.facebookLogin()}
             style={{flexDirection: 'row',  marginTop: 26}}>
                <Image
                 style={styles.logo}
                 source={require("../Images/facebook.png")}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* <LoginButton
           onLoginFinished={
