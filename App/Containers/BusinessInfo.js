@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View,Button, Picker, PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
+import { ScrollView, Text, View,Button, Picker,AsyncStorage, PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -39,41 +39,11 @@ const options = {
     }
   };
 
-  
-  const category_data = [
-    { category: "Restaurants" },
-    { category: "Garage" },
-    { category: "Boutique" },
-    { category: "Salon" },
-    { category: "Supermarket" }
-  ];
-
+ 
 class BusinessInfo extends React.Component{
   
     state = {
       driversExist: false,
-      picker_items: [
-        {
-          id: 'Hotel',
-          name: 'Hotel'
-        },
-        {
-          id: 'Hospital',
-          name: 'Hospital'
-        },
-        {
-            id: 'Salon',
-            name: 'Salon'
-          },
-          {
-            id: 'Clothing',
-            name: 'Clothing'
-          },
-          {
-            id: 'Garage',
-            name: 'Garage'
-          }
-      ],
       picker_items2: [
         {
           id: 'Menu',
@@ -88,6 +58,7 @@ class BusinessInfo extends React.Component{
             name: 'Products'
           }
       ],
+      categories_obj:[],
       type:"",
       category: "",
       business_name: "",
@@ -101,6 +72,7 @@ class BusinessInfo extends React.Component{
       showAlert: false,
       showSuccess: false,
       showDanger: false,
+      last_id:0,
 
       business_uuid:"",
       images:[],
@@ -108,12 +80,41 @@ class BusinessInfo extends React.Component{
       thumbnail_uri:"",
       thumbnail:[],
       thumbnail_src:""
-
     };
+  
+   componentWillMount(){
+     this.getBusinessCatories();
+     this.getbusinessesCount()
+   }
 
-    componentWillMount(){
-      
+    async getBusinessCatories(){
+      //get the saved business categories .... saved at splash from firestore
+      try{
+      let categories = await AsyncStorage.getItem('CAT');
+      if(categories){
+        console.warn('the categories list is '+ categories);
+        let cat_array = JSON.parse(categories).categories;
+        console.warn('the array is --------'+ cat_array)
+        let category_data = []
+        for(let i = 0; i < cat_array.length; i ++){
+             category_data.push({
+               id:cat_array[i],
+               name:cat_array[i]
+             })
+        }
+        this.setState({
+          categories_obj:category_data
+        })
+      }
+  
+  
+      }catch(error){
+  
+      }
     }
+
+ 
+
 
   CreateBusiness = (imageUrls,thumbnail_uri) => {
     
@@ -127,10 +128,11 @@ class BusinessInfo extends React.Component{
       
       firebase_app.firestore().collection('customer-businesses').doc(business_uuid).set({
         user_uid:this.props.currentUser.uid,
+        id:this.state.last_id+1,
         business_name:this.state.business_name,
         business_uuid: business_uuid,
-        business_type:this.state.type,
-        business_category:this.state.category,
+        business_type:this.state.category,
+        business_category:this.state.type,
         phone_number: this.state.phone_number,
         location:this.props.pos,
         business_thumbnail: thumbnail_uri[0],
@@ -147,6 +149,8 @@ class BusinessInfo extends React.Component{
 
   }
 
+  
+
   GotoServices(){
     this.props.navigation.navigate("AddServicesScreen",{user_uid:this.props.currentUser.uid, business_uuid: this.state.business_uuid});
   }
@@ -158,12 +162,12 @@ class BusinessInfo extends React.Component{
     this.GotoServices();
   };
 
-  renderCustomSuccessAlert = () => (
+  renderCustomSuccessAlert = () => {
     <View>
       <Icon style={{fontSize: 80, color: 'green',alignSelf :"center",}} name="check"></Icon>
       <Text>{this.state.successMessage}</Text>
     </View>
-  );
+  }
   
 
   handleChange =(itemValue, itemIndex) => {
@@ -326,7 +330,7 @@ uploadListImageMeal2 = (imageUrls) => {
           <InputComponent
             style={{ marginTop: 15, marginRight: 22, marginLeft: 22 }}
             is_picker={true}
-            items={picker_items}
+            items={this.state.categories_obj}
             itemValue={this.state.type}
             handleChange ={this.handleChange}
             placeholder="Select Type of Business"
