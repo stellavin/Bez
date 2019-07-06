@@ -303,21 +303,21 @@ class AddServicesScreen extends React.Component {
         <View style={{flexDirection:"row"}}>
           <CheckBox
               title='Menu'
-              checked={this.state.menuChecked}
+              value={this.state.menuChecked}
               onPress={() => this.handleMenu()}
 
             />
 
             <CheckBox
               title='Services'
-              checked={this.state.servicesChecked}
+              value={this.state.servicesChecked}
               onPress={() => this.handleServices()}
 
             />
 
             <CheckBox
               title='Products'
-              checked={this.state.productsChecked}
+              value={this.state.productsChecked}
               onPress={() => this.handleProducts()}
 
             />
