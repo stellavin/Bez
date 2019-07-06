@@ -15,7 +15,8 @@ class FavoriteScreen extends Component {
     this.state = {
       favorites_array:[],
       user_id:'',
-      businesses_id:[]
+      businesses_id:[],
+      businesses:[]
     }
   }
   componentWillMount(){
@@ -48,16 +49,25 @@ class FavoriteScreen extends Component {
   
     }
   }
-  fetchFavorites(){
-    console.warn('the fuid is '+ fuid)
+  fetchBusinesses(){
+    firebase_app
+    .firestore()
+    .collection("customer-businesses")
+  .get()
+  .then(business => {
+    console.warn('the data is '+ JSON.stringify(business))
+    this.setState({
+      businesses:[...this.state.businesses,business],
+    });
+  });
     
 }
 renderBusiness =() => {
-  const favorites_array = this.state.favorites_array;
+  const businesses = this.state.businesses;
 
-  if(favorites_array.length != 0){
-    return favorites_array.map((business, index) => {
-      
+  if(businesses.length != 0){
+    return businesses.map((business, index) => {
+      ;
       return (
       <BusinessCard
           key={index}
