@@ -222,7 +222,7 @@ class AddServicesScreen extends React.Component {
 
     saveItemsToDB = (data) => {
       
-      if(this.state.menuItems.length != undefined){
+      if(this.state.menuItems.length != undefined && this.state.menuChecked || this.state.menuItems.length > 0 && this.state.menuChecked){
         
         firebase_app.firestore().collection('business-items').doc().set({
           business_uuid:this.params.business_uuid,
@@ -235,7 +235,7 @@ class AddServicesScreen extends React.Component {
               this.setState({showSuccess: true, successMessage: "Congratulations you have successfully added your items"})
       })
         
-      }else if(this.state.servicesItems.length != undefined){
+      }else if(this.state.servicesItems.length != undefined && this.state.servicesChecked || this.state.servicesItems.length > 0 && this.state.servicesChecked){
         firebase_app.firestore().collection('business-items').doc().set({
           business_uuid:this.params.business_uuid,
           items:this.state.servicesItems,
@@ -247,7 +247,7 @@ class AddServicesScreen extends React.Component {
               this.setState({showSuccess: true, successMessage: "Congratulations you have successfully added your items"})
       })
 
-      }else if(this.state.productsItems.length != undefined){
+      }else if(this.state.productsItems.length != undefined && this.state.productsChecked || this.state.productsItems.length > 0 && this.state.productsChecked){
         firebase_app.firestore().collection('business-items').doc().set({
           business_uuid:this.params.business_uuid,
           items:this.state.productsItems,
