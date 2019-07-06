@@ -36,7 +36,13 @@ const options = {
   };
 
   
-
+  const category_data = [
+    { category: "Restaurants" },
+    { category: "Garage" },
+    { category: "Boutique" },
+    { category: "Salon" },
+    { category: "Supermarket" }
+  ];
 
 class BusinessInfo extends React.Component{
   

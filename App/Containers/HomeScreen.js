@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, KeyboardAvoidingView, View } from "react-native";
+import { ScrollView, Text, AsyncStorage, View } from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -17,7 +17,7 @@ import Icon from "react-native-vector-icons/FontAwesome5";
 
 
 
-const dummy_category_data = [
+const category_data = [
   { category: "Restaurants" },
   { category: "Garage" },
   { category: "Boutique" },
@@ -33,7 +33,8 @@ class HomeScreen extends React.Component<Props, State> {
        selected:"",
        businesses:[],
        showAlert: true,
-       search_term:""
+       search_term:"",
+       category_data:[]
 
     }
 
@@ -41,9 +42,35 @@ class HomeScreen extends React.Component<Props, State> {
 
     
   }
+  async getBusinessCatories(){
+    //get the saved business categories .... saved at splash from firestore
+    try{
+    let categories = await AsyncStorage.getItem('CAT');
+    if(categories){
+      console.warn('the categories list is '+ categories);
+      let cat_array = JSON.parse(categories).categories;
+      console.warn('the array is --------'+ cat_array)
+      let category_data = []
+      for(let i = 0; i < cat_array.length; i ++){
+           category_data.push({
+             category:cat_array[i]
+           })
+      }
+      this.setState({
+        category_data:category_data
+      })
+    }
+
+
+    }catch(error){
+
+    }
+  }
    
   componentWillMount(){
-    this.fetchBusiness()
+    
+    this.fetchBusiness();
+    this.getBusinessCatories()
   
   }
   getBusinessByCategory(category){
@@ -166,7 +193,7 @@ class HomeScreen extends React.Component<Props, State> {
         <View style={{marginTop: 15}}></View>
 
         <View style={styles.line}></View>
-        <Categories categories={dummy_category_data}
+        <Categories categories={this.state.category_data}
           onCategoryChange = {(selected)=>{
             console.warn("The selected category is "+ selected)
             this.getBusinessByCategory(selected);
