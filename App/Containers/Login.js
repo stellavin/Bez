@@ -6,6 +6,8 @@ import firebase from 'firebase'
 import { GoogleSignin } from 'react-native-google-signin';
 import firebase_app from "../Firebase";
 import Header from "../Components/Header";
+import AwesomeAlert from 'react-native-awesome-alerts';
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 
 GoogleSignin.configure({
@@ -17,7 +19,11 @@ class LoginScreen extends Component {
     super(props);
 
     this.state ={
-        user: null
+        user: null,
+        successMessage:"",
+        showAlert: false,
+        showSuccess: false,
+        showDanger: false
     }
     
   }
@@ -39,6 +45,7 @@ class LoginScreen extends Component {
     }
   }
   googleLogin = async () => {
+    this.setState({showAlert: true})
     
     GoogleSignin.hasPlayServices()
     const data1 = await GoogleSignin.signIn();
@@ -65,6 +72,10 @@ class LoginScreen extends Component {
                     console.log("Users first name is:", doc.data().name);
                     // this.setState = ({showAlert: false})
                       // user logged in
+                      this.setState({showAlert: false})
+                      // this.setState({showSuccess: true, successMessage: "Congratulations you have logged in"})
+
+
 
                   } else {
                       // doc.data() will be undefined in this case
@@ -81,6 +92,9 @@ class LoginScreen extends Component {
                   // save currentUser to localstorage
                   // this.setState({showAlert: false})
                   console.warn('saved user')
+                  this.setState({showAlert: false})
+                    // this.setState({showSuccess: true, successMessage: "Congratulations your account has been created"})
+     
                   }
               }).catch(function(error) {
                   console.log("Error getting document:", error);
@@ -98,6 +112,24 @@ class LoginScreen extends Component {
 
 };
 
+GotoServices(){
+  this.props.navigation.navigate("HomeScreen");
+}
+
+showSuccess = () => {
+  this.setState({
+    showSuccess: false
+  });
+  this.GotoServices();
+};
+
+renderCustomSuccessAlert = () => (
+  <View>
+    <Icon style={{fontSize: 80, color: 'green',alignSelf :"center",}} name="check"></Icon>
+    <Text>{this.state.successMessage}</Text>
+  </View>
+);
+
   logout = () => {
     
   }
@@ -105,7 +137,8 @@ class LoginScreen extends Component {
   render() {
     const { user } = this.state
     return (
-      <ScrollView style={styles.container2}>
+      <View style={styles.container2}>
+      <ScrollView >
         {/* <Header
           show_search={true}
           type_of_nav={'bars'}
@@ -187,6 +220,59 @@ class LoginScreen extends Component {
         
       
       </ScrollView>
+
+      <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
+
+          <AwesomeAlert
+              show={this.state.showDanger}
+              showProgress={false}
+              message="Please Fill All The Fields"
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={false}
+              cancelText="OK"
+              confirmText="Yes, delete it"
+              cancelButtonColor="red"
+              onCancelPressed={() => {
+                  this.setState({showDanger: false, showAlert: false, showSuccess: false})
+              }}
+              onConfirmPressed={() => {
+                this.setState({showDanger: false, showAlert: false, showSuccess: false})
+            }}
+              
+            />
+
+            <AwesomeAlert
+              show={this.state.showSuccess}
+              customView={this.renderCustomSuccessAlert()}
+              closeOnTouchOutside={false}
+              closeOnHardwareBackPress={false}
+              showCancelButton={true}
+              showConfirmButton={false}
+              cancelText="Awesome"
+              confirmText="Yes, delete it"
+              cancelButtonColor="green"
+              onCancelPressed={() => {
+                this.showSuccess();
+              }}
+              onConfirmPressed={() => {
+                this.showSuccess();
+              }}
+              
+            />
+  
+
+      </View>
     );
   }
 }

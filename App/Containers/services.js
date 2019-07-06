@@ -35,10 +35,7 @@ const options = {
   storageOptions: {
     skipBackup: true,
     initialLoader: false,
-    path: "images",
-    showAlert: false,
-    showSuccess: false,
-    showDanger: false
+    path: "images"
   }
 };
 
@@ -64,7 +61,11 @@ class AddServicesScreen extends React.Component {
         serviceItem:"",
         productItem:"",
         images:[],
-        imageUrls:[]
+        imageUrls:[],
+        successMessage:"",
+        showAlert: false,
+        showSuccess: false,
+        showDanger: false
       };
     }
 
@@ -286,6 +287,27 @@ class AddServicesScreen extends React.Component {
         <Text>{this.state.successMessage}</Text>
       </View>
     );
+
+    delete(myitem,index){
+      if(this.state.menuChecked){
+        arr = this.state.menuItems.filter(function(item) { 
+          return item !== myitem
+      })
+      this.setState({menuItems: arr})
+        
+      }else if(this.state.servicesChecked){
+        arr = this.state.servicesItems.filter(function(item) { 
+          return item !== myitem
+      })
+      this.setState({servicesItems: arr})
+
+      }else if(this.state.productsChecked){
+        arr = this.state.productsItems.filter(function(item) { 
+          return item !== myitem
+      })
+      this.setState({productsItems: arr})
+      }
+    }
   
     render() {
       const {servicesChecked, menuChecked, productsChecked} = this.state;
@@ -353,7 +375,7 @@ class AddServicesScreen extends React.Component {
                         </TouchableOpacity>
                         <TouchableOpacity 
                         style={{alignItems:"flex-end"}}
-                        onPress = {() => this.alertItemName(item)}>
+                        onPress = {() => this.delete(item,index)}>
                             <Icon  color="#fff" name="trash"></Icon>
                         </TouchableOpacity>
                            
@@ -406,7 +428,7 @@ class AddServicesScreen extends React.Component {
                         </TouchableOpacity>
                         <TouchableOpacity 
                         style={{alignItems:"flex-end"}}
-                        onPress = {() => this.alertItemName(item)}>
+                        onPress = {() => this.delete(item,index)}>
                             <Icon  color="#fff" name="trash"></Icon>
                         </TouchableOpacity>
                            
@@ -460,7 +482,7 @@ class AddServicesScreen extends React.Component {
                         </TouchableOpacity>
                         <TouchableOpacity 
                         style={{alignItems:"flex-end"}}
-                        onPress = {() => this.alertItemName(item)}>
+                        onPress = {() => this.delete(item,index)}>
                             <Icon  color="#fff" name="trash"></Icon>
                         </TouchableOpacity>
                            
