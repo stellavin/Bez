@@ -40,7 +40,7 @@ export default class HeaderTabs extends Component {
       <Tabs
           initialPage={this.props.activeTab}
           page = {this.props.activeTab}
-          locked={false}
+          locked={true}
           tabBarUnderlineStyle={{ backgroundColor: "#fff" }}
         >
           <Tab

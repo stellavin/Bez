@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ScrollView, Text, View,Button, Picker,AsyncStorage, PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
+import { ScrollView, Text, View,Button, Picker,AsyncStorage,PermissionsAndroid,Image, Dimensions, TouchableOpacity} from "react-native";
 import { connect } from "react-redux";
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
@@ -38,6 +38,10 @@ const options = {
       path: "images"
     }
   };
+
+  const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
+
 
  
 class BusinessInfo extends React.Component{
@@ -372,6 +376,8 @@ uploadListImageMeal2 = (imageUrls) => {
           </Text>
           {this.props.pos.length != undefined || this.props.pos.length > 0 ?(
             <MapView
+            zoomEnabled={false}
+            scrollEnabled={false}
             style={{width: 400, height: 200}}
               initialRegion={{ // initial region set to Bileto
                  latitude:  -1.288882480710017,//this.props.pos[0],
@@ -470,13 +476,50 @@ uploadListImageMeal2 = (imageUrls) => {
               
               </View>
 
-                <Button
-                    onPress={() => this.uploadListImageMeal()}
-                    title="Continue"
-                    color="#2eb62c"
-                />
+                
 
         </ScrollView>
+
+        <TouchableOpacity
+                onPress={() => this.uploadListImageMeal()}
+                style={{
+                  width:screenWidth, 
+                  bottom:0, 
+                  backgroundColor:"#2eb62c",
+                  alignItems:"center",
+                height: 50}}
+              >
+              <View>
+                <Text style={{color:"#fff",
+               fontFamily: "Roboto",
+               fontSize: 16,
+               fontWeight: "500",
+               fontStyle: "normal",
+               lineHeight: 19,
+               letterSpacing: 0,
+               marginTop: 15}}>Continue</Text>
+                </View>
+              </TouchableOpacity>
+
+              <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
+
+        {/* <View> 
+        <Button
+            onPress={() => this.uploadListImageMeal()}
+            title="Continue"
+            
+            color="#2eb62c"
+        />
+        </View> */}
 
         <AwesomeAlert
           show={this.state.showAlert}
