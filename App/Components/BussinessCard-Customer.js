@@ -14,15 +14,34 @@ export default class BusinessCardCustomer extends Component {
     const navigate = this.props.navigate;
     return (
       <TouchableOpacity 
-           onPress = {()=>{
-             navigate.navigate("ViewCustomerBusinessScreen")
-           }}
+           onPress={() => {
+            console.warn(
+              "the clicked business name is " +
+                this.props.business_name +
+                "the id is " +
+                this.props.business_id
+            );
+            let cover_photos_array = [];
+            for (let i = 0; i < this.props.cover_photos_urls.length; i++) {
+              cover_photos_array.push({ uri: this.props.cover_photos_urls[i] });
+            }
+            
+            let  cover_photos = cover_photos_array;
+            
+            navigate.navigate("ViewCustomerBusinessScreen", {
+              business_name: this.props.business_name,
+              business_id: this.props.business_id,
+              cover_photos_urls: cover_photos
+            });
+          }}
+
+          style={{marginBottom: 10}}
           >
 
              <View style={[styles.container,this.props.style]}>
               <Image
                     style={styles.image}
-                    source={this.props.source}
+                    source={{ uri: this.props.source }}
                   />
                   <View style = {styles.column1}>
                   <View style = {styles.row}> 

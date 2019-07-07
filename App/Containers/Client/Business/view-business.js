@@ -76,7 +76,7 @@ addFavorite(){
       firebase_app
           .firestore()
           .collection("favorite")
-          .doc(new Date().toLocaleString())
+          .doc()
           .set(data)
           .then(doc => {
             alert("Business successfully added to favorites");
