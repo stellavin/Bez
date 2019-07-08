@@ -196,6 +196,7 @@ renderRatings(){
                     style={style.textArea}
                     onChangeText = {this.onTextChange}
                     underlineColorAndroid="transparent"
+                    placeholderStyle={{marginLeft: 20}}
                     placeholder="Type something"
                     placeholderTextColor="grey"
                     numberOfLines={10}

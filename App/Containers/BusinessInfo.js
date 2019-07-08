@@ -229,43 +229,58 @@ pickItem(){
 }
 
 uploadListImageMeal = () => {
-  this.setState({showAlert: true})
-  const userID = this.props.currentUser.uid;
 
-  const urls = this.state.images.map((image) => {
-    const uploadUri =image.name;
-    const time = image.time;
-    const mime = 'application/octet-stream';
-    const Blob = RNFetchBlob.polyfill.Blob;
-    const fs = RNFetchBlob.fs;
-    // let uploadBlob = null
-    const currentTime = Date.now()
-    const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
-    return fs.readFile(uploadUri, 'base64')
-      .then((data) => {
-        return Blob.build(data, { type: `${mime};BASE64` })
-      })
-      .then((blob) => {
-        // uploadBlob = blob
-        return imageRef.put(blob._ref, blob, { contentType: mime })
-      })
-      .then(() => {
-        // uploadBlob.close()
-        return imageRef.getDownloadURL()
-      })
-      .then((url) => {
-        return (url)
-      })
-      .catch((error) => {
-        return host
-      })
-  })
-  return Promise.all(urls)
-  .then((imageUrls) => {
-    console.log('urls---------', imageUrls);
-    this.setState({imageUrls: imageUrls})
-    this.uploadListImageMeal2(imageUrls)
-  })
+  if(
+    this.state.type == "" ||
+    this.state.category == "" ||
+    this.state.phone_number == "" ||
+    this.state.thumbnail == "" ||
+    this.state.images.length == undefined ){
+      this.setState({showDanger: true})
+
+  }else {
+    this.setState({showAlert: true})
+    const userID = this.props.currentUser.uid;
+  
+    const urls = this.state.images.map((image) => {
+      const uploadUri =image.name;
+      const time = image.time;
+      const mime = 'application/octet-stream';
+      const Blob = RNFetchBlob.polyfill.Blob;
+      const fs = RNFetchBlob.fs;
+      // let uploadBlob = null
+      const currentTime = Date.now()
+      const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+      return fs.readFile(uploadUri, 'base64')
+        .then((data) => {
+          return Blob.build(data, { type: `${mime};BASE64` })
+        })
+        .then((blob) => {
+          // uploadBlob = blob
+          return imageRef.put(blob._ref, blob, { contentType: mime })
+        })
+        .then(() => {
+          // uploadBlob.close()
+          return imageRef.getDownloadURL()
+        })
+        .then((url) => {
+          return (url)
+        })
+        .catch((error) => {
+          return host
+        })
+    })
+    return Promise.all(urls)
+    .then((imageUrls) => {
+      console.log('urls---------', imageUrls);
+      this.setState({imageUrls: imageUrls})
+      this.uploadListImageMeal2(imageUrls)
+    })
+
+  }
+
+
+ 
 }
 
 pickItem2(){
@@ -331,8 +346,8 @@ uploadListImageMeal2 = (imageUrls) => {
 }
  
   render() {
-    const {picker_items, picker_items2, thumbnail_src, biz_cover_photo_1_src, biz_cover_photo_2_src, biz_cover_photo_3_src} = this.state;
-    
+    const {imageUrls,picker_items, picker_items2, thumbnail_src, biz_cover_photo_1_src, biz_cover_photo_2_src, biz_cover_photo_3_src} = this.state;
+    console.warn('images----count-----', this.state.imageUrls.length)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -404,27 +419,29 @@ uploadListImageMeal2 = (imageUrls) => {
 
               ):
               <TouchableOpacity
-                    onPress={() => {this.pickItem2()}}
-                    style={{ 
-                      width: 73,
-                      height: 69,
-                      borderRadius: 3,
-                      marginLeft: 22,
-                      backgroundColor: "#ffffff",
-                      borderStyle: "solid",
-                      borderWidth: 1,
-                      borderColor: "#b5b5b5",
-                      alignItems:"center",
-                      marginTop: 8
+              onPress={() => {this.pickItem2()}}
+              style={{ 
+                width: 73,
+                height: 69,
+                borderRadius: 3,
+                marginLeft: 22,
+                backgroundColor: "#ffffff",
+                borderStyle: "solid",
+                borderWidth: 1,
+                borderColor: "#b5b5b5",
+                alignItems:"center",
+                marginTop: 8
 
-                    }}
-                  >
-                    <Image
-                    style={{marginTop: 20}}
-                      source={require("../Images/image_icon.png")}
-                    />
-                  </TouchableOpacity>
+              }}
+            >
+              <Image
+              style={{marginTop: 20}}
+                source={require("../Images/image_icon.png")}
+              />
+            </TouchableOpacity>
               }
+
+              
           
           <Text style={styles.bus_thumb}>Business cover photos (3 only)</Text>
 
@@ -450,28 +467,36 @@ uploadListImageMeal2 = (imageUrls) => {
                         
                     ))
                   }
+
+              {
+                this.state.images.length <= 2?(
+                  <TouchableOpacity
+                onPress={() => {this.pickItem()}}
+                style={{ 
+                  width: 73,
+                  height: 69,
+                  borderRadius: 3,
+                  backgroundColor: "#ffffff",
+                  borderStyle: "solid",
+                  borderWidth: 1,
+                  borderColor: "#b5b5b5",
+                  alignItems:"center",
+                  marginTop: 8
+
+                }}
+              >
+                <Image
+                style={{marginTop: 20}}
+                  source={require("../Images/image_icon.png")}
+                />
+              </TouchableOpacity>
+                 
+                ):
+                null
+                
+              }
                 
 
-                  <TouchableOpacity
-                    onPress={() => {this.pickItem()}}
-                    style={{ 
-                      width: 73,
-                      height: 69,
-                      borderRadius: 3,
-                      backgroundColor: "#ffffff",
-                      borderStyle: "solid",
-                      borderWidth: 1,
-                      borderColor: "#b5b5b5",
-                      alignItems:"center",
-                      marginTop: 8
-
-                    }}
-                  >
-                    <Image
-                    style={{marginTop: 20}}
-                      source={require("../Images/image_icon.png")}
-                    />
-                  </TouchableOpacity>
                   
               
               </View>
@@ -535,7 +560,7 @@ uploadListImageMeal2 = (imageUrls) => {
           <AwesomeAlert
               show={this.state.showDanger}
               showProgress={false}
-              message="Please Fill All The Fields"
+              message="Please fill in all the fields to continue"
               closeOnTouchOutside={false}
               closeOnHardwareBackPress={false}
               showCancelButton={true}

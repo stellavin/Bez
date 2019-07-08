@@ -178,8 +178,70 @@ class AddServicesScreen extends React.Component {
         }
       });
     }
-
     uploadListImageMeal = () => {
+
+      if(this.state.menuChecked){
+        if(this.state.menuItems.length == 0 ||
+          this.state.menuItems.length == undefined ||
+          this.state.images.length == 0 ||
+          this.state.images.length == undefined){
+
+            this.setState({showDanger: true})
+
+      }else{
+        this.setState({showAlert: true})
+        const userID = this.params.user_uid;
+      
+        const urls = this.state.images.map((image) => {
+          const uploadUri =image.name;
+          const time = image.time;
+          const mime = 'application/octet-stream';
+          const Blob = RNFetchBlob.polyfill.Blob;
+          const fs = RNFetchBlob.fs;
+          // let uploadBlob = null
+          const currentTime = Date.now()
+          const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+          return fs.readFile(uploadUri, 'base64')
+            .then((data) => {
+              return Blob.build(data, { type: `${mime};BASE64` })
+            })
+            .then((blob) => {
+              // uploadBlob = blob
+              return imageRef.put(blob._ref, blob, { contentType: mime })
+            })
+            .then(() => {
+              // uploadBlob.close()
+              return imageRef.getDownloadURL()
+            })
+            .then((url) => {
+              return (url)
+            })
+            .catch((error) => {
+              return host
+            })
+        })
+      
+      
+        return Promise.all(urls)
+          .then((data) => {
+            console.log('urls---------', data);
+            this.setState({imageUrls: data})
+            this.saveItemsToDB(data)
+          })
+
+      }
+    }
+
+
+    if(this.state.servicesChecked){
+      if(this.state.servicesItems.length == 0 ||
+        this.state.servicesItems.length == undefined ||
+        this.state.images.length == 0 ||
+        this.state.images.length == undefined){
+
+          this.setState({showDanger: true})
+
+    }else{
       this.setState({showAlert: true})
       const userID = this.params.user_uid;
     
@@ -219,7 +281,106 @@ class AddServicesScreen extends React.Component {
           this.setState({imageUrls: data})
           this.saveItemsToDB(data)
         })
+
     }
+  }
+
+
+  if(this.state.productsChecked){
+    if(this.state.productsItems.length == 0 ||
+      this.state.productsItems.length == undefined ||
+      this.state.images.length == 0 ||
+      this.state.images.length == undefined){
+
+        this.setState({showDanger: true})
+
+  }else{
+    this.setState({showAlert: true})
+    const userID = this.params.user_uid;
+  
+    const urls = this.state.images.map((image) => {
+      const uploadUri =image.name;
+      const time = image.time;
+      const mime = 'application/octet-stream';
+      const Blob = RNFetchBlob.polyfill.Blob;
+      const fs = RNFetchBlob.fs;
+      // let uploadBlob = null
+      const currentTime = Date.now()
+      const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+      return fs.readFile(uploadUri, 'base64')
+        .then((data) => {
+          return Blob.build(data, { type: `${mime};BASE64` })
+        })
+        .then((blob) => {
+          // uploadBlob = blob
+          return imageRef.put(blob._ref, blob, { contentType: mime })
+        })
+        .then(() => {
+          // uploadBlob.close()
+          return imageRef.getDownloadURL()
+        })
+        .then((url) => {
+          return (url)
+        })
+        .catch((error) => {
+          return host
+        })
+    })
+  
+  
+    return Promise.all(urls)
+      .then((data) => {
+        console.log('urls---------', data);
+        this.setState({imageUrls: data})
+        this.saveItemsToDB(data)
+      })
+
+  }
+}
+     
+    }
+
+    // uploadListImageMeal = () => {
+    //   this.setState({showAlert: true})
+    //   const userID = this.params.user_uid;
+    
+    //   const urls = this.state.images.map((image) => {
+    //     const uploadUri =image.name;
+    //     const time = image.time;
+    //     const mime = 'application/octet-stream';
+    //     const Blob = RNFetchBlob.polyfill.Blob;
+    //     const fs = RNFetchBlob.fs;
+    //     // let uploadBlob = null
+    //     const currentTime = Date.now()
+    //     const imageRef = firebase.storage().ref(`images/${userID}/items/${time}`).child(`${currentTime}.png`)
+    //     return fs.readFile(uploadUri, 'base64')
+    //       .then((data) => {
+    //         return Blob.build(data, { type: `${mime};BASE64` })
+    //       })
+    //       .then((blob) => {
+    //         // uploadBlob = blob
+    //         return imageRef.put(blob._ref, blob, { contentType: mime })
+    //       })
+    //       .then(() => {
+    //         // uploadBlob.close()
+    //         return imageRef.getDownloadURL()
+    //       })
+    //       .then((url) => {
+    //         return (url)
+    //       })
+    //       .catch((error) => {
+    //         return host
+    //       })
+    //   })
+    
+    
+    //   return Promise.all(urls)
+    //     .then((data) => {
+    //       console.log('urls---------', data);
+    //       this.setState({imageUrls: data})
+    //       this.saveItemsToDB(data)
+    //     })
+    // }
 
     saveItemsToDB = (data) => {
       
