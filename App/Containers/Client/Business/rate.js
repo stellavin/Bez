@@ -8,6 +8,7 @@ import StarRating from 'react-native-star-rating';
 import Icon from "react-native-vector-icons/FontAwesome5";
 import Dialog, { DialogContent,DialogFooter, DialogButton } from 'react-native-popup-dialog';
 import firebase_app from "../../../Firebase";
+import SvgUri from 'react-native-svg-uri';
 
 
 
@@ -108,8 +109,12 @@ renderRatings(){
   return this.state.ratings_array.map((rating)=>{
    return(
     <View style={{flexDirection: "row",marginTop: 15}}>
-    <Icon name = 'user-circle' size = {25} color = '#000' />
-
+    {/* <Icon name = 'contact' size = {25} color = '#000' /> */}
+    <SvgUri
+    width="27"
+    height="27"
+    source={require("../../../Images/contact.svg")}
+  />
     <View style={{marginLeft: 20}}>
         <Text style={style.menuTitle}>{rating.rater_name}</Text>
         <View style={{width: 70}}>

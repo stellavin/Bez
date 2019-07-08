@@ -17,6 +17,7 @@ export default class InputComponent extends Component {
       <View>
       {!this.props.is_picker?
             <TextInput
+                textAlign={'left'}
                 style = {styles.input}
                 underlineColorAndroid="transparent"
                 placeholderTextColor="#939393"
@@ -25,8 +26,9 @@ export default class InputComponent extends Component {
                   width: this.props.width?this.props.width: 260,
                   fontSize: 14,
                   height: 33,
-                  padding: 5,
+                  padding: 2,
                   color: "#000"
+                  
                 }}
                 name="email"
                 keyboardType = {this.props.inputType}
@@ -35,11 +37,12 @@ export default class InputComponent extends Component {
               />:
                <Picker
                     selectedValue={this.props.itemValue}
+                    textAlign={'left'}
                     style={{
                       height: 35,
                       width: this.props.width?this.props.width: 260,
                       color: "#939393",
-                      
+                      marginLeft: -20
                     }}
                     onValueChange={this.props.handleChange}
                   >
