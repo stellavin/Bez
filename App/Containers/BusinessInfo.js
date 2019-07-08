@@ -352,6 +352,7 @@ class BusinessInfo extends React.Component {
     return Promise.all(urls).then(thumbnail_uri => {
       console.log("urls---------", thumbnail_uri);
       this.setState({ thumbnail_uri: thumbnail_uri });
+
       this.CreateBusiness(imageUrls, thumbnail_uri);
     });
   };
@@ -502,7 +503,7 @@ class BusinessInfo extends React.Component {
               <TouchableOpacity
                 onPress={() => {
                   this.pickItem();
-                  console.warn('the count is '+ this.state.image_count)
+                  console.warn("the count is " + this.state.image_count);
                 }}
                 style={{
                   width: 73,
@@ -526,7 +527,18 @@ class BusinessInfo extends React.Component {
         </ScrollView>
 
         <TouchableOpacity
-          onPress={() => this.uploadListImageMeal()}
+          onPress={() => {
+            if (
+              this.state.business_name == "" ||
+              this.state.category == "" ||
+              this.state.phone_number == ""||
+              this.state.image_count != 3
+            ) {
+              alert("Please fill all fields before you continue");
+            } else {
+              this.uploadListImageMeal();
+            }
+          }}
           style={{
             width: screenWidth,
             bottom: 0,
