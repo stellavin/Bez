@@ -24,7 +24,7 @@ import AddButton from "../Components/AddButton";
 import firebase from "react-native-firebase";
 import HeaderTabs from "../Components/HeaderTabs";
 import firebase_app from "../Firebase";
-import MapView, {Marker} from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AwesomeAlert from "react-native-awesome-alerts";
@@ -92,10 +92,10 @@ class BusinessInfo extends React.Component {
     thumbnail: [],
     thumbnail_src: "",
     successMessage: "",
-    lastLat:-1.288882480710017,
-    lastLong:36.822870410978794,
+    lastLat: -1.288882480710017,
+    lastLong: 36.822870410978794,
+    image_count: 0
   };
- 
 
   componentWillMount() {
     this.getBusinessCatories();
@@ -225,6 +225,9 @@ class BusinessInfo extends React.Component {
         const source = response.uri;
         const timestamp = Date.now();
         console.log("uri----", source);
+        this.setState({
+          image_count: (this.state.image_count += 1)
+        });
         this.setState(prevState => ({
           images: [
             ...prevState.images,
@@ -495,27 +498,30 @@ class BusinessInfo extends React.Component {
               />
             ))}
 
-            <TouchableOpacity
-              onPress={() => {
-                this.pickItem();
-              }}
-              style={{
-                width: 73,
-                height: 69,
-                borderRadius: 3,
-                backgroundColor: "#ffffff",
-                borderStyle: "solid",
-                borderWidth: 1,
-                borderColor: "#b5b5b5",
-                alignItems: "center",
-                marginTop: 8
-              }}
-            >
-              <Image
-                style={{ marginTop: 20 }}
-                source={require("../Images/image_icon.png")}
-              />
-            </TouchableOpacity>
+            {this.state.image_count < 3 ? (
+              <TouchableOpacity
+                onPress={() => {
+                  this.pickItem();
+                  console.warn('the count is '+ this.state.image_count)
+                }}
+                style={{
+                  width: 73,
+                  height: 69,
+                  borderRadius: 3,
+                  backgroundColor: "#ffffff",
+                  borderStyle: "solid",
+                  borderWidth: 1,
+                  borderColor: "#b5b5b5",
+                  alignItems: "center",
+                  marginTop: 8
+                }}
+              >
+                <Image
+                  style={{ marginTop: 20 }}
+                  source={require("../Images/image_icon.png")}
+                />
+              </TouchableOpacity>
+            ) : null}
           </View>
         </ScrollView>
 
