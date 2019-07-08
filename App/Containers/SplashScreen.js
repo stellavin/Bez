@@ -5,7 +5,9 @@ import { connect } from 'react-redux'
 // import YourActions from '../Redux/YourRedux'
 import firebase from "react-native-firebase";
 // Styles
-import styles from './Styles/SplashScreenStyle'
+import styles from './Styles/SplashScreenStyle';
+import firebase_app from "../Firebase";
+
 
 class SplashScreen extends Component {
   
@@ -20,20 +22,33 @@ class SplashScreen extends Component {
    
   }
   componentDidMount(){
-    try {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        console.warn('user logged')
-        this.props.navigation.navigate("HomeScreen")
-      }else{
-        this.checkOnBoarding();
-      }
-   });
-  }
-  catch (error) {
-    console.warn('error', error)
-  }
+    window = undefined;
+    this.getCategories()
+    
    
+  }
+  saveCategories(cat){
+    try{
+      AsyncStorage.setItem('CAT',cat);
+
+    }catch(error){
+
+    }
+  }
+  checkUser(){
+    try {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          console.warn('user logged')
+          this.props.navigation.navigate("HomeScreen")
+        }else{
+          this.checkOnBoarding();
+        }
+     });
+    }
+    catch (error) {
+      console.warn('error', error)
+    }
   }
   
   async checkOnBoarding(){
@@ -63,6 +78,26 @@ class SplashScreen extends Component {
       </View>
     )
   }
+  getCategories(){
+    
+    firebase_app
+      .firestore()
+      .collection("business-categories")
+    .get()
+    .then(snapshot => {
+      snapshot
+        .docs
+        .forEach(doc => {
+          console.warn("the data is "+JSON.stringify(doc.data()));
+           this.saveCategories(JSON.stringify(doc.data()))
+         
+          // this.state.ads_array.push(doc.data())
+        });
+
+        this.checkUser()
+    });
+  }
+ 
 }
 
 const mapStateToProps = (state) => {

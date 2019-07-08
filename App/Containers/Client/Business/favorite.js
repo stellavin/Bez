@@ -1,13 +1,99 @@
 import React, { Component } from "react";
-import { ScrollView, Text, KeyboardAvoidingView, View } from "react-native";
+import { ScrollView, Text, AsyncStorage, View } from "react-native";
 import { connect } from "react-redux";
 import styles from "../../Styles/HomeScreenStyle";
 import Header from "../../../Components/Header";
 import BusinessCard from "../../../Components/BusinessCard";
 import style from '../../Styles/MainStyles';
+import firebase_app from "../../../Firebase";
 
 
 class FavoriteScreen extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      favorites_array:[],
+      user_id:'',
+      businesses_id:[],
+      businesses:[]
+    }
+  }
+  componentWillMount(){
+  
+   this.getUser();
+  }
+  async getUser(){
+    try{
+    let fuid =  await AsyncStorage.getItem('FUID');
+    if(fuid){
+      console.warn(">>>>>>>>>>>the fuid ssss"+fuid)
+      firebase_app
+      .firestore()
+      .collection("favorite")
+      .where("user_id", "==",fuid)
+    .get()
+    .then(snapshot => {
+      snapshot
+        .docs
+        .forEach(doc => {
+          console.warn("the data is "+JSON.stringify(doc.data()))
+          this.setState({
+            favorites_array:[...this.state.favorites_array,doc.data()],
+            businesses_id:[...this.state.businesses_id,id]
+          })
+        });
+    });
+    }
+    }catch(error){
+  
+    }
+  }
+  fetchBusinesses(){
+    firebase_app
+    .firestore()
+    .collection("customer-businesses")
+  .get()
+  .then(business => {
+    console.warn('the data is '+ JSON.stringify(business))
+    this.setState({
+      businesses:[...this.state.businesses,business],
+    });
+  });
+    
+}
+renderBusiness =() => {
+  const businesses = this.state.businesses;
+
+  if(businesses.length != 0){
+    return businesses.map((business, index) => {
+      ;
+      return (
+      <BusinessCard
+          key={index}
+         
+          business_id= {this.state.businesses_id[index]}
+          business_name={business.business_name}
+          cover_photos_urls = {business.business_cover_photos}
+          name= {business.business_name}
+          rating={4.2}
+          style={{marginBottom: 20}}
+          source={business.business_thumbnail}
+          navigate={this.props.navigation}
+        />
+      );
+
+    });
+
+  }else {
+    return (
+        <Text>No Items</Text>
+    )
+
+    
+  }
+
+}
   render() {
     return (
     
@@ -25,21 +111,7 @@ class FavoriteScreen extends Component {
         <Text style={styles.favoriteText}>Your Favorites</Text>
 
        
-
-        <BusinessCard
-          name="Champion Garage"
-          rating={4.2}
-          source={require("../../../Images/sample1.png")}
-          navigate={this.props.navigation}
-        />
-
-        <BusinessCard
-          style = {{marginTop:21}}
-          name="Happy Eateries"
-          rating={4.2}
-          source={require("../../../Images/sample2.png")}
-          navigate={this.props.navigation}
-        />
+      {this.renderBusiness()}
       </ScrollView>
     );
   }

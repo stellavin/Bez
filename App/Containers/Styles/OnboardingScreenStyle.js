@@ -29,7 +29,7 @@ export default StyleSheet.create({
   },
   logo:{
      width: 88.8, 
-     height: 12.2,
+     height: 30.2,
      marginTop:-100,
      alignSelf:"flex-start",
      marginLeft:22 

@@ -11,7 +11,7 @@ import { AccessToken, LoginManager ,LoginButton} from 'react-native-fbsdk';
 import { StackNavigator } from 'react-navigation';
 // import firebase from "react-native-firebase";
 import * as firebase from 'firebase';
-import 'firebase/firestore';
+
 import firebase_app from "../Firebase";
 import { Left } from 'native-base';
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -60,6 +60,13 @@ class SideMenu extends Component {
 
     }
   }
+  saveName (name){
+    try{
+      AsyncStorage.setItem("NAME", name);
+    }catch(e){
+
+    }
+  }
   async getFuid(){
     try{
    let fuid = await AsyncStorage.getItem("FUID");
@@ -104,7 +111,8 @@ class SideMenu extends Component {
               self.setState({
                 fuid:fuid
               })
-              self.saveFuid(fuid)
+              self.saveFuid(fuid);
+              self.saveName(userCredential.user.displayName);
               var userRef = firebase_app.firestore().collection('users').doc(fuid);
                   userRef.get().then((doc) => {
                       if (doc.exists) {
@@ -117,7 +125,7 @@ class SideMenu extends Component {
                           // doc.data() will be undefined in this case
                           console.log("No such document!");
                          let fuid = userCredential.user.uid
-
+                          
                          firebase_app.firestore().collection('users').doc(fuid).set({
                             name: userCredential.user.displayName,
                             uid:userCredential.user.uid,
@@ -144,6 +152,8 @@ class SideMenu extends Component {
         });
 
   };
+
+  
 
 
 
@@ -195,6 +205,7 @@ class SideMenu extends Component {
   render () {
     return (
       <View style={styles.container}>
+        
         <ScrollView>
           <View>
           {/* Logo section */}
@@ -307,14 +318,14 @@ class SideMenu extends Component {
             </TouchableOpacity>
 
 
-            <TouchableOpacity 
+            {/* <TouchableOpacity 
             onPress={() => this.facebookLogin()}
             style={{flexDirection: 'row',  marginTop: 26}}>
                <Image
                 style={styles.logo}
                 source={require("../Images/facebook.png")}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
 
             {/* <LoginButton
           onLoginFinished={

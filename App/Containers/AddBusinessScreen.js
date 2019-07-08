@@ -131,10 +131,10 @@ requestAccess = async () => {
         <HeaderTabs
           title="Add Business"
           sub_title1="Business Info"
-          sub_title2="Services"
+          sub_title2=""
           navigation = {this.props.navigation}
           tab1={<BusinessInfo navigation={this.props.navigation} pos= {this.state.pos} currentUser={this.params.currentUser} />}
-          tab2={<AddServicesScreen navigation={this.props.navigation} />}
+          // tab2={<AddServicesScreen navigation={this.props.navigation} />}
         />
       </View>
     );

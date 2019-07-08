@@ -60,28 +60,28 @@ export default StyleSheet.create({
   },
   title2:{
     fontFamily: "Roboto",
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 19,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: "#b5b5b5",
-  marginTop:19,
-  marginLeft:22
+    fontSize: 14,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#b5b5b5",
+    marginTop:19,
+    marginLeft:22
 
   },
   que1:{
     fontFamily: "Roboto",
-  fontSize: 14,
-  fontWeight: "normal",
-  fontStyle: "normal",
-  lineHeight: 19,
-  letterSpacing: 0,
-  textAlign: "left",
-  color: "#707070",
-  marginLeft:22,
-  marginTop:8
+    fontSize: 14,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#707070",
+    marginLeft:22,
+    marginTop:8
   },
   footer: {
     position: 'absolute',
@@ -90,4 +90,23 @@ export default StyleSheet.create({
     top: screenHeight - 40, 
     width: screenWidth,
  },
+ btncontainer: {
+    width: 94,
+    height: 33,
+    borderRadius: 3,
+    backgroundColor: "#2f2e41",
+    alignItems:'center',
+    justifyContent:"center"
+  },
+text:{
+    fontFamily: "Roboto",
+    fontSize: 14,
+    fontWeight: "normal",
+    fontStyle: "normal",
+    lineHeight: 19,
+    letterSpacing: 0,
+    textAlign: "left",
+    color: "#ffffff"
+
+  }
 })
