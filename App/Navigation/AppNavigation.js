@@ -18,6 +18,8 @@ import BusinessUpdates from '../Containers/Customer/Business/Business-Updates';
 import preview from '../Containers/Customer/Business/preview';
 import SideMenu from '../Containers/SideMenu';
 import LoginScreen from '../Containers/Login';
+import AddServicesScreen from '../Containers/services';
+import BusinessInfo  from '../Containers/BusinessInfo';
 
 
 
@@ -28,6 +30,7 @@ const Drawer = DrawerNavigator ({
   MyBusinessScreen: {screen: myBusiness},
   AdvertScreen: { screen: AdvertScreen },
   MyAdvertsScreen: { screen: MyAdvertsScreen },
+  AddServicesScreen: {screen: AddServicesScreen}
 
 
 },
@@ -42,6 +45,7 @@ const PrimaryNav = StackNavigator({
   SplashScreen: { screen: SplashScreen },
   HomeScreen: {screen: Drawer},
   AddBusinessScreen: { screen: Drawer },
+  AddServicesScreen: {screen: Drawer},
   AdvertScreen: { screen: Drawer },
   MyAdvertsScreen: { screen: Drawer },
   AddBusinessScreen: { screen: AddBusinessScreen },
@@ -55,7 +59,8 @@ const PrimaryNav = StackNavigator({
   EditPhotoScreen: {screen: EditPhoto},
   UpdateBusinessScreen: {screen: BusinessUpdates},
   PreviewScreen: {screen: preview},
-  LoginScreen: {screen: LoginScreen}
+  LoginScreen: {screen: LoginScreen},
+  BusinessInfo: {screen: BusinessInfo}
 }, {
   // Default config for all screens
   headerMode: 'none',

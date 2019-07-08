@@ -23,12 +23,14 @@ import styles from "./Styles/MyAdvertsScreenStyle";
 import PaymentAmount from "../Components/PaymentAmount";
 import AdvertCard from "../Components/AdvertCard";
 import firebase_app from "../Firebase";
+import AwesomeAlert from 'react-native-awesome-alerts';
 class MyAdvertsScreen extends Component {
   constructor(props) {
     super(props);
     // TODO: undo the lines
     this.state = {
-      ads_array:[]
+      ads_array:[],
+      showAlert:false
     }
     this.params = this.props.navigation.state.params;
     
@@ -47,6 +49,16 @@ class MyAdvertsScreen extends Component {
           tab1={this.renderMyAds()}
           tab2={ this.renderHistory()}
         />
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
+        />
       </View>
     );
   }
@@ -54,6 +66,9 @@ class MyAdvertsScreen extends Component {
 
   //.where("fuid", "==", this.params.fuid)
   getMyAds(){
+    this.setState({
+      showAlert:true
+    })
     let fetched
     firebase_app
       .firestore()
@@ -68,7 +83,9 @@ class MyAdvertsScreen extends Component {
           this.setState({
             ads_array:[...this.state.ads_array,doc.data()]
           })
-          // this.state.ads_array.push(doc.data())
+          this.setState({
+            showAlert:false
+          })
         });
     });
   }

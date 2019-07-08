@@ -20,7 +20,7 @@ export default class BusinessCard extends Component {
              <View style={[styles.container,this.props.style]}>
               <Image
                     style={styles.image}
-                    source={this.props.source}
+                    source={{uri:this.props.source}}
                   />
                   <View style = {styles.column1}>
                   <View style = {styles.row}> 
