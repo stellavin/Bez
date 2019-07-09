@@ -13,7 +13,7 @@ import AddButton from "../Components/AddButton";
 import firebase from "react-native-firebase";
 import HeaderTabs from "../Components/HeaderTabs";
 import firebase_app from "../Firebase";
-import MapView from "react-native-maps";
+import MapView, { Marker } from "react-native-maps";
 import ImagePicker from "react-native-image-picker";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import AwesomeAlert from 'react-native-awesome-alerts';
@@ -384,28 +384,46 @@ uploadListImageMeal2 = (imageUrls) => {
 
           <Text style={styles.radio_title}>Take Order/Calls</Text>
 
+          
           <Text style={styles.business_location}>Business Location</Text>
 
           <Text style={styles.tip1}>
             It's Recommended to be at the location of the business!
           </Text>
-          {this.props.pos.length != undefined || this.props.pos.length > 0 ?(
+          {this.props.pos.length != undefined || this.props.pos.length > 0 ? (
             <MapView
-            zoomEnabled={false}
-            scrollEnabled={false}
-            style={{width: 400, height: 200}}
-              initialRegion={{ // initial region set to Bileto
-                 latitude:  -1.288882480710017,//this.props.pos[0],
-                  longitude: 36.822870410978794,// this.props.pos[1],
-                  latitudeDelta: 0.0922,
-                  longitudeDelta: 0.0421
+              zoomEnabled={false}
+              scrollEnabled={false}
+              style={{ width: 400, height: 200 }}
+              initialRegion={{
+                // initial region set to Bileto
+                latitude: -1.288882480710017, //this.props.pos[0],
+                longitude: 36.822870410978794, // this.props.pos[1],
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421
               }}
-              >
-  
-              </MapView>
-          ): 
-          null
-          }
+            >
+              {/* <Marker
+                draggable
+                title={"Long Press on the marker to set the location"}
+                coordinate={{
+                  latitude: this.state.lastLat,
+                  longitude: this.state.lastLong,
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121
+                }}
+                onDragEnd={e => {
+                  console.warn(
+                    "the coordinates is long:" +
+                      e.nativeEvent.coordinate.longitude +
+                      " \nlat:" +
+                      e.nativeEvent.coordinate.latitude
+                  );
+                  //this.getRegion(e.nativeEvent.coordinate.latitude,e.nativeEvent.coordinate.longitude)
+                }}
+              /> */}
+            </MapView>
+          ) : null}
           
           <Text style={styles.bus_thumb}>Business Thumbnail</Text>
           {thumbnail_src != ""?(
