@@ -25,7 +25,8 @@ constructor(props) {
         rater_uid:'',
         rater_name:'',
         ratings_array:[],
-        slider:[]
+        slider:[],
+        cat_rate:false
       
     };
 }
@@ -43,7 +44,12 @@ async getUser(){
   if(name && fuid){
     this.setState({
       rater_name:name,
-      rater_uid:fuid
+      rater_uid:fuid,
+      cat_rate:true
+    })
+  }else{
+    this.setState({
+      cat_rate:false
     })
   }
   }catch(error){

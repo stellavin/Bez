@@ -77,7 +77,7 @@ export default class BusinessCard extends Component {
                   alignItems: "flex-end"
                 }}
               >
-                <Text style={styles.edit2}>Ad</Text>
+                {/* <Text style={styles.edit2}>Ad</Text> */}
               </View>
             </View>
           </View>

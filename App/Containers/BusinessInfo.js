@@ -403,20 +403,16 @@ uploadListImageMeal2 = (imageUrls) => {
               >
   
               </MapView>
-
           ): 
           null
           }
           
           <Text style={styles.bus_thumb}>Business Thumbnail</Text>
-
-
           {thumbnail_src != ""?(
             <Image 
             source={{uri: thumbnail_src}}
             style={{width: 73, height: 69, marginLeft: 22, marginTop: 8}}
             />
-
               ):
               <TouchableOpacity
               onPress={() => {this.pickItem2()}}
@@ -431,7 +427,6 @@ uploadListImageMeal2 = (imageUrls) => {
                 borderColor: "#b5b5b5",
                 alignItems:"center",
                 marginTop: 8
-
               }}
             >
               <Image
@@ -440,11 +435,9 @@ uploadListImageMeal2 = (imageUrls) => {
               />
             </TouchableOpacity>
               }
-
               
           
           <Text style={styles.bus_thumb}>Business cover photos (3 only)</Text>
-
           <View
               style={{
                   flexDirection: "row",
@@ -467,7 +460,6 @@ uploadListImageMeal2 = (imageUrls) => {
                         
                     ))
                   }
-
               {
                 this.state.images.length <= 2?(
                   <TouchableOpacity
@@ -482,7 +474,6 @@ uploadListImageMeal2 = (imageUrls) => {
                   borderColor: "#b5b5b5",
                   alignItems:"center",
                   marginTop: 8
-
                 }}
               >
                 <Image
@@ -496,15 +487,11 @@ uploadListImageMeal2 = (imageUrls) => {
                 
               }
                 
-
                   
               
               </View>
-
                 
-
         </ScrollView>
-
         <TouchableOpacity
                 onPress={() => this.uploadListImageMeal()}
                 style={{
@@ -525,7 +512,6 @@ uploadListImageMeal2 = (imageUrls) => {
                marginTop: 15}}>Continue</Text>
                 </View>
               </TouchableOpacity>
-
               <AwesomeAlert
           show={this.state.showAlert}
           showProgress={true}
@@ -536,7 +522,6 @@ uploadListImageMeal2 = (imageUrls) => {
           showConfirmButton={false}
           
         />
-
         {/* <View> 
         <Button
             onPress={() => this.uploadListImageMeal()}
@@ -545,7 +530,6 @@ uploadListImageMeal2 = (imageUrls) => {
             color="#2eb62c"
         />
         </View> */}
-
         <AwesomeAlert
           show={this.state.showAlert}
           showProgress={true}
@@ -556,7 +540,6 @@ uploadListImageMeal2 = (imageUrls) => {
           showConfirmButton={false}
           
         />
-
           <AwesomeAlert
               show={this.state.showDanger}
               showProgress={false}
@@ -576,7 +559,6 @@ uploadListImageMeal2 = (imageUrls) => {
             }}
               
             />
-
             <AwesomeAlert
               show={this.state.showSuccess}
               customView={this.renderCustomSuccessAlert()}
@@ -599,9 +581,4 @@ uploadListImageMeal2 = (imageUrls) => {
     );
   }
 }
-
-
-
-
-
 export default BusinessInfo;

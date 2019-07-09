@@ -25,6 +25,7 @@ import AddButton from "../Components/AddButton";
 import styles from "./Styles/AdvertScreenStyle";
 import PaymentAmount from "../Components/PaymentAmount";
 import firebase_app from "../Firebase";
+import AwesomeAlert from 'react-native-awesome-alerts';
 
 class AdvertScreen extends Component {
   constructor(props) {
@@ -40,7 +41,8 @@ class AdvertScreen extends Component {
       days_active: 0,
       ad_type: "",
       has_added_ad: false,
-      activeTab: 0
+      activeTab: 0,
+      showAlert:false
     };
     this.params = this.props.navigation.state.params;
     try {
@@ -52,6 +54,9 @@ class AdvertScreen extends Component {
     }
   }
   saveAd(data) {
+    this.setState({
+      showAlert:true
+    })
     console.warn("The data is " + JSON.stringify(data));
     let self = this;
     firebase_app
@@ -63,6 +68,7 @@ class AdvertScreen extends Component {
         alert("Congratulations you have added your advert");
         this.setState({
           has_added_ad: true,
+          showAlert:false
         })
       })
       .catch(function(error) {
@@ -130,6 +136,16 @@ class AdvertScreen extends Component {
             bottom: 0
           }}
           name={this.state.has_added_ad ? "Proceed" : "Continue"}
+        />
+        <AwesomeAlert
+          show={this.state.showAlert}
+          showProgress={true}
+          message="loading ..."
+          closeOnTouchOutside={false}
+          closeOnHardwareBackPress={false}
+          showCancelButton={false}
+          showConfirmButton={false}
+          
         />
       </View>
     );

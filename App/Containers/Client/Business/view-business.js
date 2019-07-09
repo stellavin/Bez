@@ -133,6 +133,7 @@ addFavorite(){
                     <Text style={style.header1}>{this.params.business_name} </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
                     <TouchableOpacity
+                    onPress={() => this.props.navigation.navigate('RateScreen',{business_id:this.params.business_id, business_name: this.params.business_name, cover_photos_urls: this.state.slider})}
                     >
                     <StarRating
                         disabled={true}
@@ -151,12 +152,16 @@ addFavorite(){
                     
                 </View>
 
+                <TouchableOpacity
+                 onPress={() => this.props.navigation.navigate('RateScreen',{business_id:this.params.business_id, business_name: this.params.business_name, cover_photos_urls: this.state.slider})}
+                >
                 <View style={{flexDirection: "row", marginTop: 18,textAlign: "right"}}>
                     <Text style={style.distance}> 28 meters </Text>
                     <View style={{ flex: 1,alignItems: 'flex-end'}}>
                     <Icon name = 'book' size = {20} color = '#000' />
                     </View>
                 </View>
+                </TouchableOpacity>
 
                 <TouchableOpacity onPress = {()=>{
                    this.addFavorite()
@@ -179,7 +184,7 @@ addFavorite(){
                 </View>
                 </View>
                 <View style={{ flex: 1,alignItems: 'flex-end', marginRight: 20}}> 
-                <View style={style.button}> 
+                {/* <View style={style.button}> 
                 <Button
                     onPress={() => this.props.navigation.navigate('RateScreen',{business_id:this.params.business_id, business_name: this.params.business_name, cover_photos_urls: this.state.slider})}
                     title="Rate"
@@ -187,7 +192,7 @@ addFavorite(){
                     style={{width: 100}}
                   />
 
-                </View>
+                </View> */}
                 </View>
                 <View style={{height: screenHeight}}>
                 

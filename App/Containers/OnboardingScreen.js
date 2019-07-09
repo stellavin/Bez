@@ -84,6 +84,12 @@ class OnboardingScreen extends Component {
             A new way to find business near you convenience and save time with
           </Text>
           <TouchableOpacity 
+          style = {{
+            position:'absolute',
+            bottom:24,
+            right:21,
+            alignSelf:'flex-end'
+          }}
            onPress = {()=>{
              this.finishOnBoarding();
              this.props.navigation.navigate("HomeScreen");

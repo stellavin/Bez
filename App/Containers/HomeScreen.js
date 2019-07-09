@@ -36,7 +36,7 @@ class HomeScreen extends React.Component<Props, State> {
        search_term:"",
        category_data:[],
        businesses_id:[],
-       limit:4,
+       limit:7,
        last_id:0,
        can_trigger_on_scroll: true,
 
