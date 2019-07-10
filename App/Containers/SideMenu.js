@@ -92,6 +92,18 @@ class SideMenu extends Component {
 
   }
 
+  mybusiness = async () => {
+    await firebase.auth().onAuthStateChanged((user) => {
+       if (user) {
+         console.warn('user logged', user)
+         this.props.navigation.navigate('MyBusinessScreen', {currentUser: user, goToMyBusiness: false});
+       }else{
+         this.props.navigation.navigate('LoginScreen', {goToMyBusiness: true});
+       }
+    });
+ 
+   }
+
 
   googleLogin = async () => {
     
@@ -285,7 +297,7 @@ class SideMenu extends Component {
             </TouchableOpacity>
 
             <TouchableOpacity 
-            onPress={() => this.props.navigation.navigate('MyBusinessScreen')}
+            onPress={() => this.mybusiness()}
             style={{flexDirection: 'row', marginTop: 26}}>
                 <Icon name = 'book' size = {20.5} color = '#000' />
                <Text style={styles.sidebarText}>My Business</Text>

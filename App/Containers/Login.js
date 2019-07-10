@@ -17,17 +17,21 @@ GoogleSignin.configure({
 class LoginScreen extends Component {
   constructor(props) {
     super(props);
-
+    this.params = this.props.navigation.state.params;
     this.state ={
         user: null,
         successMessage:"",
         showAlert: false,
         showSuccess: false,
-        showDanger: false
+        showDanger: false,
+        goToMyBusiness: false
     }
     
   }
   componentDidMount(){
+    if(this.params.goToMyBusiness != undefined){
+      this.setState({goToMyBusiness: this.params.goToMyBusiness})
+    }
     
   }
   saveFuid(fuid){
@@ -113,7 +117,13 @@ class LoginScreen extends Component {
 };
 
 GotoServices(){
-  this.props.navigation.navigate("HomeScreen");
+  if(this.state.goToMyBusiness){
+    this.props.navigation.navigate("MyBusinessScreen");
+
+  }else{
+    this.props.navigation.navigate("HomeScreen");
+  }
+  
 }
 
 showSuccess = () => {

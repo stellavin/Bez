@@ -85,6 +85,7 @@ class BusinessInfo extends React.Component{
       thumbnail:[],
       thumbnail_src:"",
       successMessage:""
+      
     };
   
    componentWillMount(){
@@ -146,8 +147,8 @@ class BusinessInfo extends React.Component{
         id:this.state.last_id+1,
         business_name:this.state.business_name,
         business_uuid: business_uuid,
-        business_type:this.state.category,
-        business_category:this.state.type,
+        business_type:this.state.type,
+        business_category:this.state.category,
         phone_number: this.state.phone_number,
         location:this.props.pos,
         business_thumbnail: thumbnail_uri[0],

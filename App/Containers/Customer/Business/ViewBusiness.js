@@ -24,7 +24,8 @@ class ViewCustomerBusinessScreen extends React.Component {
         slider:[],
         items:[],
         images:[],
-        service:""
+        service:"",
+        business_data:[]
     };
 
 }
@@ -102,19 +103,19 @@ addFavorite(){
             console.log(doc._document.data.toString())
             data.push(doc.data());
           });
-
+          this.setState({business_data: data[0]})
           this.setState({images: data[0].images})
           this.setState({items: data[0].items})
           this.setState({service: data[0].service})
           
-          console.log('data-------', data[0].images)
+          console.log('data----000000-------', data[0])
           console.log('items-------', data[0].items)
       });
     
   }
 
   render() {
-    const {items, images}=this.state;
+    const {items, images, business_data}=this.state;
     console.log('items---------ppppp----', items )
     return (
       <View style={style.container}>
@@ -221,7 +222,7 @@ addFavorite(){
                {/* Actions section */}
                <View style={style.actionSection}>
                  <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('EditPhotoScreen')}
+                  onPress={() => this.props.navigation.navigate('EditPhotoScreen',{images: images, business_data: business_data})}
                  style={style.actionBox}
                  >
                     <Text style={style.action}>EDIT</Text>
@@ -229,7 +230,7 @@ addFavorite(){
                  <View style={style.verticalLine}></View>
 
                  <TouchableOpacity
-                  onPress={() => this.props.navigation.navigate('EditPhotoScreen')}
+                  onPress={() => this.props.navigation.navigate('EditPhotoScreen',{images: images, business_data: business_data})}
                  style={style.actionBox}
                  >
                    <Text style={style.action}>ADD PHOTOS</Text>
